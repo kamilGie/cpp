@@ -4,20 +4,55 @@
 
 using namespace std;
 
+//##########! Sposob postrzegania tablic globalnych !##################//
+                    //gracz[0]==a gracz[1]==b
 char Gracze[MaxGraczy];
 int WygraneGracza[MaxGraczy] = {0};
 int PrzegraneGracza[MaxGraczy] = {0};
 int RemisyGracza[MaxGraczy] = {0};
 
-//##########! Sposob postrzegania tablic globalnych !##################//
-void inicjuj_graczy()
+
+//##################       przegladac od int main nie od gory       !##################//
+
+double oblicz_procent(int numer_gracza, int liczba_zdarzen)
 {
+    double wszystkie_zdarzenia=(WygraneGracza[numer_gracza] + RemisyGracza[numer_gracza] + PrzegraneGracza[numer_gracza]);
+
+    return 100 * (double)liczba_zdarzen / wszystkie_zdarzenia;
+}
+
+void WypiszStatystykiGracza(int numer_gracza)
+{
+    double procent_wygranych = oblicz_procent(numer_gracza, WygraneGracza[numer_gracza]);
+    double procent_remisow = oblicz_procent(numer_gracza, RemisyGracza[numer_gracza]);
+    double procent_przegranych = oblicz_procent(numer_gracza, PrzegraneGracza[numer_gracza]);
+    
+    cout << "gracz " << Gracze[numer_gracza] << endl;
+    if (WygraneGracza[numer_gracza])
+        cout << "    wygrane: " << procent_wygranych << "%"<<endl;
+    if (RemisyGracza[numer_gracza])
+        cout << "    remisy: " << procent_remisow << "%"<<endl;
+    if (PrzegraneGracza[numer_gracza])
+        cout << "    przegrane: " << procent_przegranych << "%"<<endl;
+        
+}
+
+void WypiszRanking()
+{
+    int flaga=0;
     for (int i = 0; i < MaxGraczy; i++){
-        Gracze[i] = 'a' + i;
+        if (WygraneGracza[i] || PrzegraneGracza[i] || RemisyGracza[i])
+        {
+            if(flaga==0)
+            flaga=1;
+            else
+            cout<<endl;
+            WypiszStatystykiGracza(i);
+
+        }
     }
 }
-//####################################################################//
-// przegladac od int main nie od gory 
+
 
 
 int wynik_wszystkie_jednakowe_rzuty(short rzut[])
@@ -113,11 +148,12 @@ int wynik_sumarycznie_rzutow(short rzuty[])
 
 int KtoWygral(short rzuty_gracza_1[], short rzuty_gracza_2[]) {
     int wynik1, wynik2;
-    //dla kazdego argumentu sprawdzam czy zachodzi jak zachodzi daje jego wartosci np 3 a jak nie zachodzi daje 0 ;
-    wynik1 = wynik_wszystkie_jednakowe_rzuty(rzuty_gracza_1);
-    wynik2 = wynik_wszystkie_jednakowe_rzuty(rzuty_gracza_2);
-    if (wynik1 != wynik2) return (wynik1 > wynik2 ? 1 : 2);
-
+    //dla kazdego argumentu sprawdzam czy zachodzi
+    // jak zachodzi daje jego wartosci np 
+    wynik1 = wynik_wszystkie_jednakowe_rzuty(rzuty_gracza_1);//dla 3 3 3 3 da wartosc tutaj 3 
+    wynik2 = wynik_wszystkie_jednakowe_rzuty(rzuty_gracza_2);//dla 3 2 1 4 nie mamy wszystrkich wynikow jedankowcy wiec zwracamy 0 
+    if (wynik1 != wynik2) return (wynik1 > wynik2 ? 1 : 2);//jak jeden jest rowny 3 a drugi 0 no to nie sa rowne i zwracamy tego gracza co ma wiekszy wynik jako wygranego
+    //i tak dalej i tak dalej dla kazdego argumentu 
     wynik1 = wszystkie_rozne_rzuty(rzuty_gracza_1);
     wynik2 = wszystkie_rozne_rzuty(rzuty_gracza_2);
     if (wynik1 != wynik2) return (wynik1 > wynik2 ? 1 : 2);
@@ -138,6 +174,7 @@ int KtoWygral(short rzuty_gracza_1[], short rzuty_gracza_2[]) {
     wynik2 = wynik_sumarycznie_rzutow(rzuty_gracza_2);
     if (wynik1 != wynik2) return (wynik1 > wynik2 ? 1 : 2);
 
+    //jak przejdzie przez wszystkie warunki bez wygranego to znaczy ze mamy remis lol
     return 0;
 
 }
@@ -149,15 +186,7 @@ void Pojedynek()
     int WygranyGracz;
     
 
-    cin >> gracz_1;
-    for (int i = 0; i < 4; i++){
-        cin >> rzuty_gracza_1[i];
-    }
-
-    cin >> gracz_2;
-    for (int i = 0; i < 4; i++){
-        cin >> rzuty_gracza_2[i];
-    }
+    cin >> gracz_1 >>rzuty_gracza_1[0]>>rzuty_gracza_1[1]>>rzuty_gracza_1[2]>>rzuty_gracza_1[3]>>gracz_2>>rzuty_gracza_2[0]>>rzuty_gracza_2[1]>>rzuty_gracza_2[2]>>rzuty_gracza_2[3];
 
     WygranyGracz = KtoWygral(rzuty_gracza_1, rzuty_gracza_2); // zwroci 0 jak remis
 
@@ -177,48 +206,11 @@ void Pojedynek()
     }
 }
 
-double oblicz_procent(int numer_gracza, int liczba_zdarzen)
-{
-    double wszystkie_zdarzenia=(WygraneGracza[numer_gracza] + RemisyGracza[numer_gracza] + PrzegraneGracza[numer_gracza]);
-
-    return 100 * (double)liczba_zdarzen / wszystkie_zdarzenia;
-}
-
-void WypiszStatystykiGracza(int numer_gracza)
-{
-    double procent_wygranych = oblicz_procent(numer_gracza, WygraneGracza[numer_gracza]);
-    double procent_remisow = oblicz_procent(numer_gracza, RemisyGracza[numer_gracza]);
-    double procent_przegranych = oblicz_procent(numer_gracza, PrzegraneGracza[numer_gracza]);
-    
-    cout << "gracz " << Gracze[numer_gracza] << endl;
-    if (WygraneGracza[numer_gracza])
-        cout << "    wygrane: " << procent_wygranych << "%"<<endl;
-    if (RemisyGracza[numer_gracza])
-        cout << "    remisy: " << procent_remisow << "%"<<endl;
-    if (PrzegraneGracza[numer_gracza])
-        cout << "    przegrane: " << procent_przegranych << "%"<<endl;
-        
-}
-
-void WypiszRanking()
-{
-    int flaga=0;
-    for (int i = 0; i < MaxGraczy; i++){
-        if (WygraneGracza[i] || PrzegraneGracza[i] || RemisyGracza[i])
-        {
-            if(flaga==0)
-            flaga=1;
-            else
-            cout<<endl;
-            WypiszStatystykiGracza(i);
-
-        }
-    }
-}
-
 int main()
 {
-    inicjuj_graczy();
+     for (int i = 0; i < MaxGraczy; i++){
+        Gracze[i] = 'a' + i;//gracz[0]==a gracz[1]==b
+    }
     unsigned ilosci_gier;
     cin >> ilosci_gier;
     for (int i = 0; i < ilosci_gier; i++)
