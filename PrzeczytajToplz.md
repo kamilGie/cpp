@@ -4,8 +4,7 @@ ladny.cpp
 kroki.cpp
 
 ladny jest dla was byscie wiedzieli jak zrobic dane zadanie najprosciej i najladniej jak umiem
+
 krotki jest to co wysylam na bacy bym byl 1 xd 
-czasami sa inne sa zwykle o nazwie takiej jaka sa xd
 
-po za tym tam beda pliki do ktore potrzebuje do konfiguracji w to nie wchodzicie
-
+jak nie ma tych 2 to znaczy ze jeszcze nie jest skonczone przezemnie zadanie i dalej je robie xd
