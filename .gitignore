@@ -1,3 +1,8 @@
 *
 !*.cpp
 !.gitignore
+!A
+!B
+!C
+!D
+!X*/
