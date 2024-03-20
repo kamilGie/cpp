@@ -1,5 +1,5 @@
 elo 
-to sa kody ktore pisze na bierzoco do bacy w kazdym folderze powiny byc 2 programy
+to sa kody ktore pisze na bieząco do bacy w kazdym folderze powiny byc 2 programy
 
 ladny.cpp -> byscie wiedzieli jak zrobic dane zadanie najprosciej i najladniej jak umiem
 
