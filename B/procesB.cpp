@@ -89,6 +89,7 @@ void Odwrocenie(int *tablica )
     cin >> i >> L;
 
     bool pierwszyObieg = true;
+    i=obliczIndeks(i);
     drugiObieg_i = obliczIndeks(i + L);
  
     while (true)
@@ -100,7 +101,7 @@ void Odwrocenie(int *tablica )
             I = obliczIndeks( I );
             zamien_elementy(&tablica[i],&tablica[I]);
         }
-        if (!pierwszyObieg)
+        if (pierwszyObieg==false)
             break;
 
         pierwszyObieg = false;
@@ -115,6 +116,7 @@ void zamianyParami(int *tablica )
 
     int i,I, L;
     cin >> i >> L;
+    i=obliczIndeks(i);
     I=obliczIndeks(i+L);
 
     for (int j=0;j<L;j++,i++,I++)
@@ -137,7 +139,6 @@ void cyklicznePrzesuniecie(int *tablica)
         cyklicznePrzesuniecieOdcinkaPrawo(tablica,obliczIndeks(i+L),L);
         cyklicznePrzesuniecieOdcinkaPrawo(tablica,obliczIndeks(i+2*L),wielkosci_tablicy-2*L);
         s--;
-        cout<<s<<endl;
     }
     while(s<0)
     {
