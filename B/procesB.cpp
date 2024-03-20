@@ -1,4 +1,8 @@
 //Kamil Gieras
+
+
+
+//############# tresc tego zadania jest tak nie jasna ze nie zrobie tego programu do czasu jak ono nie wyladuje i nie dopytam o co chodzi
 #include <iostream>
 using namespace std;
 
@@ -88,6 +92,10 @@ void Odwrocenie(int *tablica )
     int i, L, I, drugiObieg_i;
     cin >> i >> L;
 
+    if(L*2>wielkosci_tablicy)
+    return;
+
+
     bool pierwszyObieg = true;
     i=obliczIndeks(i);
     drugiObieg_i = obliczIndeks(i + L);
@@ -119,10 +127,14 @@ void zamianyParami(int *tablica )
     i=obliczIndeks(i);
     I=obliczIndeks(i+L);
 
+    if(L*2>wielkosci_tablicy)
+    return;
+
     for (int j=0;j<L;j++,i++,I++)
     {
          i = obliczIndeks(i);
          I = obliczIndeks(I);
+        cout<<i<<" "<<I<<endl;
          zamien_elementy(&tablica[i],&tablica[I]);
     }
 }
