@@ -1,4 +1,3 @@
-#include <iostream>
 using namespace std;
 
 void Add(int wartosc, int *zbiorWyjsciowy)
@@ -183,6 +182,7 @@ void MinMax (int zbiorA[], int *min, int *max)
     }
 
 }
+
 void Cardinality (int zbiorA[], int *ilosciElementow)
 {
     *ilosciElementow=0;
@@ -191,4 +191,22 @@ void Cardinality (int zbiorA[], int *ilosciElementow)
         (*ilosciElementow)++;
     }
 }
-void Properties(int zbiorA[], char znaki[], double&, double*, int&, int*, int&);
+
+void Properties(int zbiorA[], char znaki[], double *sredniaArmetyczna, double *sredniaHarmoniczna, int *minimum, int *maksimum, int *mocZbioru)
+{
+    for(int i=0;znaki[i]!='\0';i++)
+    {
+        if(znaki[i]=='a'||znaki[i]=='A')
+            *sredniaArmetyczna= Arithmetic(zbiorA);
+
+        if(znaki[i]=='h'||znaki[i]=='H')
+            *sredniaHarmoniczna= Harmonic(zbiorA);
+
+        if(znaki[i]=='m'||znaki[i]=='M')
+            MinMax(zbiorA,&*minimum,maksimum);
+
+        if(znaki[i]=='c'||znaki[i]=='C')
+            Cardinality(zbiorA,&*mocZbioru);
+    }
+
+}
