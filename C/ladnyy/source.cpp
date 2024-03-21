@@ -1,3 +1,5 @@
+//kamil gieras
+
 void Add(int wartosc, int *zbiorWyjsciowy)
 {
     if (wartosc <= 0 || wartosc > 4095)
