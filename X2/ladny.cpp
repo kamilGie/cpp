@@ -5,32 +5,23 @@ int main()
 {
     int ilosciZestawow;
     cin >> ilosciZestawow;
-    while (ilosciZestawow > 0)
+    while (ilosciZestawow--)//sprawdza czy jest zerem i najstepnie odejmuje 1
     {
-        int iloscLiczbLinia;
-        cin >> iloscLiczbLinia;
-
-        float sredniaArmetyczna = 0;
-        int min, max, liczba, indeks = 0;
-        while (indeks < iloscLiczbLinia)
+        int iloscLiczbLinia, liczba;
+        cin >> iloscLiczbLinia >> liczba;//wczytuje 1 elemt odrazu by ustawic go jako najwieszy i najmniejszy i srednia  moge tak zrobic bo iloscLiczbLinia jest conajmniej 1
+        float sredniaArmetyczna = liczba;
+        int min=liczba, max=liczba;
+        int  indeks = iloscLiczbLinia;
+        while (--indeks)//najpierw odejmuje indekowsi  1 a potem sprawdza czy jest 0 jak jest 0 przestaje sie petlic 
         {
             cin >> liczba;
-            if (indeks == 0)//przy 1 literacji ustawiam ze maxymalna i mininalma wartosci jest 1 wartoscai (no logiczne xd)
-            {
-                min = liczba;
-                max = liczba;
-            }
-
             if (liczba < min)
                 min = liczba;
             if (liczba > max)
                 max = liczba;
-
             sredniaArmetyczna = sredniaArmetyczna + liczba;
-            indeks++;
         }
         sredniaArmetyczna = sredniaArmetyczna / iloscLiczbLinia;
         cout << min << " " << max << " " << sredniaArmetyczna << endl;
-        ilosciZestawow--;
     }
 }
