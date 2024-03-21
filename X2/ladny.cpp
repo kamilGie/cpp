@@ -12,7 +12,7 @@ int main()
         float sredniaArmetyczna = liczba;
         int min=liczba, max=liczba;
         int  indeks = iloscLiczbLinia;
-        while (--indeks)//najpierw odejmuje indekowsi  1 a potem sprawdza czy jest 0 jak jest 0 przestaje sie petlic 
+        while (--indeks)//najpierw odejmuje indekowsi  1 a potem sprawdza czy jest 0. Jak jest 0 przestaje sie petlic 
         {
             cin >> liczba;
             if (liczba < min)
