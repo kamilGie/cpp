@@ -1,5 +1,4 @@
 //kamil gieras
-
 void Add(int wartosc, int *zbiorWyjsciowy)
 {
     if (wartosc <= 0 || wartosc > 4095)
@@ -114,7 +113,6 @@ bool Nonempty(int zbiorA[])
     return !Empty(zbiorA);
 }
 
-
 double Arithmetic (int zbiorA[])
 {
     if(zbiorA[0]==-1)
@@ -128,7 +126,6 @@ double Arithmetic (int zbiorA[])
     }
     return srednia =srednia/ilosciElementow;
 }
-
 
 double Harmonic (int zbiorA[])
 {
@@ -157,7 +154,6 @@ bool Element(int element, int zbiorA[])
     }
     return false;
 }
-
 
 void MinMax (int zbiorA[], int *min, int &max)
 {
