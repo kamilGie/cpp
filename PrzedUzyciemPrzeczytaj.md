@@ -1,5 +1,5 @@
 elo 
-to sa kody ktore pisze na bieząco do bacy w kazdym folderze powiny byc 2 programy(jak cos klika sie w ikonke foldera nie w rubryke comity)
+to sa kody ktore pisze na bieząco do bacy w kazdym folderze powiny byc 2 programy
 
 ladny.cpp -> byscie wiedzieli jak zrobic dane zadanie najprosciej i najladniej jak umiem
 
