@@ -21,8 +21,6 @@ int main()
     cin >> ilosci_tablic;
     while (ilosci_tablic--)
         TablicaCykliczna();
-
-    return 0;
 }
 
 void TablicaCykliczna()
