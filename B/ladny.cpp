@@ -9,8 +9,8 @@ void Odwrocenie(int *tablica);
 void zamianyParami(int *tablica);
 void cyklicznePrzesuniecie(int *tablica);
 void zamien_elementy(int *wartosc1, int *wartosc2);
-void cyklicznePrzesuniecieOdcinkaPrawo(int *tablica, int poczatekOdcinka, int dlugosciOdicnka);
 void cyklicznePrzesuniecieOdcinkaLewo(int *tablica, int poczatekOdcinka, int dlugosciOdicnka);
+void cyklicznePrzesuniecieOdcinkaPrawo(int *tablica, int poczatekOdcinka, int dlugosciOdicnka);
 int *wczytaj_tablice(); int obliczIndeks(int indeks); int obliczIlosciFragmentow(int dlugoscL);
 
 int dlugosci_tablicy;//zmiena globalna bo jest potrzebna prawie wszedzie wiec tak wygodniej;
@@ -130,13 +130,15 @@ void cyklicznePrzesuniecie(int *tablica)
     {
         int ilosciPrzesuniec = s;
 
-        while (ilosciPrzesuniec-- > 0)//to nie strzalka tylko dopoki ilosciPrzesuniec jest mniejsza niz 0. To zmniejsz iloscPrzesuniec o jeden i wykonuj while 
+        while (ilosciPrzesuniec > 0)
         {
-            cyklicznePrzesuniecieOdcinkaPrawo(tablica, obliczIndeks(i), L);
+            cyklicznePrzesuniecieOdcinkaPrawo(tablica, obliczIndeks(i+L-1), L);
+            ilosciPrzesuniec--;
         }
-        while (ilosciPrzesuniec++ < 0)
+        while (ilosciPrzesuniec < 0)
         {
-            cyklicznePrzesuniecieOdcinkaLewo(tablica, obliczIndeks(i+L-1), L);
+            cyklicznePrzesuniecieOdcinkaLewo(tablica, obliczIndeks(i), L);
+            ilosciPrzesuniec++;
         }
 
         i = obliczIndeks(i + L);
@@ -147,32 +149,32 @@ void cyklicznePrzesuniecie(int *tablica)
     {
         while (s > 0)
         {
-            cyklicznePrzesuniecieOdcinkaPrawo(tablica, obliczIndeks(i), dlugosciFragmenuMniejszegoNizL);
+            cyklicznePrzesuniecieOdcinkaPrawo(tablica, obliczIndeks(i+dlugosciFragmenuMniejszegoNizL), dlugosciFragmenuMniejszegoNizL);
             s--;
         }
         while (s < 0)
         {
-            cyklicznePrzesuniecieOdcinkaLewo(tablica, obliczIndeks(i+dlugosciFragmenuMniejszegoNizL), dlugosciFragmenuMniejszegoNizL);
+            cyklicznePrzesuniecieOdcinkaLewo(tablica, obliczIndeks(i), dlugosciFragmenuMniejszegoNizL);
             s++;
         }
     }
 }
 
-void cyklicznePrzesuniecieOdcinkaPrawo(int *tablica, int pierwszyIndeks, int dlugosciOdicnka)
-{
-    for (int i = 1; i < dlugosciOdicnka; i++)
-    {
-        zamien_elementy(&tablica[pierwszyIndeks],&tablica[obliczIndeks(pierwszyIndeks+1)]);
-        pierwszyIndeks=obliczIndeks(pierwszyIndeks+1);
-    }
-}
-
-void cyklicznePrzesuniecieOdcinkaLewo(int *tablica, int ostatniIndeks, int dlugosciOdicnka)
+void cyklicznePrzesuniecieOdcinkaPrawo(int *tablica, int ostatniIndeks, int dlugosciOdicnka)
 {
     for (int i = 1; i < dlugosciOdicnka; i++)
     {
         zamien_elementy(&tablica[ostatniIndeks],&tablica[obliczIndeks(ostatniIndeks-1)]);
         ostatniIndeks=obliczIndeks(ostatniIndeks-1);
+    }
+}
+
+void cyklicznePrzesuniecieOdcinkaLewo(int *tablica, int pierwszyIndeks, int dlugosciOdicnka)
+{
+    for (int i = 1; i < dlugosciOdicnka; i++)
+    {
+        zamien_elementy(&tablica[pierwszyIndeks],&tablica[obliczIndeks(pierwszyIndeks+1)]);
+        pierwszyIndeks=obliczIndeks(pierwszyIndeks+1);
     }
 }
 
