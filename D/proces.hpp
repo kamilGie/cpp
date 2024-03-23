@@ -101,10 +101,6 @@ void GET_LW();
 void GET_LH();
 void GET_LR();
 void GET_LS();
-void wyswietlEtykiete(int etykieta);
-bool poprawnaEtykieta(int numerEtykiety);
-bool ErrorIndeks(int numerMagazynu, int numerRegalu, int numerPolki, int numerMiejsca,bool czyPodrecznyregal,bool czyPodrecznaPolkaSklad,bool czyPodrecznaPolkaMagazyn);
-
 
 map<string,function<void()>> listaPoleceni = {
     {"FILL", FILL},

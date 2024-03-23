@@ -19,10 +19,7 @@ int main()
 
 void FILL()
 {
-    int ilosciMagazynow;
-    int ilosciRegalow;
-    int ilosciPolek;
-    int ilosciMiejscaNaTowar;
+    int ilosciMagazynow, ilosciRegalow, ilosciPolek, ilosciMiejscaNaTowar;
     unsigned short ilosciTowaru;
     cin >> ilosciMagazynow >> ilosciRegalow >> ilosciPolek >> ilosciMiejscaNaTowar >> ilosciTowaru;
     SKLAD = sklad(ilosciMagazynow, ilosciRegalow, ilosciPolek, ilosciMiejscaNaTowar, ilosciTowaru, 0);
@@ -242,34 +239,19 @@ void GET_S()
 {
     //!\todo Wyświetl ilość towaru na podręcznej półce składu
 }
-
-
-
-
-
-
-
-
-
-
 // Polecenia etykietowe
 
 void SET_LW()
 {   //w magazynie w, w regale o numerze r, na półce o numerze s, miejscu o numerze p nadaje etykietę dd.
     int w, r, s, p, dd;
     cin >> w >> r >> s >> p >> dd;
-    if (!ErrorIndeks(w, r, s, p,0,0,0) && poprawnaEtykieta(dd))
-        SKLAD.magazyny[w].regaly[r].polki[s].miejscaNaTowar[p].etykieta_towaru=dd;
 }
 
 void SET_LH()
 {   // w magazynie w, w podręcznej półce, miejscu o numerze p nadaje etykietę wynoszącą dd.
     int w, p, dd;
     cin >> w >> p >> dd;
-    if (w >= 0 && w < SKLAD.magazyny.size() && p >= 0 && p < SKLAD.magazyny[w].podrecznaPolka.miejscaNaTowar.size()&& poprawnaEtykieta(dd))
-        SKLAD.magazyny[w].podrecznaPolka.miejscaNaTowar[p].etykieta_towaru = dd;
-    else
-        cout << "error" << endl;
+
 }
 
 void SET_LR()
@@ -277,10 +259,6 @@ void SET_LR()
     int s, p, dd;
     cin >> s >> p >> dd;
 
-    if (p >= 0 && s >= 0 && p < SKLAD.podrecznyRegal.polki[s].miejscaNaTowar.size() && s < SKLAD.podrecznyRegal.polki.size()&& poprawnaEtykieta(dd))
-        SKLAD.podrecznyRegal.polki[s].miejscaNaTowar[p].etykieta_towaru = dd;
-    else
-        cout << "error" << endl;
 }
 
 void SET_LS()
@@ -288,10 +266,6 @@ void SET_LS()
     int p, dd;
     cin >> p >> dd;
 
-    if (p >= 0 && p < SKLAD.podrecznaPolka.miejscaNaTowar.size()&& poprawnaEtykieta(dd))
-        SKLAD.podrecznaPolka.miejscaNaTowar[p].etykieta_towaru = dd;
-    else
-        cout << "error" << endl;
 }
 
 void GET_LW()
@@ -299,8 +273,6 @@ void GET_LW()
     int w, r, s, p;
     cin >> w >> r >> s >> p;
 
-    if (!ErrorIndeks(w, r, s, p,0,0,0))
-        wyswietlEtykiete(SKLAD.magazyny[w].regaly[r].polki[s].miejscaNaTowar[p].etykieta_towaru);
 }
 
 void GET_LH()
@@ -308,11 +280,6 @@ void GET_LH()
     // Wyświetl etykietę miejsca o numerze p w magazynie o numerze w, w podręcznej półce
     int w, p;
     cin >> w >> p;
-
-    if (w >= 0 && w < SKLAD.magazyny.size() && p >= 0 && p < SKLAD.magazyny[w].podrecznaPolka.miejscaNaTowar.size())
-        wyswietlEtykiete (SKLAD.magazyny[w].podrecznaPolka.miejscaNaTowar[p].etykieta_towaru);
-    else
-        cout << "error" << endl;
 }
 
 void GET_LR()
@@ -320,11 +287,6 @@ void GET_LR()
     // Wyświetl etykietę miejsca o numerze p w podręcznym regale składu, na półce o numerze s
     int s, p;
     cin >> s >> p;
-
-    if (p >= 0 && s >= 0 && p < SKLAD.podrecznyRegal.polki[s].miejscaNaTowar.size() && s < SKLAD.podrecznyRegal.polki.size())
-        wyswietlEtykiete(SKLAD.podrecznyRegal.polki[s].miejscaNaTowar[p].etykieta_towaru);
-    else
-        cout << "error" << endl;
 }
 
 void GET_LS()
@@ -332,69 +294,4 @@ void GET_LS()
     // Wyświetl etykietę miejsce w podręcznej półce składu, o numerze p
     int p;
     cin >> p;
-
-    if (p >= 0 && p < SKLAD.podrecznaPolka.miejscaNaTowar.size())
-        wyswietlEtykiete(SKLAD.podrecznaPolka.miejscaNaTowar[p].etykieta_towaru);
-    else
-        cout << "error" << endl;
 }
-
-void wyswietlEtykiete(int etykieta)
-{
-    cout << (etykieta > 0 ? to_string(etykieta) : "--") << endl;
-}
-
-bool poprawnaEtykieta(int numerEtykiety)
-{
-    if((numerEtykiety<100 && numerEtykiety>9)||numerEtykiety==0)
-    return true;
-
-    return false;
-}
-
-bool ErrorIndeks(int numerMagazynu, int numerRegalu, int numerPolki, int numerMiejsca, bool czyPodrecznyRegal, bool czyPodrecznaPolkaSklad, bool czyPodrecznaPolkaMagazyn)
-{
-    bool error = false;
-
-    if (numerMagazynu < 0 || numerMagazynu >= SKLAD.magazyny.size() ||
-        numerRegalu < 0 || numerRegalu >= SKLAD.magazyny[numerMagazynu].regaly.size() ||
-        numerPolki < 0 || numerPolki >= SKLAD.magazyny[numerMagazynu].regaly[numerRegalu].polki.size() ||
-        numerMiejsca < 0 || numerMiejsca >= SKLAD.magazyny[numerMagazynu].regaly[numerRegalu].polki[numerPolki].miejscaNaTowar.size())
-    {
-        error = true;
-    }
-    else
-    {
-        // Sprawdź warunki specjalne dla podręcznej półki i/lub regału
-        if (czyPodrecznyRegal && czyPodrecznaPolkaSklad && czyPodrecznaPolkaMagazyn)
-        {
-            // Tutaj możesz dodać specjalne działania, jeśli potrzebujesz
-        }
-        else if (czyPodrecznyRegal && czyPodrecznaPolkaSklad)
-        {
-            // Tutaj możesz dodać specjalne działania, jeśli potrzebujesz
-        }
-        else if (czyPodrecznaPolkaSklad && czyPodrecznaPolkaMagazyn)
-        {
-            // Tutaj możesz dodać specjalne działania, jeśli potrzebujesz
-        }
-        else if (czyPodrecznyRegal)
-        {
-            // Tutaj możesz dodać specjalne działania, jeśli potrzebujesz
-        }
-        else if (czyPodrecznaPolkaSklad)
-        {
-            // Tutaj możesz dodać specjalne działania, jeśli potrzebujesz
-        }
-        else if (czyPodrecznaPolkaMagazyn)
-        {
-            // Tutaj możesz dodać specjalne działania, jeśli potrzebujesz
-        }
-    }
-
-    if (error)
-        cout << "error" << endl;
-
-    return error;
-}
-
