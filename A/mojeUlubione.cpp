@@ -1,6 +1,4 @@
 //Kamil Gieras
-// to nawet krotkie  nie jest ale fajne przekminione i moje ulubione 
-
 #include<iostream>
 using namespace std;
 
@@ -10,8 +8,6 @@ int Wins[26] = {0}, Losses[26] = {0}, Draws[26] = {0};
 void Duel(); int Winner(short rolls_P1[], short rolls_P2[]); int RepsValuesCounter(short roll[], int *value, int *doubleReps, int *sumaric);
 void PrintRanking(); double percentage(int P,int events); void PrintStats(int player);
 
-
-//tu mian jest u gory jak kox
 int main() {
     for (int i=0;i<26;i++) Players[i]='a'+i;
     unsigned G; cin>>G;
@@ -96,9 +92,9 @@ for (int i=0;i<26;i++){
 
 void PrintStats(int player) 
 {
-cout <<"gracz "<<Players[player]<<endl;
-if (Wins[player])  cout<<"    wygrane: "<<percentage(player,Wins[player])<<"%\n";
-if (Draws[player]) cout<<"    remisy: "<<percentage(player,Draws[player])<<"%\n";
-if (Losses[player])cout<<"    przegrane: "<<percentage(player,Losses[player])<<"%\n";
+ cout <<"gracz "<<Players[player]<<endl;
+ if (Wins[player])  cout<<"    wygrane: "<<percentage(player,Wins[player])<<"%\n";
+ if (Draws[player]) cout<<"    remisy: "<<percentage(player,Draws[player])<<"%\n";
+ if (Losses[player])cout<<"    przegrane: "<<percentage(player,Losses[player])<<"%\n";
 }
 double percentage(int P,int events) {return 100*(double)events/(Wins[P]+Draws[P]+Losses[P]);}
