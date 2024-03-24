@@ -1,4 +1,14 @@
 // kamil gieras
+
+
+
+
+//##### # # ### # ## # # # # \author to jest najbrzydszy kod jaki zrobilem od dawna poprawie go jeszcze xd#######//
+
+
+
+
+
 #include <iostream>
 #include <vector>
 #include <map>
