@@ -1,14 +1,5 @@
 // kamil gieras
-
-
-
-
-//##### # # ### # ## # # # # \author to jest najbrzydszy kod jaki zrobilem od dawna poprawie go jeszcze xd#######//
-
-
-
-
-
+// ##### # # ### # ## # # # # \author to jest najbrzydszy kod jaki zrobilem od dawna poprawie go jeszcze xd#######//
 #include <iostream>
 #include <vector>
 #include <map>
@@ -443,105 +434,229 @@ public:
         // Miejsca o pozostawionych numerach zachowują swoje ilości oraz etykiety
     }
 
-    // Polecenia dodające towary
-
     void PUT_W()
     {
         int w, r, s, p, A;
         cin >> w >> r >> s >> p >> A;
-        //!\todo Dodać ilość towaru wynoszącą A do miejsca o numerze p na półce o numerze s w regale o numerze r w magazynie o numerze w
+        unsigned short wartoscStartowa;
+        if (getTowar(w, r, s, p, &wartoscStartowa))
+        {
+            if ((int)wartoscStartowa + A > 65535)
+                setTowar(w, r, s, p, 65535);
+            else
+                setTowar(w, r, s, p, wartoscStartowa + A);
+        }
+        else
+            error();
     }
 
     void PUT_H()
     {
         int w, p, A;
         cin >> w >> p >> A;
-        //!\todo Dodać ilość towaru wynoszącą A do miejsca o numerze p na podręcznej półce w magazynie o numerze w
+        unsigned short wartoscStartowa;
+        if (poprawnyNumerMiejsca(w) && magazyny[w].podrecznaPolka.getTowar(p, &wartoscStartowa))
+        {
+            if ((int)wartoscStartowa + A > 65535)
+                magazyny[w].podrecznaPolka.setTowar(p, 65535);
+            else
+                magazyny[w].podrecznaPolka.setTowar(p, wartoscStartowa + A);
+        }
+        else
+            error();
     }
 
     void PUT_R()
     {
         int s, p, A;
         cin >> s >> p >> A;
-        //!\todo Dodać ilość towaru wynoszącą A do miejsca o numerze p na półce o numerze s w podręcznym regale składu
+        unsigned short wartoscStartowa;
+        if (podrecznyRegal.getTowar(s, p, &wartoscStartowa))
+        {
+            if ((int)wartoscStartowa + A > 65535)
+                podrecznyRegal.setTowar(s, p, 65535);
+            else
+                podrecznyRegal.setTowar(s, p, wartoscStartowa + A);
+        }
+        else
+            error();
     }
 
     void PUT_S()
-    {
+    { // Dodać ilość towaru wynoszącą A do miejsca o numerze p w podręcznej półce składu
         int p, A;
         cin >> p >> A;
-        //!\todo Dodać ilość towaru wynoszącą A do miejsca o numerze p w podręcznej półce składu
+        unsigned short wartoscStartowa;
+
+        if (podrecznaPolka.getTowar(p, &wartoscStartowa))
+        {
+            if ((int)wartoscStartowa + A > 65535)
+                podrecznaPolka.setTowar(p, 65535);
+            else
+                podrecznaPolka.setTowar(p, wartoscStartowa + A);
+        }
+        else
+            error();
     }
 
-    // Polecenie odejmujące towar
-
     void POP_W()
-    {
+    { //!\todo Odejmij ilość towaru wynoszącą A od miejsca o numerze p na półce o numerze s w regale o numerze r w magazynie o numerze w
         int w, r, s, p, A;
         cin >> w >> r >> s >> p >> A;
-        //!\todo Odejmij ilość towaru wynoszącą A od miejsca o numerze p na półce o numerze s w regale o numerze r w magazynie o numerze w
+        unsigned short wartoscStartowa;
+        if (getTowar(w, r, s, p, &wartoscStartowa))
+        {
+            if ((int)wartoscStartowa - A < 0)
+                setTowar(w, r, s, p, 0);
+            else
+                setTowar(w, r, s, p, wartoscStartowa - A);
+        }
+        else
+            error();
     }
 
     void POP_H()
-    {
+    { //!\todo Odejmij ilość towaru wynoszącą A od miejsca o numerze p na podręcznej półce w magazynie o numerze w
         int w, p, A;
         cin >> w >> p >> A;
-        //!\todo Odejmij ilość towaru wynoszącą A od miejsca o numerze p na podręcznej półce w magazynie o numerze w
+        unsigned short wartoscStartowa;
+        if (poprawnyNumerMiejsca(w) && magazyny[w].podrecznaPolka.getTowar(p, &wartoscStartowa))
+        {
+            if ((int)wartoscStartowa - A < 0)
+                magazyny[w].podrecznaPolka.setTowar(p, 0);
+            else
+                magazyny[w].podrecznaPolka.setTowar(p, wartoscStartowa - A);
+        }
+        else
+            error();
     }
 
     void POP_R()
-    {
+    { //!\todo Odejmij ilość towaru wynoszącą A od miejsca o numerze p na półce o numerze s w podręcznym regale składu
         int s, p, A;
         cin >> s >> p >> A;
-        //!\todo Odejmij ilość towaru wynoszącą A od miejsca o numerze p na półce o numerze s w podręcznym regale składu
+        unsigned short wartoscStartowa;
+        if (podrecznyRegal.getTowar(s, p, &wartoscStartowa))
+        {
+            if ((int)wartoscStartowa - A < 0)
+                podrecznyRegal.setTowar(s, p, 0);
+            else
+                podrecznyRegal.setTowar(s, p, wartoscStartowa - A);
+        }
+        else
+            error();
     }
 
     void POP_S()
-    {
+    { //!\todo Odejmij ilość towaru wynoszącą A od miejsca o numerze p w podręcznej półce składu
         int p, A;
         cin >> p >> A;
-        //!\todo Odejmij ilość towaru wynoszącą A od miejsca o numerze p w podręcznej półce składu
+        unsigned short wartoscStartowa;
+
+        if (podrecznaPolka.getTowar(p, &wartoscStartowa))
+        {
+            if ((int)wartoscStartowa - A < 0)
+                podrecznaPolka.setTowar(p, 0);
+            else
+                podrecznaPolka.setTowar(p, wartoscStartowa - A);
+        }
+        else
+            error();
     }
 
-    // Polecenie przenoszące towar
-
     void MOV_W()
-    {
+    { //!\todo Przenieś ilość towaru wynoszącą A z magazynu o numerze wb, z regału o numerze rb, z półki o numerze sbdo magazynu o numerze we, do regału o numerze rb, na półkę o numerze se między miejscami o numerach p
         int wb, rb, sb, we, re, se, p, A;
         cin >> wb >> rb >> sb >> we >> re >> se >> p >> A;
-        //!\todo Przenieś ilość towaru wynoszącą A z magazynu o numerze wb, z regału o numerze rb, z półki o numerze sb
-        // do magazynu o numerze we, do regału o numerze rb, na półkę o numerze se między miejscami o numerach p
+        unsigned short wartosciPrzenoszona, wartoscStartowa;
+        if (getTowar(wb, rb, sb, p, &wartosciPrzenoszona) && getTowar(we, rb, se, p, &wartosciPrzenoszona))
+        {
+            if ((int)wartosciPrzenoszona - A < 0)
+                A = wartosciPrzenoszona;
+            if ((int)wartosciPrzenoszona + wartoscStartowa > 65535)
+                A = 65535 - wartoscStartowa;
+
+            setTowar(wb, rb, sb, p, wartosciPrzenoszona - A);
+            setTowar(we, rb, se, p, wartosciPrzenoszona + A);
+        }
+        else
+            error();
     }
 
     void MOV_H()
-    {
+    { //!\todo Przenieś ilość towaru wynoszącą A z magazynu o numerze w, z regału o numerze r, z półki o numerze s do własnej magazynowej półki podręcznej między miejscami o numerach p
         int w, r, s, p, A;
         cin >> w >> r >> s >> p >> A;
-        //!\todo Przenieś ilość towaru wynoszącą A z magazynu o numerze w, z regału o numerze r, z półki o numerze s
-        // do własnej magazynowej półki podręcznej między miejscami o numerach p
+        unsigned short wartosciPrzenoszona, wartoscStartowa;
+        if (getTowar(w, r, s, p, &wartosciPrzenoszona) && magazyny[w].podrecznaPolka.getTowar(p, &wartosciPrzenoszona))
+        {
+            if ((int)wartosciPrzenoszona - A < 0)
+                A = wartosciPrzenoszona;
+            if ((int)wartosciPrzenoszona + wartoscStartowa > 65535)
+                A = 65535 - wartoscStartowa;
+
+            setTowar(w, r, s, p, wartosciPrzenoszona - A);
+            magazyny[w].podrecznaPolka.setTowar(p, wartosciPrzenoszona + A);
+        }
+        else
+            error();
     }
 
     void MOV_R()
-    {
+    { // Przenieś ilość towaru wynoszącą A z magazynu o numerze w, z regału o numerze r, z półki o numerze s do podręcznego regału składu na półkę o numerze se między miejscami o numerach p
         int w, r, sb, se, p, A;
+        unsigned short wartosciPrzenoszona, wartoscStartowa;
         cin >> w >> r >> sb >> se >> p >> A;
-        //!\todo Przenieś ilość towaru wynoszącą A z magazynu o numerze w, z regału o numerze r, z półki o numerze sb
-        // do podręcznego regału składu na półkę o numerze se między miejscami o numerach p
+        if (getTowar(w, r, sb, p, &wartosciPrzenoszona) && getTowar(w, r, se, p, &wartosciPrzenoszona))
+        {
+            if ((int)wartosciPrzenoszona - A < 0)
+                A = wartosciPrzenoszona;
+            if ((int)wartosciPrzenoszona + wartoscStartowa > 65535)
+                A = 65535 - wartoscStartowa;
+
+            setTowar(w, r, sb, p, wartosciPrzenoszona - A);
+            setTowar(w, r, se, p, wartosciPrzenoszona + A);
+        }
+        else
+            error();
     }
 
     void MOV_S()
-    {
+    { //!\todo Przenieś ilość towaru wynoszącą A z podręcznego regału składu z półki o numerze s do podręcznej półki składu między miejscami o numerach p
         int s, p, A;
+        unsigned short wartosciPrzenoszona, wartoscStartowa;
         cin >> s >> p >> A;
-        //!\todo Przenieś ilość towaru wynoszącą A z podręcznego regału składu z półki o numerze s
-        // do podręcznej półki składu między miejscami o numerach p
-    }
 
-    // Polecenia wyświetlające informacje
+        if (podrecznyRegal.getTowar(s, p, &wartosciPrzenoszona) && podrecznaPolka.getTowar(p, &wartosciPrzenoszona))
+        {
+            if ((int)wartosciPrzenoszona - A < 0)
+                A = wartosciPrzenoszona;
+            if ((int)wartosciPrzenoszona + wartoscStartowa > 65535)
+                A = 65535 - wartoscStartowa;
+
+            podrecznyRegal.setTowar(s, p, wartosciPrzenoszona - A);
+            podrecznaPolka.setTowar(p, wartosciPrzenoszona + A);
+        }
+        else
+            error();
+    }
 
     void GET_E()
     {
-        //!\todo Wyświetl sumaryczną ilość towaru w całym składzie
+        int towarNaPolke;
+        long towarSumarycznie = 0;
+        for (int w = 0; w < magazyny.size(); w++)
+        {
+            for (int r = 0; r < magazyny[w].regaly.size(); r++)
+            {
+                for (int i = 0; i < magazyny[w].regaly[r].polki.size(); i++)
+                {
+                    magazyny[w].regaly[r].GetTowarSumaryczniePolki(i, &towarNaPolke);
+                    towarSumarycznie += towarNaPolke;
+                }
+            }
+        }
+        wypiszTowar(towarSumarycznie);
     }
 
     void GET_W()
@@ -550,7 +665,6 @@ public:
         cin >> w;
         if (poprawnyNumerMiejsca(w))
         {
-            cout<<"poprawny";
             int towarNaPolke;
             long towarSumarycznie = 0;
             for (int r = 0; r < magazyny[w].regaly.size(); r++)
@@ -604,7 +718,7 @@ public:
     { //!\todo Wyświetl ilość towaru w magazynie o numerze w, na regale o numerze r, na półce o numerze s
         int w, r, s, towarSumarycznie;
         cin >> w >> r >> s;
-        if (poprawnyNumerMiejsca(w) && magazyny[w].poprawnyNumerMiejsca(r) && s<magazyny[w].regaly[r].polki.size())
+        if (poprawnyNumerMiejsca(w) && magazyny[w].poprawnyNumerMiejsca(r) && s < magazyny[w].regaly[r].polki.size())
         {
             magazyny[w].regaly[r].GetTowarSumaryczniePolki(s, &towarSumarycznie);
             wypiszTowar(towarSumarycznie);
@@ -646,8 +760,6 @@ public:
     {
         cout << towar << endl;
     }
-
-    // Polecenia etykietowe
 
     void SET_LW()
     { // w magazynie w, w regale o numerze r, na półce o numerze s, miejscu o numerze p nadaje etykietę dd.
