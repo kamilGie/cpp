@@ -1,14 +1,17 @@
 *
-!*.cpp
-!*.hpp
-!.gitignore
-!PrzedUzyciemPrzeczytaj.md
+# Ignorowanie plików duzych
 !A
 !B
 !C
-!ladnyy
-!krotkii
 !D
 !E
-!*.png
+
+# ignorowania plikow malych X
 !X*/
+
+# Ignorowanie plików z rozszerzeniem .cpp i .hpp
+!*.cpp
+!*.hpp
+
+# Ignorowanie  obrazów
+!*.png
