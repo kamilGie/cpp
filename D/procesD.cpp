@@ -51,6 +51,8 @@ public:
     {
         return ((etykieta >= 10 && etykieta < 100) || etykieta == 0);
     }
+
+    friend class polka;
 };
 
 class polka
@@ -105,13 +107,25 @@ public:
     {
         return (numerMiejsca >= 0 && numerMiejsca < miejscaNaTowar.size());
     }
+
+    bool GetTowarSumaryczniePolki(int *towarSumarycznie)
+    {
+        unsigned short towarNaMiejsce;
+        for (int i = 0; i < miejscaNaTowar.size(); i++)
+        {
+            getTowar(i, &towarNaMiejsce);
+            *towarSumarycznie += towarNaMiejsce;
+        }
+        return true;
+    }
+
+    friend class regal;
 };
 
 class regal
 {
-    vector<polka> polki;
-
 public:
+    vector<polka> polki;
     regal(int liczbaPolek, int liczbaMiejscNaTowar, unsigned short towar, int etykieta_towaru) : polki(liczbaPolek, polka(liczbaMiejscNaTowar, towar, etykieta_towaru)){};
 
     bool getTowar(int numerPolki, int numerMiejsca, unsigned short *wartosciTowaru) const
@@ -159,6 +173,18 @@ public:
     {
         return (numerPolki >= 0 && numerPolki < polki.size());
     }
+
+    bool GetTowarSumaryczniePolki(int numerPolki, int *towarSumarycznie)
+    {
+        *towarSumarycznie = 0;
+        if (poprawnyNumerMiejsca(numerPolki))
+        {
+            polki[numerPolki].GetTowarSumaryczniePolki(towarSumarycznie);
+            return true;
+        }
+        return false;
+    }
+    friend class magazyn;
 };
 
 class magazyn
@@ -169,6 +195,54 @@ class magazyn
 public:
     magazyn(int liczbaRegalow, int liczbaPolek, int liczbaMiejscNaTowar, unsigned short towar, int etykieta_towaru) : podrecznaPolka(liczbaMiejscNaTowar, towar, etykieta_towaru),
                                                                                                                       regaly(liczbaRegalow, regal(liczbaPolek, liczbaMiejscNaTowar, towar, etykieta_towaru)){};
+
+    bool getTowar(int numerRegalu, int numerPolki, int numerMiejsca, unsigned short *wartosciTowaru) const
+    {
+        if (poprawnyNumerMiejsca(numerRegalu))
+        {
+            return regaly[numerRegalu].getTowar(numerPolki, numerMiejsca, wartosciTowaru);
+        }
+        else
+            return false;
+    }
+
+    int getEtykietaTowaru(int numerRegalu, int numerPolki, int numerMiejsca, int *wartoscEtykiety) const
+    {
+        if (poprawnyNumerMiejsca(numerRegalu))
+        {
+            return regaly[numerRegalu].getEtykietaTowaru(numerPolki, numerMiejsca, wartoscEtykiety);
+        }
+        else
+            return false;
+    }
+
+    // Settery
+    bool setTowar(int numerRegalu, int numerPolki, int numerMiejsca, unsigned short wartosciTowaru)
+    {
+        if (poprawnyNumerMiejsca(numerRegalu))
+        {
+            return regaly[numerRegalu].setTowar(numerPolki, numerMiejsca, wartosciTowaru);
+        }
+        else
+            return false;
+    }
+
+    bool setEtykietaTowaru(int numerRegalu, int numerPolki, int numerMiejsca, int newEtykietaTowaru)
+    {
+        if (poprawnyNumerMiejsca(numerRegalu))
+        {
+            return regaly[numerRegalu].setEtykietaTowaru(numerPolki, numerMiejsca, newEtykietaTowaru);
+        }
+        else
+            return false;
+    }
+
+    bool poprawnyNumerMiejsca(int numerRegalu) const
+    {
+        return (numerRegalu >= 0 && numerRegalu < regaly.size());
+    }
+
+    friend class sklad;
 };
 
 class sklad
@@ -231,6 +305,52 @@ public:
 
             (this->*listaPoleceni[polecenie])();
         }
+    }
+
+    bool getTowar(int numerMagazynu, int numerRegalu, int numerPolki, int numerMiejsca, unsigned short *wartosciTowaru) const
+    {
+        if (poprawnyNumerMiejsca(numerRegalu))
+        {
+            return magazyny[numerMagazynu].getTowar(numerRegalu, numerPolki, numerMiejsca, wartosciTowaru);
+        }
+        else
+            return false;
+    }
+
+    int getEtykietaTowaru(int numerMagazynu, int numerRegalu, int numerPolki, int numerMiejsca, int *wartoscEtykiety) const
+    {
+        if (poprawnyNumerMiejsca(numerMagazynu))
+        {
+            return magazyny[numerMagazynu].getEtykietaTowaru(numerRegalu, numerPolki, numerMiejsca, wartoscEtykiety);
+        }
+        else
+            return false;
+    }
+
+    // Settery
+    bool setTowar(int numerMagazynu, int numerRegalu, int numerPolki, int numerMiejsca, unsigned short wartosciTowaru)
+    {
+        if (poprawnyNumerMiejsca(numerMagazynu))
+        {
+            return magazyny[numerMagazynu].setTowar(numerRegalu, numerPolki, numerMiejsca, wartosciTowaru);
+        }
+        else
+            return false;
+    }
+
+    bool setEtykietaTowaru(int numerMagazynu, int numerRegalu, int numerPolki, int numerMiejsca, int newEtykietaTowaru)
+    {
+        if (poprawnyNumerMiejsca(numerMagazynu))
+        {
+            return magazyny[numerMagazynu].setEtykietaTowaru(numerRegalu, numerPolki, numerMiejsca, newEtykietaTowaru);
+        }
+        else
+            return false;
+    }
+
+    bool poprawnyNumerMiejsca(int numerMagazynu) const
+    {
+        return (numerMagazynu >= 0 && numerMagazynu < magazyny.size());
     }
 
     void FILL()
@@ -418,64 +538,130 @@ public:
     {
         int w;
         cin >> w;
-        //!\todo Wyświetl ilość towaru w magazynie o numerze w
+        if (poprawnyNumerMiejsca(w))
+        {
+            cout<<"poprawny";
+            int towarNaPolke;
+            long towarSumarycznie = 0;
+            for (int r = 0; r < magazyny[w].regaly.size(); r++)
+            {
+                for (int i = 0; i < magazyny[w].regaly[r].polki.size(); i++)
+                {
+                    magazyny[w].regaly[r].GetTowarSumaryczniePolki(i, &towarNaPolke);
+                    towarSumarycznie += towarNaPolke;
+                }
+            }
+
+            wypiszTowar(towarSumarycznie);
+        }
+        else
+            error();
     }
 
     void GET_RW()
-    {
+    { //!\todo Wyświetl ilość towaru w magazynie o numerze w, na regale o numerze r
         int w, r;
         cin >> w >> r;
-        //!\todo Wyświetl ilość towaru w magazynie o numerze w, na regale o numerze r
+        if (poprawnyNumerMiejsca(w) && magazyny[w].poprawnyNumerMiejsca(r))
+        {
+
+            int towarNaPolke;
+            long towarSumarycznie = 0;
+            for (int i = 0; i < magazyny[w].regaly[r].polki.size(); i++)
+            {
+                magazyny[w].regaly[r].GetTowarSumaryczniePolki(i, &towarNaPolke);
+                towarSumarycznie += towarNaPolke;
+            }
+            wypiszTowar(towarSumarycznie);
+        }
+        else
+            error();
     }
 
     void GET_RH()
-    {
-        //!\todo Wyświetl ilość towaru w podręcznym regale składu
+    { //!\todo Wyświetl ilość towaru w podręcznym regale składu
+        int towarNaPolke;
+        long towarSumarycznie = 0;
+        for (int i = 0; i < podrecznyRegal.polki.size(); i++)
+        {
+            podrecznyRegal.GetTowarSumaryczniePolki(i, &towarNaPolke);
+            towarSumarycznie += towarNaPolke;
+        }
+        wypiszTowar(towarSumarycznie);
     }
 
     void GET_SW()
-    {
-        int w, r, s;
+    { //!\todo Wyświetl ilość towaru w magazynie o numerze w, na regale o numerze r, na półce o numerze s
+        int w, r, s, towarSumarycznie;
         cin >> w >> r >> s;
-        //!\todo Wyświetl ilość towaru w magazynie o numerze w, na regale o numerze r, na półce o numerze s
+        if (poprawnyNumerMiejsca(w) && magazyny[w].poprawnyNumerMiejsca(r) && s<magazyny[w].regaly[r].polki.size())
+        {
+            magazyny[w].regaly[r].GetTowarSumaryczniePolki(s, &towarSumarycznie);
+            wypiszTowar(towarSumarycznie);
+        }
+        else
+
+            error();
     }
 
     void GET_SH()
-    {
-        int w;
+    { //!\todo Wyświetl ilość towaru w magazynie o numerze w na podręcznej półce
+        int w, towarSumarycznie;
         cin >> w;
-        //!\todo Wyświetl ilość towaru w magazynie o numerze w na podręcznej półce
+
+        if (poprawnyNumerMiejsca(w))
+        {
+            magazyny[w].podrecznaPolka.GetTowarSumaryczniePolki(&towarSumarycznie);
+            wypiszTowar(towarSumarycznie);
+        }
+        else
+            error();
     }
 
     void GET_SR()
-    {
-        int s;
+    { //!\todo Wyświetl ilość towaru w podręcznym regale na półce o numerze s
+        int s, towarSumarycznie;
         cin >> s;
-        //!\todo Wyświetl ilość towaru w podręcznym regale na półce o numerze s
+        podrecznyRegal.GetTowarSumaryczniePolki(s, &towarSumarycznie) ? wypiszTowar(towarSumarycznie) : error();
     }
 
     void GET_S()
-    {
-        //!\todo Wyświetl ilość towaru na podręcznej półce składu
+    { //!\todo Wyświetl ilość towaru na podręcznej półce składu
+        int towarSumaryczny;
+        podrecznaPolka.GetTowarSumaryczniePolki(&towarSumaryczny);
+        cout << towarSumaryczny << endl;
     }
+
+    void wypiszTowar(long towar)
+    {
+        cout << towar << endl;
+    }
+
     // Polecenia etykietowe
 
     void SET_LW()
     { // w magazynie w, w regale o numerze r, na półce o numerze s, miejscu o numerze p nadaje etykietę dd.
         int w, r, s, p, dd;
         cin >> w >> r >> s >> p >> dd;
+        if (!setEtykietaTowaru(w, r, s, p, dd))
+            error();
     }
 
     void SET_LH()
     { // w magazynie w, w podręcznej półce, miejscu o numerze p nadaje etykietę wynoszącą dd.
         int w, p, dd;
         cin >> w >> p >> dd;
+
+        if (!poprawnyNumerMiejsca(w) || !magazyny[w].podrecznaPolka.setEtykietaTowaru(p, dd))
+            error();
     }
 
     void SET_LR()
     { // W podręcznym regale składu, na półce o numerze s, miejscu o numerze p nadaje etykietę dd
         int s, p, dd;
         cin >> s >> p >> dd;
+        if (!podrecznyRegal.setEtykietaTowaru(s, p, dd))
+            error();
     }
 
     void SET_LS()
@@ -484,44 +670,45 @@ public:
         cin >> p >> dd;
 
         if (!podrecznaPolka.setEtykietaTowaru(p, dd))
-            cout << "error" << endl;
+            error();
     }
 
     void GET_LW()
     { // Wyświetl etykietę miejsca o numerze p w magazynie o numerze w, w regale o numerze r, na półce o numerze s
-        int w, r, s, p;
+        int w, r, s, p, etykieta;
         cin >> w >> r >> s >> p;
+        getEtykietaTowaru(w, r, s, p, &etykieta) ? wyswietlEtykiete(etykieta) : error();
     }
 
     void GET_LH()
-    {
-        // Wyświetl etykietę miejsca o numerze p w magazynie o numerze w, w podręcznej półce
-        int w, p;
+    { //! \todo Wyświetl etykietę miejsca o numerze p w magazynie o numerze w, w podręcznej półce
+        int w, p, etykieta;
         cin >> w >> p;
+        poprawnyNumerMiejsca(w) && magazyny[w].podrecznaPolka.getEtykietaTowaru(p, &etykieta) ? wyswietlEtykiete(etykieta) : error();
     }
 
     void GET_LR()
-    {
-        // Wyświetl etykietę miejsca o numerze p w podręcznym regale składu, na półce o numerze s
-        int s, p;
+    { // Wyświetl etykietę miejsca o numerze p w podręcznym regale składu, na półce o numerze s
+        int s, p, etykieta;
         cin >> s >> p;
+        podrecznyRegal.getEtykietaTowaru(s, p, &etykieta) ? wyswietlEtykiete(etykieta) : error();
     }
 
     void GET_LS()
-    {
-        // Wyświetl etykietę miejsce w podręcznej półce składu, o numerze p
-        int p;
+    { // Wyświetl etykietę miejsce w podręcznej półce składu, o numerze p
+        int p, etykieta;
         cin >> p;
-        int etykieta;
-        if (podrecznaPolka.getEtykietaTowaru(p, &etykieta))
-            wyswietlEtykiete(etykieta);
-        else
-            cout << "error" << endl;
+        podrecznaPolka.getEtykietaTowaru(p, &etykieta) ? wyswietlEtykiete(etykieta) : error();
     }
 
     void wyswietlEtykiete(int etykieta)
     {
         cout << (etykieta > 0 ? to_string(etykieta) : "--") << endl;
+    }
+
+    void error()
+    {
+        cout << "error" << endl;
     }
 };
 
