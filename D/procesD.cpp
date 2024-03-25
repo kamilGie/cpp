@@ -54,6 +54,7 @@ public:
     }
 
     friend class polka;
+    friend class sklad;
 };
 
 class polka
@@ -121,12 +122,14 @@ public:
     }
 
     friend class regal;
+    friend class sklad;
 };
 
 class regal
 {
-public:
     vector<polka> polki;
+
+public:
     regal(int liczbaPolek, int liczbaMiejscNaTowar, unsigned short towar, int etykieta_towaru) : polki(liczbaPolek, polka(liczbaMiejscNaTowar, towar, etykieta_towaru)){};
 
     bool getTowar(int numerPolki, int numerMiejsca, unsigned short *wartosciTowaru) const
@@ -186,6 +189,7 @@ public:
         return false;
     }
     friend class magazyn;
+    friend class sklad;
 };
 
 class magazyn
@@ -366,72 +370,64 @@ public:
     }
 
     void SET_AP()
-    {
+    { // Ustaw ilość możliwych miejsc na wartość Pe w magazynie o numerze wb, w regale o numerze rb, na półce o numerze sbNowo powstałe miejsca mają zerowe ilości towarów i puste etykietyDotychczasowe miejsca niemieszczące się w zakresie wartości Pe znikająDotychczasowe miejsca o pozostawionych numerach zachowują swoje ilości oraz etykiety
         int wb, rb, sb, Pe;
         cin >> wb >> rb >> sb >> Pe;
-        //!\todo Ustaw ilość możliwych miejsc na wartość Pe w magazynie o numerze wb, w regale o numerze rb, na półce o numerze sb
-        // Nowo powstałe miejsca mają zerowe ilości towarów i puste etykiety
-        // Dotychczasowe miejsca niemieszczące się w zakresie wartości Pe znikają
-        // Dotychczasowe miejsca o pozostawionych numerach zachowują swoje ilości oraz etykiety
+        if (Pe >= 0 && Pe <= 128 && getTowar(wb, rb, sb, 0, nullptr))
+            magazyny[wb].regaly[rb].polki[sb].miejscaNaTowar.resize(Pe, miejsceNaTowar(0, 0));
+        else
+            error();
     }
 
     void SET_AS()
-    {
+    { //!\todo Ustaw ilość półek wynoszącą Se w magazynie o numerze wb, w regale o numerze rb Nowo powstałe półki przyjmują ilość miejsc wynoszącą Pe, z każdym miejscem posiadającym zerową ilość towaru i pustą etykietęDotychczasowe półki niemieszczące się w zakresie wartości Se znikają Dotychczasowe półki o pozostawionych numerach ustalają swoje parametry z uwzględnieniem parametru Pe jak dla operacji SET-AP wywołanej z parametrami wb rb S Pe
         int wb, rb, Se, Pe;
         cin >> wb >> rb >> Se >> Pe;
-        //!\todo Ustaw ilość półek wynoszącą Se w magazynie o numerze wb, w regale o numerze rb
-        // Nowo powstałe półki przyjmują ilość miejsc wynoszącą Pe, z każdym miejscem posiadającym zerową ilość towaru i pustą etykietę
-        // Dotychczasowe półki niemieszczące się w zakresie wartości Se znikają
-        // Dotychczasowe półki o pozostawionych numerach ustalają swoje parametry z uwzględnieniem parametru Pe jak dla operacji SET-AP wywołanej z parametrami wb rb S Pe
+             if (Pe >= 0 && Pe <= 128 && poprawnyNumerMiejsca(wb) )
+            magazyny[wb].regaly[rb].polki.assign(Se ,polka( Pe, 0, 0));
+        else
+            error();
     }
 
     void SET_AR()
-    {
+    { //!\todo Ustaw ilość regałów wynoszącą Re w magazynie o numerze wb Nowo powstałe regały przyjmują ilość półek wynoszącą Se, z każdą półką obejmującą Pe miejsc, z każdym miejscem przechowującym zerową ilość towaru i pustą etykietęDotychczasowe regały niemieszczące się w zakresie wartości Re znikająDotychczasowe regały o pozostawionych numerach ustalają swoje parametry z uwzględnieniem wartości Se oraz Pe jak dla operacji SET-AS wywołanej z parametrami wb R Se Pe
         int wb, Re, Se, Pe;
         cin >> wb >> Re >> Se >> Pe;
-        //!\todo Ustaw ilość regałów wynoszącą Re w magazynie o numerze wb
-        // Nowo powstałe regały przyjmują ilość półek wynoszącą Se, z każdą półką obejmującą Pe miejsc, z każdym miejscem przechowującym zerową ilość towaru i pustą etykietę
-        // Dotychczasowe regały niemieszczące się w zakresie wartości Re znikają
-        // Dotychczasowe regały o pozostawionych numerach ustalają swoje parametry z uwzględnieniem wartości Se oraz Pe jak dla operacji SET-AS wywołanej z parametrami wb R Se Pe
+        if (Pe >= 0 && Pe <= 128 && poprawnyNumerMiejsca(wb))
+            magazyny[wb].regaly.assign(Re, regal(Se, Pe, 0, 0));
+        else
+            error();
     }
 
     void SET_AW()
-    {
+    { //!\todo Ustaw ilość magazynów w składzie wynoszącą We Nowo powstałe magazyny przyjmują ilość regałów wynoszącą Re, z każdym regałem obejmującym ilość półek wynoszącą Se, z każdą półką obejmującą Pe miejsc, z każdym miejscem przechowującym zerową ilość towaru i pustą etykietęMagazyny niemieszczące się w zakresie wartości We znikająMagazyny o pozostawionych numerach zmieniają parametry z uwzględnieniem wartości Re, Se oraz Pe jak dla operacji SET-AR wywołanej z parametrami W Re Se Pe
         int We, Re, Se, Pe;
         cin >> We >> Re >> Se >> Pe;
-        //!\todo Ustaw ilość magazynów w składzie wynoszącą We
-        // Nowo powstałe magazyny przyjmują ilość regałów wynoszącą Re, z każdym regałem obejmującym ilość półek wynoszącą Se, z każdą półką obejmującą Pe miejsc, z każdym miejscem przechowującym zerową ilość towaru i pustą etykietę
-        // Magazyny niemieszczące się w zakresie wartości We znikają
-        // Magazyny o pozostawionych numerach zmieniają parametry z uwzględnieniem wartości Re, Se oraz Pe jak dla operacji SET-AR wywołanej z parametrami W Re Se Pe
+        if (Pe >= 0 && Pe <= 128)
+            magazyny.assign(We, magazyn(Re, Se, Pe, 0, 0));
+        else
+            error();
     }
 
     void SET_HW()
-    {
+    { // Ustaw ilość miejsc na wartość P w magazynie o numerze w, w podręcznej półceNowo powstałe miejsca przyjmują zerowe ilości towarów i puste etykietyDotychczasowe miejsca niemieszczące się w zakresie wartości P znikają Miejsca o pozostawionych numerach zachowują swoje ilości oraz etykiety
         int w, P;
         cin >> w >> P;
-        //!\todo Ustaw ilość miejsc na wartość P w magazynie o numerze w, w podręcznej półce
-        // Nowo powstałe miejsca przyjmują zerowe ilości towarów i puste etykiety
-        // Dotychczasowe miejsca niemieszczące się w zakresie wartości P znikają
-        // Miejsca o pozostawionych numerach zachowują swoje ilości oraz etykiety
+        (P >= 0 && P <= 128 && poprawnyNumerMiejsca(w)) ? magazyny[w].podrecznaPolka.miejscaNaTowar.resize(P, miejsceNaTowar(0, 0)) : error();
     }
 
     void SET_HR()
-    {
+    { // Ustaw ilość półek wynoszącą S w regale podręcznym składu Nowo powstałe półki przyjmują ilość miejsc wynoszącą P, z każdym miejscem posiadającym zerową ilość towaru i pustą etykietę Półki niemieszczące się w zakresie wartości S znikają, zaś półki o pozostawionych numerach zmieniają ilość miejsc na P z uwzględnieniem wpływu zmian jak dla operacji SET-AP
         int S, P;
         cin >> S >> P;
-        //!\todo Ustaw ilość półek wynoszącą S w regale podręcznym składu
-        // Nowo powstałe półki przyjmują ilość miejsc wynoszącą P, z każdym miejscem posiadającym zerową ilość towaru i pustą etykietę
-        // Półki niemieszczące się w zakresie wartości S znikają, zaś półki o pozostawionych numerach zmieniają ilość miejsc na P z uwzględnieniem wpływu zmian jak dla operacji SET-AP
+        (P >= 0 && P <= 128) ? podrecznyRegal.polki.assign(S, polka(P, 0, 0)) : error();
     }
 
     void SET_HS()
-    {
+    { //!\todo Dla podręcznej półki składu ustanawia ilość miejsc na wartość P Nowo powstałe miejsca przyjmują zerowe ilości towarów i puste etykietyMiejsca niemieszczące się w zakresie wartości P znikająMiejsca o pozostawionych numerach zachowują swoje ilości oraz etykietyt
         int P;
         cin >> P;
-        //!\todo Dla podręcznej półki składu ustanawia ilość miejsc na wartość P
-        // Nowo powstałe miejsca przyjmują zerowe ilości towarów i puste etykiety
-        // Miejsca niemieszczące się w zakresie wartości P znikają
-        // Miejsca o pozostawionych numerach zachowują swoje ilości oraz etykiety
+        (P >= 0 && P <= 128) ? podrecznaPolka.miejscaNaTowar.resize(P, miejsceNaTowar(0, 0)) : error();
     }
 
     void PUT_W()
