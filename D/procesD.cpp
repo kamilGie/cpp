@@ -1,8 +1,8 @@
 // kamil gieras
 // ##### # # ### # ## # # # # \author to jest najbrzydszy kod jaki zrobilem od dawna poprawie go jeszcze xd#######//
 #include <iostream>
-#include <vector>
 #include <map>
+#include <stdlib.h>
 using namespace std;
 
 class miejsceNaTowar
@@ -18,7 +18,7 @@ public:
     }
 
     // Gettery
-    bool getTowar(unsigned short *wartosciTowaru) const
+    bool getTowar(unsigned short *wartosciTowaru=0) const
     {
         *wartosciTowaru = towar;
         return true;
@@ -651,7 +651,18 @@ public:
                     towarSumarycznie += towarNaPolke;
                 }
             }
+            magazyny[w].podrecznaPolka.GetTowarSumaryczniePolki(&towarNaPolke);
+            towarSumarycznie+=towarNaPolke;
         }
+
+        for (int r = 0; r < podrecznyRegal.polki.size(); r++)
+            {
+                    podrecznyRegal.polki[r].GetTowarSumaryczniePolki(&towarNaPolke);
+                    towarSumarycznie += towarNaPolke;
+            }
+
+        podrecznaPolka.GetTowarSumaryczniePolki(&towarNaPolke);
+        towarSumarycznie+=towarNaPolke;
         wypiszTowar(towarSumarycznie);
     }
 
@@ -671,6 +682,8 @@ public:
                     towarSumarycznie += towarNaPolke;
                 }
             }
+            magazyny[w].podrecznaPolka.GetTowarSumaryczniePolki(&towarNaPolke);
+            towarSumarycznie+=towarNaPolke;
 
             wypiszTowar(towarSumarycznie);
         }

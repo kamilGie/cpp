@@ -1,5 +1,5 @@
 // kamil gieras
-// jeszcez nwm czy to dziala baca nie dziala 
+// jeszcez nwm czy to dziala baca nie dziala
 #include <iostream>
 #include "tablica.h"
 using namespace std;

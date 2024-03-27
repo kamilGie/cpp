@@ -16,15 +16,10 @@ int Ival(int i)
  return i>=0 ? i%arrLen: (i%arrLen)+arrLen;
 }
 
-void swpE(int*V1,int*V2)
-{
- int tmp=*V1; *V1=*V2; *V2=tmp;
-}
-
 void cyclicLeft(int*aray,int firstIndex,int Seglen)
 {
  for(int i=1;i<Seglen;i++){
-  swpE(&aray[firstIndex], &aray[Ival(firstIndex+1)]);
+  swap(aray[firstIndex],aray[Ival(firstIndex+1)]);
   firstIndex = Ival(firstIndex+1);
  }
  }
@@ -32,7 +27,7 @@ void cyclicLeft(int*aray,int firstIndex,int Seglen)
  void cyclicRight(int*aray,int lastIndex,int Seglen)
  {
  for(int i=1;i<Seglen;i++){
-  swpE(&aray[lastIndex], &aray[Ival(lastIndex-1)]);
+  swap(aray[lastIndex],aray[Ival(lastIndex-1)]);
   lastIndex=Ival(lastIndex-1);
  }
 }
@@ -65,7 +60,7 @@ void switc(int*aray)
   I=Ival(i+L);
   for(int j=0;j<L;j++,i++,I++){
    i=Ival(i); I=Ival(I);
-   swpE(&aray[i],&aray[I]);
+   swap(aray[i],aray[I]);
    }
   i=Ival(I+1);
  }
@@ -83,7 +78,7 @@ void reverse(int*aray)
   for(int j=0;j<L/2;j++,i++,I--){
    i=Ival(i);
    I=Ival(I);
-   swpE(&aray[i],&aray[I]);
+   swap(aray[i],aray[I]);
    }
   i=NextI;
  }
