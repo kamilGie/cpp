@@ -1,5 +1,5 @@
 // kamil gieras
-// ##### # # ### # ## # # # # \author to jest najbrzydszy kod jaki zrobilem od dawna poprawie go jeszcze xd#######//
+//! ##### # # ### # ## # # # # \author to jest najbrzydszy kod jaki zrobilem od dawna poprawie go jeszcze xd#######//
 #include <iostream>
 #include <map>
 #include <stdlib.h>
@@ -9,7 +9,6 @@ class miejsceNaTowar
 {
     unsigned short towar;
     int etykieta_towaru;
-
 public:
     miejsceNaTowar(unsigned short towar, int etykieta_towaru)
     {
