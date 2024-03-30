@@ -4,6 +4,7 @@
 !B
 !C
 !D
+!D2
 !E
 
 # ignorowania plikow malych X
@@ -12,6 +13,10 @@
 # Ignorowanie plików z rozszerzeniem .cpp i .hpp
 !*.cpp
 !*.hpp
+
+# Ignorowanie zadan trudnych wymagajacych uzycia  cmake 
+!src
+!cmakelists.txt
 
 # Ignorowanie  obrazów
 !*.png
