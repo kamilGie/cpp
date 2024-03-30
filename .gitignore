@@ -18,6 +18,8 @@
 !src
 !cmakelists.txt
 !testyWykonawcze
+!ladnyy
+!krotkii
 
 # Ignorowanie  obrazów
 !*.png
