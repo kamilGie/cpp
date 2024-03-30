@@ -17,6 +17,7 @@
 # Ignorowanie zadan trudnych wymagajacych uzycia  cmake 
 !src
 !cmakelists.txt
+!testyWykonawcze
 
 # Ignorowanie  obrazów
 !*.png
