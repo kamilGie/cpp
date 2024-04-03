@@ -176,8 +176,24 @@ TEST(LabelCommands,SETandGET_LH){
     EXPECT_EQ(GetCapturedStdout(),"--\n" "12\n" "error\n" "error\n");
 }
 
+TEST(LabelCommands,SETandGET_LR){
+    //for
+    Depot cut(2,2,2,2,10);
 
-// SET-LR s p dd - w podręcznym regale składu, na półce o numerze s, miejscu o numerze p nadaje etykietę dd.
-// SET-LS p dd - w podręcznej półce składu, miejscu o numerze p nadaje etykietę dd.
-// GET-LR s p - wyświetla etykietę miejsca o numerze p w podręcznym regale składu, na półce o numerze s.
+    //when
+    CaptureStdout();
+    cut.GET_LR(0,0);
+
+    cut.SET_LR(0,0,12);
+    cut.GET_LR(0,0); 
+
+    cut.SET_LR(1,1,9);
+
+    cut.SET_LR(1,3,10);
+
+    //then
+    EXPECT_EQ(GetCapturedStdout(),"--\n" "12\n" "error\n" "error\n");
+}
+
 // GET-LS p - wyświetla etykietę miejsce w podręcznej półce składu, o numerze p.
+// SET-LS p dd - w podręcznej półce składu, miejscu o numerze p nadaje etykietę dd.
