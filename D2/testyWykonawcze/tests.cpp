@@ -3,6 +3,18 @@
 
 using namespace testing::internal;
 
+TEST(GetCommands,GET_RH){
+    //for
+    Depot cut(2,2,2,2,10);
+
+    //when
+    CaptureStdout();
+    cut.GET_RH();
+
+    //then
+    EXPECT_EQ(GetCapturedStdout(),"40\n" );
+}
+
 
 TEST(GetCommands,GET_SW){
     //for

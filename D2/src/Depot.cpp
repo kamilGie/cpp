@@ -38,6 +38,15 @@
         return res;
     }
 
+    size_t Rack::getPlacesAmount() const
+    {
+        size_t res=0;
+        for(auto &shelf : shelfs_){
+            res+=shelf.getPlacesAmount();
+        }
+        return res;
+    }
+
 
 // constructors 
 
@@ -171,9 +180,7 @@
         // Implementacja
     }
 
-    void Depot::GET_RH() {
-        // Implementacja
-    }
+    void Depot::GET_RH() {  cout<< getHandyRack_().getPlacesAmount()<<endl; }
 
 
     void Depot::GET_SW(int w, int r, int s) {

@@ -54,6 +54,7 @@ public:
     Rack(int ShelfCount, int placeCount, int amount, int label=0);
 
     vector<Shelf> getShelfs() const ;
+    size_t getPlacesAmount() const;
 
     bool validIndex(const int &indeks);
 };
