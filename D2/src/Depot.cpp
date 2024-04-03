@@ -5,10 +5,12 @@
 
     Place::operator int() const { return amount_; }
 
+
 //set
 
     void Place::setLabel(const int NewLabel)  { label_ = NewLabel; }  
     void Place::setAmount(const int NewAmount)  { amount_ = NewAmount; }
+
 
 // get
 
@@ -26,6 +28,16 @@
     vector<Warehouse> Depot::getWarehouses() const  {return warehouses_;}
     Rack Depot::getHandyRack_() const {return handyRack_;}
     Shelf Depot::getHandyShelf_() const  {return handyShelf_;}
+
+    size_t Shelf::getPlacesAmount() const
+    {
+        size_t res=0;
+        for(auto &place : places_){
+            res+=place;
+        }
+        return res;
+    }
+
 
 // constructors 
 
@@ -166,22 +178,13 @@
 
     void Depot::GET_SW(int w, int r, int s) {
 
-        if (!(validIndex(w) && getWarehouses()[w].validIndex(r) && getWarehouses()[w].getRacks()[r].validIndex(s))) {
-
-            cout<<"error"<<endl;
-            return;
+        if (!(validIndex(w) && getWarehouses()[w].validIndex(r) && getWarehouses()[w].getRacks()[r].validIndex(s))) 
+        {     
+            cout<<"error"<<endl; return;
         }
+        size_t PlaceAmount = getWarehouses()[w].getRacks()[r].getShelfs()[s].getPlacesAmount();
+        cout<< PlaceAmount <<endl;
 
-
-        vector <Place> shelfPlaces=getWarehouses()[w].getRacks()[r].getShelfs()[s].getPlaces();
-
-        size_t SumAmount=0;
-        for(auto &place : shelfPlaces)
-        {
-            SumAmount+=place;
-        }
-
-        cout<<SumAmount<<endl;
     }
 
     void Depot::GET_SH(int w) {
