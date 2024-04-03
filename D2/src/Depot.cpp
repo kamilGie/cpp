@@ -1,6 +1,9 @@
 #include "Depot.hpp"
 #include <iostream>
 
+//Operators 
+    Place::operator int() const { return amount_; }
+
 //set
     void Place::setLabel(const int NewLabel)  { label_ = NewLabel; }  
     void Place::setAmount(const int NewAmount)  { amount_ = NewAmount; }
@@ -13,7 +16,7 @@
     vector<Place> Shelf::getPlaces() const  {return places_;}
 
     vector<Shelf> Rack::getShelfs() const  {return shelfs_;}
-    
+
     vector<Rack> Warehouse::getRacks() const  {return racks_;}
     Shelf Warehouse::getHandyShelf_() const  {return handyShelf_;}
 
@@ -146,9 +149,16 @@
         // Implementacja
     }
 
-    void Depot::GET_SW(int w, int r, int s) {
+    size_t Depot::GET_SW(int w, int r, int s) {
 
+        vector <Place> shelfPlaces =getWarehouses()[w].getRacks()[r].getShelfs()[s].getPlaces();
+        size_t SumAmount=0;
+        for(auto &place : shelfPlaces)
+        {
+            SumAmount+=place;
+        }
 
+        return SumAmount;
     }
 
     void Depot::GET_SH(int w) {

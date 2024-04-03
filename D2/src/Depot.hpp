@@ -16,6 +16,8 @@ public:
     int    getAmount() const;
     void   setLabel (const int NewLabel);
     void   setAmount(const int NewAmount);
+
+    operator int() const;
 };
 
 
@@ -111,7 +113,7 @@ public:
     void GET_W(int w);
     void GET_RW(int w, int r);
     void GET_RH();
-    void GET_SW(int w, int r, int s);
+    size_t GET_SW(int w, int r, int s);
     void GET_SH(int w);
     void GET_SR(int s);
     void GET_S();

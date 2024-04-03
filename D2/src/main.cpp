@@ -52,7 +52,7 @@ FunctionMap INIT_MethodExecutorMap(Depot &D){
     res["GET-W"]  = [&D]() { int w;                        cin>>w;                              D.GET_W(w);                      };
     res["GET-RW"] = [&D]() { int w, r;                     cin>>w>>r;                           D.GET_RW(w, r);                  };
     res["GET-RH"] = [&D]() {                                                                    D.GET_RH();                      };
-    res["GET-SW"] = [&D]() { int w, r, s;                  cin>>w>>r>>s;                        D.GET_SW(w, r, s);               };
+    res["GET-SW"] = [&D]() { int w, r, s;                  cin>>w>>r>>s;                        cout<<D.GET_SW(w, r, s)<<endl;   };
     res["GET-SH"] = [&D]() { int w;                        cin>>w;                              D.GET_SH(w);                     };
     res["GET-SR"] = [&D]() { int s;                        cin>>s;                              D.GET_SR(s);                     };
     res["GET-S"]  = [&D]() {                                                                    D.GET_S();                       };
