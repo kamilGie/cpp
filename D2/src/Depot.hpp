@@ -18,43 +18,65 @@ public:
     void   setAmount(const int NewAmount);
 };
 
+
+
+
 class Shelf
 {
 private:
-    vector<Place> place_;
+    vector<Place> places_;
 
 public:
     Shelf(int placeCount, int amount, int label=0);
+    vector<Place> getPlaces() const ;
 };
+
+
+
 
 class Rack
 {
 private:
-    vector<Shelf> shelf_;
+    vector<Shelf> shelfs_;
 
 public:
     Rack(int ShelfCount, int placeCount, int amount, int label=0);
+    vector<Shelf> getShelfs() const ;
+
 };
+
+
+
 
 class Warehouse
 {
 private:
-    vector<Rack> rack_;
+    vector<Rack> racks_;
     Shelf handyShelf_;
 
 public:
     Warehouse(int RackCount, int ShelfCount, int placeCount, int amount, int label=0);
+    vector<Rack> getRacks() const ;
+    Shelf getHandyShelf_() const;
 };
+
+
+
 
 class Depot
 {
 private:
-    vector<Warehouse> warehouse_;
+    vector<Warehouse> warehouses_;
     Rack handyRack_;
     Shelf handyShelf_;
 
 public:
     Depot(int warehouseCount=0, int RackCount=0, int ShelfCount=0, int placeCount=0, int amount=0, int label = 0);
+
+    vector<Warehouse> getWarehouses() const ;
+    Rack  getHandyRack_() const ;
+    Shelf getHandyShelf_() const;
+
 
     void FILL(int w, int r, int s, int p, int a);
     // Operacje ustawiania parametrów

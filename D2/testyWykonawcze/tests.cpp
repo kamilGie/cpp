@@ -1,13 +1,16 @@
 #include <gtest/gtest.h>
 #include "../src/Depot.hpp"
 
-TEST(MyFunctionTest, OutputTest) {
-    // Przechwytujemy strumień wyjściowy
-    testing::internal::CaptureStdout();
+using namespace testing::internal;
 
-    // Wywołujemy funkcję, która wypisuje dane na ekran
-    std::cout<<"Hello, world!\n";
+TEST(GetCommands,GET_SW){
+    //for
+    Depot cut(2,2,2,2,10);
 
-    // Sprawdzamy, czy dane wypisane na ekran są zgodne z oczekiwanymi bezpośrednio wewnątrz asercji
-    EXPECT_EQ(testing::internal::GetCapturedStdout(), "Hello, world!\n");
+    //when
+    CaptureStdout();
+    cut.GET_SW(1,1,1);
+
+    //then
+    EXPECT_EQ(GetCapturedStdout(),"10\n");
 }
