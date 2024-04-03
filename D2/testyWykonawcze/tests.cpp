@@ -138,6 +138,9 @@ TEST(GetCommands,GET_S){
     EXPECT_EQ(GetCapturedStdout(),"20\n" );
 }
 
+
+//LabelCommands
+
 TEST(LabelCommands,SETandGET_LW){
     //for
     Depot cut(2,2,2,2,10);
@@ -151,11 +154,12 @@ TEST(LabelCommands,SETandGET_LW){
 
     cut.SET_LW(1,1,1,1,9);
 
-    cut.SET_LW(1,1,1,1,100);
+    cut.SET_LW(1,1,2,1,10);
 
     //then
     EXPECT_EQ(GetCapturedStdout(),"--\n" "12\n" "error\n" "error\n");
 }
+
 
 TEST(LabelCommands,SETandGET_LH){
     //for
@@ -170,11 +174,12 @@ TEST(LabelCommands,SETandGET_LH){
 
     cut.SET_LH(1,1,9);
 
-    cut.SET_LH(1,1,100);
+    cut.SET_LH(1,3,10);
 
     //then
     EXPECT_EQ(GetCapturedStdout(),"--\n" "12\n" "error\n" "error\n");
 }
+
 
 TEST(LabelCommands,SETandGET_LR){
     //for
@@ -195,6 +200,7 @@ TEST(LabelCommands,SETandGET_LR){
     EXPECT_EQ(GetCapturedStdout(),"--\n" "12\n" "error\n" "error\n");
 }
 
+
 TEST(LabelCommands,SETandGET_LS){
     //for
     Depot cut(2,2,2,2,10);
@@ -208,11 +214,8 @@ TEST(LabelCommands,SETandGET_LS){
 
     cut.SET_LS(1,9);
 
-    cut.SET_LS(1,10);
+    cut.SET_LS(3,10);
 
     //then
     EXPECT_EQ(GetCapturedStdout(),"--\n" "12\n" "error\n" "error\n");
 }
-
-// GET-LS p - wyświetla etykietę miejsce w podręcznej półce składu, o numerze p.
-// SET-LS p dd - w podręcznej półce składu, miejscu o numerze p nadaje etykietę dd.

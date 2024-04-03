@@ -5,6 +5,8 @@
 
 Place::operator int() const { return amount_; }
 
+
+
 // set
 
 void Place::setLabel(const int NewLabel) { label_ = NewLabel; }
@@ -104,9 +106,9 @@ bool Depot::validIndex(const int &indeks) { return indeks >= 0 && indeks < wareh
 
 bool validLabel(int Label) { return ((Label == 0) || (Label > 9 && Label < 100)); }
 
+
+
 // other
-
-
 
 void error() { cout << "error" << endl; }
 
@@ -156,6 +158,8 @@ void Depot::SET_HS(int P)
     // Implementacja
 }
 
+
+
 // Operacje dodawania towarów
 
 void Depot::PUT_W(int w, int r, int s, int p, int A)
@@ -177,6 +181,8 @@ void Depot::PUT_S(int p, int A)
 {
     // Implementacja
 }
+
+
 
 // Operacje odejmowania towarów
 
@@ -200,6 +206,8 @@ void Depot::POP_S(int p, int A)
     // Implementacja
 }
 
+
+
 // Operacje przenoszenia towarów
 
 void Depot::MOV_W(int wb, int rb, int sb, int we, int re, int se, int p, int A)
@@ -221,6 +229,8 @@ void Depot::MOV_S(int s, int p, int A)
 {
     // Implementacja
 }
+
+
 
 // Operacje wyświetlania informacji
 
@@ -285,16 +295,18 @@ void Depot::GET_SR(int s)
     cout << handyRack_.getShelfs()[s].getPlacesAmount() << endl;
 }
 
+
+
 // Operacje etykietowe
 
 void Depot::SET_LW(int w, int r, int s, int p, int dd)
 {
     if (!(validLabel(dd) && validIndex(w) && getWarehouses()[w].validIndex(r) && getWarehouses()[w].getRacks()[r].validIndex(s) && getWarehouses()[w].getRacks()[r].getShelfs()[s].validIndex(p)))
     {
-
         error();
         return;
     }
+
     getWarehouses()[w].getRacks()[r].getShelfs()[s].getPlaces()[p].setLabel(dd);
 }
 
@@ -305,17 +317,19 @@ void Depot::SET_LH(int w, int p, int dd)
         error();
         return;
     }
+
     getWarehouses()[w].getHandyShelf().getPlaces()[p].setLabel(dd);
 }
 
 void Depot::SET_LR(int s, int p, int dd)
 {
-    if (!(validLabel(dd)  && getHandyRack().validIndex(s) && getHandyRack().getShelfs()[s].validIndex(p)))
+    if (!(validLabel(dd) && getHandyRack().validIndex(s) && getHandyRack().getShelfs()[s].validIndex(p)))
     {
         error();
         return;
     }
-   getHandyRack().getShelfs()[s].getPlaces()[p].setLabel(dd);
+
+    getHandyRack().getShelfs()[s].getPlaces()[p].setLabel(dd);
 }
 
 void Depot::SET_LS(int p, int dd)
@@ -325,7 +339,8 @@ void Depot::SET_LS(int p, int dd)
         error();
         return;
     }
-   getHandyShelf().getPlaces()[p].setLabel(dd);
+
+    getHandyShelf().getPlaces()[p].setLabel(dd);
 }
 
 void Depot::GET_LW(int w, int r, int s, int p)
@@ -335,6 +350,7 @@ void Depot::GET_LW(int w, int r, int s, int p)
         error();
         return;
     }
+
     cout << getWarehouses()[w].getRacks()[r].getShelfs()[s].getPlaces()[p].getLabel() << endl;
 }
 
@@ -356,7 +372,8 @@ void Depot::GET_LR(int s, int p)
         error();
         return;
     }
-    cout<<getHandyRack().getShelfs()[s].getPlaces()[p].getLabel()<<endl;
+
+    cout << getHandyRack().getShelfs()[s].getPlaces()[p].getLabel() << endl;
 }
 
 void Depot::GET_LS(int p)
@@ -366,5 +383,6 @@ void Depot::GET_LS(int p)
         error();
         return;
     }
-    cout<<getHandyShelf().getPlaces()[p].getLabel()<<endl;
+
+    cout << getHandyShelf().getPlaces()[p].getLabel() << endl;
 }
