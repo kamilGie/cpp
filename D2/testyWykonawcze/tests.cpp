@@ -95,6 +95,7 @@ TEST(GetCommands,GET_SH){
     EXPECT_EQ(GetCapturedStdout(),"20\n" "error\n" "20\n" "error\n");
 }
 
+
 TEST(GetCommands,GET_SR){
     //for
     Depot cut(2,2,2,2,10);
@@ -110,6 +111,7 @@ TEST(GetCommands,GET_SR){
     //then
     EXPECT_EQ(GetCapturedStdout(),"20\n" "error\n" "20\n" "error\n");
 }
+
 
 TEST(GetCommands,GET_S){
     //for
