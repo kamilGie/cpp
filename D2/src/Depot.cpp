@@ -164,8 +164,18 @@ void Depot::SET_HS(int P)
 
 void Depot::PUT_W(int w, int r, int s, int p, int A)
 {
-    // Implementacja
+    if (!(validIndex(w) && getWarehouses()[w].validIndex(r) && getWarehouses()[w].getRacks()[r].validIndex(s) && getWarehouses()[w].getRacks()[r].getShelfs()[s].validIndex(p)))
+    {
+        error();
+        return;
+    }
+    size_t amount = getWarehouses()[w].getRacks()[r].getShelfs()[s].getPlaces()[p].getAmount();
+
+    amount = amount+A>65535 ? 65535 : A+amount;
+    getWarehouses()[w].getRacks()[r].getShelfs()[s].getPlaces()[p].setAmount(amount);
 }
+// PUT-W w r s p A - w magazynie o numerze w, w regale o numerze r, na półce o numerze s, do miejsca o numerze p dodaje ilości towaru wynoszącą A.
+
 
 void Depot::PUT_H(int w, int p, int A)
 {
