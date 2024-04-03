@@ -157,10 +157,27 @@ TEST(LabelCommands,SETandGET_LW){
     EXPECT_EQ(GetCapturedStdout(),"--\n" "12\n" "error\n" "error\n");
 }
 
+TEST(LabelCommands,SETandGET_LH){
+    //for
+    Depot cut(2,2,2,2,10);
 
-// SET-LH w p dd - w magazynie w, w podręcznej półce, miejscu o numerze p nadaje etykietę wynoszącą dd.
+    //when
+    CaptureStdout();
+    cut.GET_LH(0,0);
+
+    cut.SET_LH(0,0,12);
+    cut.GET_LH(0,0); 
+
+    cut.SET_LH(1,1,9);
+
+    cut.SET_LH(1,1,100);
+
+    //then
+    EXPECT_EQ(GetCapturedStdout(),"--\n" "12\n" "error\n" "error\n");
+}
+
+
 // SET-LR s p dd - w podręcznym regale składu, na półce o numerze s, miejscu o numerze p nadaje etykietę dd.
 // SET-LS p dd - w podręcznej półce składu, miejscu o numerze p nadaje etykietę dd.
-// GET-LH w p - wyświetla etykietę miejsca o numerze p w magazynie o numerze w, w podręcznej półce.
 // GET-LR s p - wyświetla etykietę miejsca o numerze p w podręcznym regale składu, na półce o numerze s.
 // GET-LS p - wyświetla etykietę miejsce w podręcznej półce składu, o numerze p.

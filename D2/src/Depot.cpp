@@ -300,7 +300,12 @@ void Depot::SET_LW(int w, int r, int s, int p, int dd)
 
 void Depot::SET_LH(int w, int p, int dd)
 {
-    // Implementacja
+    if (!(validLabel(dd) && validIndex(w) && getWarehouses()[w].getHandyShelf().validIndex(p)))
+    {
+        error();
+        return;
+    }
+    getWarehouses()[w].getHandyShelf().getPlaces()[p].setLabel(dd);
 }
 
 void Depot::SET_LR(int s, int p, int dd)
@@ -320,13 +325,18 @@ void Depot::GET_LW(int w, int r, int s, int p)
         error();
         return;
     }
-
     cout << getWarehouses()[w].getRacks()[r].getShelfs()[s].getPlaces()[p].getLabel() << endl;
 }
 
 void Depot::GET_LH(int w, int p)
 {
-    // Implementacja
+    if (!(validIndex(w) && getWarehouses()[w].getHandyShelf().validIndex(p)))
+    {
+        error();
+        return;
+    }
+
+    cout << getWarehouses()[w].getHandyShelf().getPlaces()[p].getLabel() << endl;
 }
 
 void Depot::GET_LR(int s, int p)
