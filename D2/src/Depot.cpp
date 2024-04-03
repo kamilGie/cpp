@@ -209,7 +209,7 @@ void Depot::MOV_S(int s, int p, int A)
 
 // Operacje wyświetlania informacji
 
-void Depot::GET_E()  { cout << getPlacesAmount << endl; }
+void Depot::GET_E()  { cout << getPlacesAmount() << endl; }
 
 
 void Depot::GET_RH() { cout << getHandyRack_().getPlacesAmount() << endl; }
@@ -241,7 +241,10 @@ void Depot::GET_SW(int w, int r, int s)
 
 void Depot::GET_SH(int w)
 {
-    // Implementacja
+    if (!validIndex(w))  { error(); return; }
+
+    cout <<  getWarehouses()[w].getHandyShelf_().getPlacesAmount() << endl;
+
 }
 
 void Depot::GET_SR(int s)
