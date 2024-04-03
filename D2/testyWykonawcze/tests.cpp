@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../src/warehouse.hpp"
+#include "../src/Depot.hpp"
 
 TEST(MyFunctionTest, OutputTest) {
     // Przechwytujemy strumień wyjściowy

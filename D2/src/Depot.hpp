@@ -1,10 +1,61 @@
-#pragma once 
+#pragma once
 #include <string>
-class Warehouse {
+#include <vector>
+using namespace std;
 
+class Place
+{
 private:
+    int amount_;
+    int label_;
 
 public:
+    Place(int amount, int label=0);
+    
+    string getLabel () const;
+    int    getAmount() const;
+    void   setLabel (const int NewLabel);
+    void   setAmount(const int NewAmount);
+};
+
+class Shelf
+{
+private:
+    vector<Place> place_;
+
+public:
+    Shelf(int placeCount, int amount, int label=0);
+};
+
+class Rack
+{
+private:
+    vector<Shelf> shelf_;
+
+public:
+    Rack(int ShelfCount, int placeCount, int amount, int label=0);
+};
+
+class Warehouse
+{
+private:
+    vector<Rack> rack_;
+    Shelf handyShelf_;
+
+public:
+    Warehouse(int RackCount, int ShelfCount, int placeCount, int amount, int label=0);
+};
+
+class Depot
+{
+private:
+    vector<Warehouse> warehouse_;
+    Rack handyRack_;
+    Shelf handyShelf_;
+
+public:
+    Depot(int warehouseCount=0, int RackCount=0, int ShelfCount=0, int placeCount=0, int amount=0, int label = 0);
+
     void FILL(int w, int r, int s, int p, int a);
     // Operacje ustawiania parametrów
     void SET_AP(int wb, int rb, int sb, int Pe);
