@@ -279,8 +279,22 @@ void Depot::POP_S(int p, int A)
 
 void Depot::MOV_W(int wb, int rb, int sb, int we, int re, int se, int p, int A)
 {
-    // Implementacja
+    if (!(validIndex(wb) && getWarehouses()[wb].validIndex(rb) && getWarehouses()[wb].getRacks()[rb].validIndex(sb) && getWarehouses()[wb].getRacks()[rb].getShelfs()[sb].validIndex(p))
+    || (!(validIndex(we) && getWarehouses()[we].validIndex(re) && getWarehouses()[we].getRacks()[re].validIndex(se) && getWarehouses()[we].getRacks()[re].getShelfs()[se].validIndex(p))))
+    {
+        error();
+        return;
+    }
+
+    long amount = getWarehouses()[wb].getRacks()[rb].getShelfs()[sb].getPlaces()[p].getAmount();
+    A = amount<A ? amount : A;
+    amount = getWarehouses()[we].getRacks()[re].getShelfs()[se].getPlaces()[p].getAmount();
+    A = amount+A>65535 ? 65535-amount : A;
+
+    POP_W(wb,rb,sb,p,A);
+    PUT_W(we,re,se,p,A);
 }
+
 
 void Depot::MOV_H(int w, int r, int s, int p, int A)
 {
