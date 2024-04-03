@@ -249,7 +249,9 @@ void Depot::GET_SH(int w)
 
 void Depot::GET_SR(int s)
 {
-    // Implementacja
+    if (!handyRack_.validIndex(s))  { error(); return; }
+
+    cout <<  handyRack_.getShelfs()[s].getPlacesAmount() << endl;
 }
 
 void Depot::GET_S()
