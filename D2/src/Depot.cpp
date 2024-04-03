@@ -203,13 +203,22 @@ void Depot::PUT_R(int s, int p, int A)
     getHandyRack().getShelfs()[s].getPlaces()[p].setAmount(amount);
 }
 
-// PUT-R s p A - w podręcznym regale składu, na półce o numerze s, do miejsca o numerze p dodaje ilości towaru wynoszącą A.
-
 
 void Depot::PUT_S(int p, int A)
 {
-    // Implementacja
+    if (!getHandyShelf().validIndex(p))
+    {
+        error();
+        return;
+    }
+    size_t amount = getHandyShelf().getPlaces()[p].getAmount();
+
+    amount = amount+A>65535 ? 65535 : A+amount;
+    getHandyShelf().getPlaces()[p].setAmount(amount);
 }
+
+// PUT-S p A - w podręcznej półce składu, do miejsca o numerze p dodaje ilości towaru wynoszącą A.
+
 
 
 

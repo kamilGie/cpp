@@ -288,6 +288,24 @@ TEST(PutCommands,PUT_R){
     EXPECT_EQ(GetCapturedStdout(),"10\n" "60\n" "65535\n" "error\n");
 }
 
+TEST(PutCommands,PUT_S){
+    //for
+    Depot cut(2,2,2,2,0);
 
-// PUT-R s p A - w podręcznym regale składu, na półce o numerze s, do miejsca o numerze p dodaje ilości towaru wynoszącą A.
-// PUT-S p A - w podręcznej półce składu, do miejsca o numerze p dodaje ilości towaru wynoszącą A.
+    //when
+    CaptureStdout();
+
+    cut.PUT_S(1,10);
+    cut.GET_S(); 
+
+    cut.PUT_S(1,0);
+    cut.GET_S(); 
+
+    cut.PUT_S(1,99999);
+    cut.GET_S(); 
+
+    cut.PUT_S(2,10);
+
+    //then
+    EXPECT_EQ(GetCapturedStdout(),"10\n" "10\n" "65535\n" "error\n");
+}
