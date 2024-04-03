@@ -118,7 +118,7 @@ void Depot::FILL(int W, int R, int S, int P, int A)
 {
     warehouses_ = vector<Warehouse>(W, Warehouse(R, S, P, A));
     handyRack_ = Rack(S, P, A);
-    handyShelf_ = Shelf(S, P);
+    handyShelf_ = Shelf(P,A);
 }
 
 void Depot::SET_AP(int wb, int rb, int sb, int Pe)

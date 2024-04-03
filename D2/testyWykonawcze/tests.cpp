@@ -3,6 +3,21 @@
 
 using namespace testing::internal;
 
+TEST(FILLCommands,FILL){
+    //for
+    Depot cut(5,5,5,5,20);
+
+    //when
+    CaptureStdout();
+    cut.FILL(2,2,2,2,10);
+    cut.GET_E();
+
+    //then
+    EXPECT_EQ(GetCapturedStdout(),"260\n");
+}
+
+
+
 TEST(GetCommands,GET_E){
     //for
     Depot cut(2,2,2,2,10);
