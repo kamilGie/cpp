@@ -316,8 +316,22 @@ void Depot::MOV_H(int w, int r, int s, int p, int A)
 
 void Depot::MOV_R(int w, int r, int sb, int se, int p, int A)
 {
-    // Implementacja
+    if (!(validIndex(w) && getWarehouses()[w].validIndex(r) && getWarehouses()[w].getRacks()[r].validIndex(sb) && getHandyRack().validIndex(se) && getHandyRack().getShelfs()[se].validIndex(p)))
+    {
+        error();
+        return;
+    }
+
+    long amount = getWarehouses()[w].getRacks()[r].getShelfs()[sb].getPlaces()[p].getAmount();
+    A = amount<A ? amount : A;
+    amount = getHandyRack().getShelfs()[se].getPlaces()[p].getAmount();
+    A = amount+A>65535 ? 65535-amount : A;
+
+    POP_W(w,r,sb,p,A);
+    PUT_R(se,p,A);
 }
+// MOV-R w r sb se p A - z magazynu o numerze w, z regału o numerze r, z półki o numerze sb, do podręcznego regału składu na półkę o numerze se między miejscami o numerach p przenoszona jest ilość towaru wynoszącą A.
+
 
 void Depot::MOV_S(int s, int p, int A)
 {
