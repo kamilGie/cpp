@@ -53,6 +53,19 @@ size_t Warehouse::getPlacesAmount() const
     {
         res += rack.getPlacesAmount();
     }
+    res += getHandyShelf_().getPlacesAmount();
+    return res;
+}
+
+size_t Depot::getPlacesAmount() const
+{
+    size_t res = 0;
+    for (auto &warehouse : warehouses_)
+    {
+        res += warehouse.getPlacesAmount();
+    }
+    res += getHandyRack_().getPlacesAmount();
+    res += getHandyShelf_().getPlacesAmount();
     return res;
 }
 
@@ -195,37 +208,36 @@ void Depot::MOV_S(int s, int p, int A)
 }
 
 // Operacje wyświetlania informacji
-void Depot::GET_E()
-{
-    // Implementacja
-}
+
+void Depot::GET_E()  { cout << getPlacesAmount << endl; }
+
+
+void Depot::GET_RH() { cout << getHandyRack_().getPlacesAmount() << endl; }
+
 
 void Depot::GET_W(int w)
 {
     if (!validIndex(w))  { error(); return; }
 
-    size_t PlaceAmount = getWarehouses()[w].getPlacesAmount();
-    PlaceAmount += getWarehouses()[w].getHandyShelf_().getPlacesAmount();
-    cout << PlaceAmount << endl;
+    cout << getWarehouses()[w].getPlacesAmount() << endl;
 }
+
 
 void Depot::GET_RW(int w, int r)
 {
     if (!(validIndex(w) && getWarehouses()[w].validIndex(r)))  { error(); return; }
 
-    size_t PlaceAmount = getWarehouses()[w].getRacks()[r].getPlacesAmount();
-    cout << PlaceAmount << endl;
+    cout << getWarehouses()[w].getRacks()[r].getPlacesAmount() << endl;
 }
+
 
 void Depot::GET_SW(int w, int r, int s)
 {
     if (!(validIndex(w) && getWarehouses()[w].validIndex(r) && getWarehouses()[w].getRacks()[r].validIndex(s)))  { error(); return; }
 
-    size_t PlaceAmount = getWarehouses()[w].getRacks()[r].getShelfs()[s].getPlacesAmount();
-    cout << PlaceAmount << endl;
+    cout <<  getWarehouses()[w].getRacks()[r].getShelfs()[s].getPlacesAmount() << endl;
 }
 
-void Depot::GET_RH() { cout << getHandyRack_().getPlacesAmount() << endl; }
 
 void Depot::GET_SH(int w)
 {
