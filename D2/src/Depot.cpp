@@ -47,6 +47,15 @@
         return res;
     }
 
+        size_t Warehouse::getPlacesAmount() const
+    {
+        size_t res=0;
+        for(auto &rack : racks_){
+            res+=rack.getPlacesAmount();
+        }
+        return res;
+    }
+
 
 // constructors 
 
@@ -78,6 +87,10 @@
     bool Warehouse::validIndex(const int &indeks) { return indeks >= 0 && indeks < racks_.size(); }
 
     bool Depot::validIndex(const int &indeks) { return indeks >= 0 && indeks < warehouses_.size(); }
+
+//other 
+
+    void error(){ cout<<"error"<<endl; }
 
 
 // methods 
@@ -177,21 +190,21 @@
     }
 
     void Depot::GET_RW(int w, int r) {
-        // Implementacja
+
+        if (!(validIndex(w) && getWarehouses()[w].validIndex(r)))  {  error(); return; }
+
+        size_t PlaceAmount = getWarehouses()[w].getRacks()[r].getPlacesAmount();
+        cout<< PlaceAmount <<endl;
     }
 
     void Depot::GET_RH() {  cout<< getHandyRack_().getPlacesAmount()<<endl; }
 
-
     void Depot::GET_SW(int w, int r, int s) {
 
-        if (!(validIndex(w) && getWarehouses()[w].validIndex(r) && getWarehouses()[w].getRacks()[r].validIndex(s))) 
-        {     
-            cout<<"error"<<endl; return;
-        }
+        if (!(validIndex(w) && getWarehouses()[w].validIndex(r) && getWarehouses()[w].getRacks()[r].validIndex(s)))   {  error(); return; }
+
         size_t PlaceAmount = getWarehouses()[w].getRacks()[r].getShelfs()[s].getPlacesAmount();
         cout<< PlaceAmount <<endl;
-
     }
 
     void Depot::GET_SH(int w) {

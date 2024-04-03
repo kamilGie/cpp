@@ -74,6 +74,8 @@ public:
 
     vector<Rack> getRacks() const ;
     Shelf getHandyShelf_() const;
+    size_t getPlacesAmount() const;
+
 
     bool validIndex(const int &indeks);
 };
