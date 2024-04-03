@@ -416,6 +416,26 @@ TEST(MovCommands,MOV_W){
     EXPECT_EQ(GetCapturedStdout(),"110\n" "0\n" "0\n" "error\n");
 }
 
-// MOV-H w r s p A - w magazynie o numerze w, z regału o numerze r, z półki o numerze s, do własnej magazynowej półki podręcznej między miejscami o numerach p przenoszona jest ilość towaru wynoszącą A.
+TEST(MovCommands,MOV_H){
+    //for
+    Depot cut(2,2,2,1,100);
+
+    //when
+    CaptureStdout();
+
+    cut.MOV_H(0,0,0,0,10);
+    cut.GET_SW(0,0,0); 
+
+    cut.MOV_H(0,0,0, 0,200);
+    cut.GET_SW(0,0,0); 
+
+    cut.MOV_H(0,0,0,9,10);
+
+    //then
+    EXPECT_EQ(GetCapturedStdout(),"90\n" "0\n" "error\n");
+}
+
+
+
 // MOV-R w r sb se p A - z magazynu o numerze w, z regału o numerze r, z półki o numerze sb, do podręcznego regału składu na półkę o numerze se między miejscami o numerach p przenoszona jest ilość towaru wynoszącą A.
 // MOV-S s p A - z podręcznego regału składu z półki o numerze s, do podręcznej półki składu między miejscami o numerach p przenoszona jest ilość towaru wynoszącą A.
