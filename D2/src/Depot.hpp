@@ -3,6 +3,9 @@
 #include <vector>
 using namespace std;
 
+
+
+
 class Place
 {
 private:
@@ -23,6 +26,7 @@ public:
 
 
 
+
 class Shelf
 {
 private:
@@ -30,8 +34,12 @@ private:
 
 public:
     Shelf(int placeCount, int amount, int label=0);
+
     vector<Place> getPlaces() const ;
+
+    bool validIndex(const int &indeks);
 };
+
 
 
 
@@ -43,9 +51,12 @@ private:
 
 public:
     Rack(int ShelfCount, int placeCount, int amount, int label=0);
+
     vector<Shelf> getShelfs() const ;
 
+    bool validIndex(const int &indeks);
 };
+
 
 
 
@@ -58,9 +69,13 @@ private:
 
 public:
     Warehouse(int RackCount, int ShelfCount, int placeCount, int amount, int label=0);
+
     vector<Rack> getRacks() const ;
     Shelf getHandyShelf_() const;
+
+    bool validIndex(const int &indeks);
 };
+
 
 
 
@@ -79,9 +94,11 @@ public:
     Rack  getHandyRack_() const ;
     Shelf getHandyShelf_() const;
 
+    bool validIndex(const int &indeks);
 
-    void FILL(int w, int r, int s, int p, int a);
+
     // Operacje ustawiania parametrów
+    void FILL(int w, int r, int s, int p, int a);
     void SET_AP(int wb, int rb, int sb, int Pe);
     void SET_AS(int wb, int rb, int Se, int Pe);
     void SET_AR(int wb, int Re, int Se, int Pe);
@@ -113,7 +130,7 @@ public:
     void GET_W(int w);
     void GET_RW(int w, int r);
     void GET_RH();
-    size_t GET_SW(int w, int r, int s);
+    void GET_SW(int w, int r, int s);
     void GET_SH(int w);
     void GET_SR(int s);
     void GET_S();

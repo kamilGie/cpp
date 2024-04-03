@@ -2,13 +2,16 @@
 #include <iostream>
 
 //Operators 
+
     Place::operator int() const { return amount_; }
 
 //set
+
     void Place::setLabel(const int NewLabel)  { label_ = NewLabel; }  
     void Place::setAmount(const int NewAmount)  { amount_ = NewAmount; }
 
 // get
+
     int Place::getAmount() const  { return amount_; }
     string Place::getLabel() const  { return label_ == 0 ? "--" : to_string(label_); }
 
@@ -24,9 +27,8 @@
     Rack Depot::getHandyRack_() const {return handyRack_;}
     Shelf Depot::getHandyShelf_() const  {return handyShelf_;}
 
-
-
 // constructors 
+
     Place::Place(int amount, int label)
         : amount_(amount), label_(label) {}
 
@@ -46,7 +48,19 @@
         , handyShelf_(placeCount,amount,label) {}
 
 
+//validIndex
+
+    bool Shelf::validIndex(const int &indeks) { return indeks >= 0 && indeks < places_.size(); }
+
+    bool Rack::validIndex(const int &indeks) { return indeks >= 0 && indeks < shelfs_.size(); }
+
+    bool Warehouse::validIndex(const int &indeks) { return indeks >= 0 && indeks < racks_.size(); }
+
+    bool Depot::validIndex(const int &indeks) { return indeks >= 0 && indeks < warehouses_.size(); }
+
+
 // methods 
+
     void Depot::FILL(int W, int R, int S, int P, int A){
         warehouses_ = vector<Warehouse>(W, Warehouse(R,S,P,A));
         handyRack_ = Rack(S,P,A);
@@ -149,16 +163,25 @@
         // Implementacja
     }
 
-    size_t Depot::GET_SW(int w, int r, int s) {
 
-        vector <Place> shelfPlaces =getWarehouses()[w].getRacks()[r].getShelfs()[s].getPlaces();
+    void Depot::GET_SW(int w, int r, int s) {
+
+        if (!(validIndex(w) && getWarehouses()[w].validIndex(r) && getWarehouses()[w].getRacks()[r].validIndex(s))) {
+
+            cout<<"error"<<endl;
+            return;
+        }
+
+
+        vector <Place> shelfPlaces=getWarehouses()[w].getRacks()[r].getShelfs()[s].getPlaces();
+
         size_t SumAmount=0;
         for(auto &place : shelfPlaces)
         {
             SumAmount+=place;
         }
 
-        return SumAmount;
+        cout<<SumAmount<<endl;
     }
 
     void Depot::GET_SH(int w) {
