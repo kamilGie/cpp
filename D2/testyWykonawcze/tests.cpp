@@ -235,6 +235,7 @@ TEST(PutCommands,PUT_W){
     cut.PUT_W(1,1,1,1,50);
     cut.GET_SW(1,1,1); 
 
+
     cut.PUT_W(1,1,1,1,99999);
     cut.GET_SW(1,1,1); 
 
@@ -308,4 +309,82 @@ TEST(PutCommands,PUT_S){
 
     //then
     EXPECT_EQ(GetCapturedStdout(),"10\n" "10\n" "65535\n" "error\n");
+}
+
+//Pop commands
+
+TEST(PopCommands,POP_W){
+    //for
+    Depot cut(2,2,2,2,100);
+
+    //when
+    CaptureStdout();
+
+    cut.POP_W(1,1,1,1,10);
+    cut.GET_SW(1,1,1); 
+
+    cut.POP_W(1,1,1,1,99999);
+    cut.GET_SW(1,1,1); 
+
+    cut.POP_W(1,1,1,2,10);
+
+    //then
+    EXPECT_EQ(GetCapturedStdout(),"190\n" "100\n" "error\n");
+}
+
+TEST(PopCommands,POP_H){
+    //for
+    Depot cut(2,2,2,2,100);
+
+    //when
+    CaptureStdout();
+
+    cut.POP_H(1,1,10);
+    cut.GET_SH(1); 
+
+    cut.POP_H(1,1,99999);
+    cut.GET_SH(1); 
+
+    cut.POP_H(2,1,10);
+
+    //then
+    EXPECT_EQ(GetCapturedStdout(),"190\n" "100\n" "error\n");
+}
+
+TEST(PopCommands,POP_R){
+    //for
+    Depot cut(2,2,2,2,100);
+
+    //when
+    CaptureStdout();
+
+    cut.POP_R(1,1,10);
+    cut.GET_SR(1); 
+
+    cut.POP_R(1,1,99999);
+    cut.GET_SR(1); 
+
+    cut.POP_R(2,1,10);
+
+    //then
+    EXPECT_EQ(GetCapturedStdout(),"190\n" "100\n" "error\n");
+}
+
+TEST(PopCommands,POP_S){
+    //for
+    Depot cut(2,2,2,2,100);
+
+    //when
+    CaptureStdout();
+
+    cut.POP_S(1,10);
+    cut.GET_S(); 
+
+    cut.POP_S(1,99999);
+    cut.GET_S(); 
+
+    cut.POP_S(2,10);
+
+    //then
+    EXPECT_EQ(GetCapturedStdout(),"190\n" "100\n" "error\n");
 }

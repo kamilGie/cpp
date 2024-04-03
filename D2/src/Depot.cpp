@@ -217,31 +217,60 @@ void Depot::PUT_S(int p, int A)
     getHandyShelf().getPlaces()[p].setAmount(amount);
 }
 
-// PUT-S p A - w podręcznej półce składu, do miejsca o numerze p dodaje ilości towaru wynoszącą A.
-
-
 
 
 // Operacje odejmowania towarów
 
 void Depot::POP_W(int w, int r, int s, int p, int A)
 {
-    // Implementacja
+    if (!(validIndex(w) && getWarehouses()[w].validIndex(r) && getWarehouses()[w].getRacks()[r].validIndex(s) && getWarehouses()[w].getRacks()[r].getShelfs()[s].validIndex(p)))
+    {
+        error();
+        return;
+    }
+    long amount = getWarehouses()[w].getRacks()[r].getShelfs()[s].getPlaces()[p].getAmount();
+
+    amount = amount-A<0 ? 0 : amount-A;
+    getWarehouses()[w].getRacks()[r].getShelfs()[s].getPlaces()[p].setAmount(amount);
 }
 
 void Depot::POP_H(int w, int p, int A)
 {
-    // Implementacja
+    if (!(validIndex(w) && getWarehouses()[w].getHandyShelf().validIndex(p) ))
+    {
+        error();
+        return;
+    }
+    long amount = getWarehouses()[w].getHandyShelf().getPlaces()[p].getAmount();
+
+    amount = amount-A<0 ? 0 : amount-A;
+    getWarehouses()[w].getHandyShelf().getPlaces()[p].setAmount(amount);
 }
 
 void Depot::POP_R(int s, int p, int A)
 {
-    // Implementacja
+    if (!( getHandyRack().validIndex(s)&& getHandyRack().getShelfs()[s].validIndex(p)))
+    {
+        error();
+        return;
+    }
+    long amount = getHandyRack().getShelfs()[s].getPlaces()[p].getAmount();
+
+    amount = amount-A<0 ? 0 : amount-A;
+    getHandyRack().getShelfs()[s].getPlaces()[p].setAmount(amount);
 }
 
 void Depot::POP_S(int p, int A)
 {
-    // Implementacja
+    if (!getHandyShelf().validIndex(p))
+    {
+        error();
+        return;
+    }
+    long amount = getHandyShelf().getPlaces()[p].getAmount();
+
+    amount = amount-A<0 ? 0 : amount-A;
+    getHandyShelf().getPlaces()[p].setAmount(amount);
 }
 
 
