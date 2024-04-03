@@ -454,5 +454,4 @@ TEST(MovCommands,MOV_R){
     EXPECT_EQ(GetCapturedStdout(),"90\n" "0\n" "error\n");
 }
 
-// MOV-R w r sb se p A - z magazynu o numerze w, z regału o numerze r, z półki o numerze sb, do podręcznego regału składu na półkę o numerze se między miejscami o numerach p przenoszona jest ilość towaru wynoszącą A.
 // MOV-S s p A - z podręcznego regału składu z półki o numerze s, do podręcznej półki składu między miejscami o numerach p przenoszona jest ilość towaru wynoszącą A.
