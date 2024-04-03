@@ -98,7 +98,6 @@ TEST(GetCommands,GET_SH){
     //for
     Depot cut(2,2,2,2,10);
 
-
     //when
     CaptureStdout();
     cut.GET_SH(1);
@@ -114,7 +113,6 @@ TEST(GetCommands,GET_SH){
 TEST(GetCommands,GET_SR){
     //for
     Depot cut(2,2,2,2,10);
-
 
     //when
     CaptureStdout();
@@ -139,3 +137,30 @@ TEST(GetCommands,GET_S){
     //then
     EXPECT_EQ(GetCapturedStdout(),"20\n" );
 }
+
+TEST(LabelCommands,SETandGET_LW){
+    //for
+    Depot cut(2,2,2,2,10);
+
+    //when
+    CaptureStdout();
+    cut.GET_LW(0,0,0,0);
+
+    cut.SET_LW(0,0,0,0,12);
+    cut.GET_LW(0,0,0,0); 
+
+    cut.SET_LW(1,1,1,1,9);
+
+    cut.SET_LW(1,1,1,1,100);
+
+    //then
+    EXPECT_EQ(GetCapturedStdout(),"--\n" "12\n" "error\n" "error\n");
+}
+
+
+// SET-LH w p dd - w magazynie w, w podręcznej półce, miejscu o numerze p nadaje etykietę wynoszącą dd.
+// SET-LR s p dd - w podręcznym regale składu, na półce o numerze s, miejscu o numerze p nadaje etykietę dd.
+// SET-LS p dd - w podręcznej półce składu, miejscu o numerze p nadaje etykietę dd.
+// GET-LH w p - wyświetla etykietę miejsca o numerze p w magazynie o numerze w, w podręcznej półce.
+// GET-LR s p - wyświetla etykietę miejsca o numerze p w podręcznym regale składu, na półce o numerze s.
+// GET-LS p - wyświetla etykietę miejsce w podręcznej półce składu, o numerze p.

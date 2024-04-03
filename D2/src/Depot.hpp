@@ -35,8 +35,8 @@ private:
 public:
     Shelf(int placeCount, int amount, int label=0);
 
-    vector<Place> getPlaces() const ;
-    size_t getPlacesAmount() const;
+    vector<Place>&getPlaces() ;
+    size_t  getPlacesAmount() ;
 
     bool validIndex(const int &indeks);
 };
@@ -53,8 +53,8 @@ private:
 public:
     Rack(int ShelfCount, int placeCount, int amount, int label=0);
 
-    vector<Shelf> getShelfs() const ;
-    size_t getPlacesAmount() const;
+    vector<Shelf>& getShelfs() ;
+    size_t   getPlacesAmount() ;
 
     bool validIndex(const int &indeks);
 };
@@ -72,10 +72,9 @@ private:
 public:
     Warehouse(int RackCount, int ShelfCount, int placeCount, int amount, int label=0);
 
-    vector<Rack> getRacks() const ;
-    Shelf getHandyShelf_() const;
-    size_t getPlacesAmount() const;
-
+    vector<Rack> & getRacks() ;
+    Shelf&  getHandyShelf();
+    size_t getPlacesAmount() ;
 
     bool validIndex(const int &indeks);
 };
@@ -94,10 +93,10 @@ private:
 public:
     Depot(int warehouseCount=0, int RackCount=0, int ShelfCount=0, int placeCount=0, int amount=0, int label = 0);
 
-    vector<Warehouse> getWarehouses() const ;
-    Rack  getHandyRack_() const ;
-    Shelf getHandyShelf_() const;
-    size_t getPlacesAmount() const;
+    vector<Warehouse>&  getWarehouses() ;
+    Rack&  getHandyRack() ;
+    Shelf&  getHandyShelf();
+    size_t getPlacesAmount();
 
     bool validIndex(const int &indeks);
 
