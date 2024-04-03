@@ -256,7 +256,7 @@ void Depot::GET_SR(int s)
 
 void Depot::GET_S()
 {
-    // Implementacja
+    cout<<  handyShelf_.getPlacesAmount()<<endl;
 }
 
 // Operacje etykietowe
