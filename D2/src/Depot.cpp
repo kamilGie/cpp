@@ -320,7 +320,12 @@ void Depot::SET_LR(int s, int p, int dd)
 
 void Depot::SET_LS(int p, int dd)
 {
-    // Implementacja
+    if (!(validLabel(dd) && getHandyShelf().validIndex(p)))
+    {
+        error();
+        return;
+    }
+   getHandyShelf().getPlaces()[p].setLabel(dd);
 }
 
 void Depot::GET_LW(int w, int r, int s, int p)
@@ -356,5 +361,10 @@ void Depot::GET_LR(int s, int p)
 
 void Depot::GET_LS(int p)
 {
-    // Implementacja
+    if (!getHandyShelf().validIndex(p))
+    {
+        error();
+        return;
+    }
+    cout<<getHandyShelf().getPlaces()[p].getLabel()<<endl;
 }

@@ -195,5 +195,24 @@ TEST(LabelCommands,SETandGET_LR){
     EXPECT_EQ(GetCapturedStdout(),"--\n" "12\n" "error\n" "error\n");
 }
 
+TEST(LabelCommands,SETandGET_LS){
+    //for
+    Depot cut(2,2,2,2,10);
+
+    //when
+    CaptureStdout();
+    cut.GET_LS(0);
+
+    cut.SET_LS(0,12);
+    cut.GET_LS(0); 
+
+    cut.SET_LS(1,9);
+
+    cut.SET_LS(1,10);
+
+    //then
+    EXPECT_EQ(GetCapturedStdout(),"--\n" "12\n" "error\n" "error\n");
+}
+
 // GET-LS p - wyświetla etykietę miejsce w podręcznej półce składu, o numerze p.
 // SET-LS p dd - w podręcznej półce składu, miejscu o numerze p nadaje etykietę dd.
