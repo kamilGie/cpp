@@ -106,6 +106,9 @@ bool Depot::validIndex(const int &indeks) { return indeks >= 0 && indeks < wareh
 
 bool validLabel(int Label) { return ((Label == 0) || (Label > 9 && Label < 100)); }
 
+bool validSet(int set) { return (set>0&&set<129);}
+
+bool validAmount(int amount) { return ( amount>=0 && amount<65536); }
 
 
 // other
@@ -118,6 +121,11 @@ void error() { cout << "error" << endl; }
 
 void Depot::FILL(int W, int R, int S, int P, int A)
 {
+    if(!(validSet(W) && validSet(R) && validSet(S) && validSet(P) && validAmount(A)))
+    {
+        error();
+        return;
+    }
     warehouses_ = vector<Warehouse>(W, Warehouse(R, S, P, A));
     handyRack_ = Rack(S, P, A);
     handyShelf_ = Shelf(P, A);
@@ -348,8 +356,6 @@ void Depot::MOV_S(int s, int p, int A)
     POP_R(s,p,A);
     PUT_S(p,A);
 }
-
-// MOV-S s p A - z podręcznego regału składu z półki o numerze s, do podręcznej półki składu między miejscami o numerach p przenoszona jest ilość towaru wynoszącą A.
 
 
 // Operacje wyświetlania informacji

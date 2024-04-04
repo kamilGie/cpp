@@ -16,6 +16,25 @@ TEST(FILLCommands,FILL){
     EXPECT_EQ(GetCapturedStdout(),"260\n");
 }
 
+TEST(FILLCommands,FILL_error){
+    //for
+    Depot cut;
+
+    //when
+    CaptureStdout();
+
+    cut.FILL(1,1,1,130,1);
+
+    cut.FILL(1,1,1,1,65536);
+
+    cut.FILL(1,1,0,1,1);
+
+    cut.FILL(2,2,1,1,-1);
+
+    //then
+    EXPECT_EQ(GetCapturedStdout(),"error\n" "error\n" "error\n" "error\n");
+}
+
 
 
 TEST(GetCommands,GET_E){
@@ -437,7 +456,7 @@ TEST(MovCommands,MOV_H){
 
 TEST(MovCommands,MOV_R){
     //for
-    Depot cut(2,2,2,1,100);
+    Depot cut(2,2,2,1,65530);
 
     //when
     CaptureStdout();
@@ -445,13 +464,12 @@ TEST(MovCommands,MOV_R){
     cut.MOV_R(0,0,0,0,0,10);
     cut.GET_SW(0,0,0); 
 
-    cut.MOV_R(0,0,0, 0,0,200);
+    cut.MOV_R(0,0,0, 0,0,65535);
     cut.GET_SW(0,0,0); 
 
     cut.MOV_R(0,0,0,9,0,10);
 
     //then
-    EXPECT_EQ(GetCapturedStdout(),"90\n" "0\n" "error\n");
+    EXPECT_EQ(GetCapturedStdout(),"65525\n" "65525\n" "error\n");
 }
 
-// MOV-S s p A - z podręcznego regału składu z półki o numerze s, do podręcznej półki składu między miejscami o numerach p przenoszona jest ilość towaru wynoszącą A.
