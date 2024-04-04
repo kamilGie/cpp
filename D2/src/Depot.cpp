@@ -194,19 +194,49 @@ void Depot::SET_AW(int We, int Re, int Se, int Pe)
 
 void Depot::SET_HW(int w, int P)
 {
-    // Implementacja
+    if (!(validIndex(w) && validAmount(P)))
+    {
+        error();
+        return;
+    }
+
+    getWarehouses()[w].getHandyShelf().getPlaces().resize(P, Place(0));
 }
+
 
 void Depot::SET_HR(int S, int P)
 {
-    // Implementacja
+    if (!validAmount(P))
+    {
+        error();
+        return;
+    }
+
+    for (int i=0; i <  getHandyRack().getShelfs().size() && i<S ; i++)
+    {
+        getHandyRack().getShelfs()[i].getPlaces().resize(S, Place(0));
+    }
+
+    getHandyRack().getShelfs().resize(S, Shelf(P,0));
 }
+
 
 void Depot::SET_HS(int P)
 {
-    // Implementacja
+    if (!validAmount(P))
+    {
+        error();
+        return;
+    }
+
+     getHandyShelf().getPlaces().resize(P,Place(0));
 }
 
+
+// SET-HS P - dla podręcznej półki składu ustanawia ilość miejsc na wartość P. Ponadto:
+// Nowo powstałe miejsca przyjmują zerowe ilości towarów i puste etykiety.
+// Miejsca niemieszczące się w zakresie wartości P znikają.
+// Miejsca o pozostawionych numerach zachowują swoje ilości oraz etykiety.
 
 
 // Operacje dodawania towarów

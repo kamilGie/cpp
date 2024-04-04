@@ -556,7 +556,7 @@ TEST(SetCommands,SET_AS_Error){
     //when
     CaptureStdout();
     cut.SET_AS(0,2,0,1);
-    
+
     cut.SET_AS(0,0,0,0);
     cut.GET_SW(0,0,0);
 
@@ -564,6 +564,84 @@ TEST(SetCommands,SET_AS_Error){
     //then
     EXPECT_EQ(GetCapturedStdout(),"error\n" "error\n");
 }
+
+
+TEST(SetCommands,SET_AR){
+    //for
+    Depot cut(2,2,2,2,10);
+
+    //when
+    CaptureStdout();
+    cut.SET_AR(0,5,5,10);
+    cut.GET_LW(0,4,0,0);
+    cut.GET_SW(0,4,0);
+
+    //then
+    EXPECT_EQ(GetCapturedStdout(),"--\n" "0\n");
+}
+
+TEST(SetCommands,SET_AW){
+    //for
+    Depot cut(2,2,2,2,10);
+
+    //when
+    CaptureStdout();
+    cut.SET_AW(5,1,1,1);
+    cut.GET_LW(4,0,0,0);
+    cut.GET_SW(4,0,0);
+
+    //then
+    EXPECT_EQ(GetCapturedStdout(),"--\n" "0\n");
+}
+
+TEST(SetCommands,SET_HW){
+    //for
+    Depot cut(2,2,2,2,10);
+
+    //when
+    CaptureStdout();
+    cut.SET_HW(1,5);
+    cut.GET_LH(1,4);
+    cut.GET_SH(1);
+
+
+    //then
+    EXPECT_EQ(GetCapturedStdout(),"--\n" "20\n");
+}
+
+TEST(SetCommands,SET_HR){
+    //for
+    Depot cut(2,2,2,2,10);
+
+    //when
+    CaptureStdout();
+    cut.SET_HR(5,5);
+    cut.GET_LR(4,4);
+    cut.GET_SR(4);
+
+
+    //then
+    EXPECT_EQ(GetCapturedStdout(),"--\n" "0\n");
+}
+
+
+TEST(SetCommands,SET_HS){
+    //for
+    Depot cut(2,2,2,2,10);
+
+    //when
+    CaptureStdout();
+    cut.SET_HS(5);
+    cut.GET_LS(4);
+    cut.GET_S();
+
+
+    //then
+    EXPECT_EQ(GetCapturedStdout(),"--\n" "20\n");
+}
+
+
+
 
 
 

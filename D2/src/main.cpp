@@ -5,13 +5,13 @@
 using namespace std;
 using FunctionMap = map<string,function<void()>>;
 
-FunctionMap INIT_MethodExecutorMap(Depot &D);
+FunctionMap  INIT_MethodExecutorMap(Depot &D);
     
 
 int main(){
     
     Depot D;
-    FunctionMap methodExecutor=INIT_MethodExecutorMap(D);
+    FunctionMap  methodExecutor=INIT_MethodExecutorMap(D);
 
     string command;
     do
