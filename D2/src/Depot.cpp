@@ -131,6 +131,7 @@ void Depot::FILL(int W, int R, int S, int P, int A)
     handyShelf_ = Shelf(P, A);
 }
 
+
 void Depot::SET_AP(int wb, int rb, int sb, int Pe)
 {
     if (!(validIndex(wb) && getWarehouses()[wb].validIndex(rb) && getWarehouses()[wb].getRacks()[rb].validIndex(sb) && validAmount(Pe)))
@@ -158,19 +159,37 @@ void Depot::SET_AS(int wb, int rb, int Se, int Pe)
     getWarehouses()[wb].getRacks()[rb].getShelfs().resize(Se, Shelf(Pe,0));
 }
 
-// SET-AS wb rb Se Pe - w magazynie o numerze wb, w regale o numerze rb ustanawia ilość półek wynosząca Se. Ponadto:
-// Nowo powstałe półki przyjmują ilość miejsc wynoszącą Pe, z każdym miejscem posiadającym zerową ilość towaru i pustą etykietę.
-// Dotychczasowe półki niemieszczące się w zakresie wartości Se znikają.
-// Dotychczasowe półki o pozostawionych numerach 0 <= S < Se ustalają swoje parametry z uwzględnieniem parametru Pe jak dla operacji SET-AP wywołanej z parametrami wb rb S Pe.
-
 void Depot::SET_AR(int wb, int Re, int Se, int Pe)
 {
-    // Implementacja
+    if (!(validIndex(wb) && validAmount(Pe)))
+    {
+        error();
+        return;
+    }
+
+    for (int i=0; i < getWarehouses()[wb].getRacks().size() && i<Re ; i++)
+    {
+        SET_AS(wb,i,Se,Pe);
+    }
+
+    getWarehouses()[wb].getRacks().resize(Re, Rack(Se,Pe,0));
 }
+
 
 void Depot::SET_AW(int We, int Re, int Se, int Pe)
 {
-    // Implementacja
+    if (!validAmount(Pe))
+    {
+        error();
+        return;
+    }
+
+    for (int i=0; i < getWarehouses().size() && i<We ; i++)
+    {
+        SET_AS(i,Re,Se,Pe);
+    }
+
+    getWarehouses().resize(We, Warehouse(Re,Se,Pe,0));
 }
 
 void Depot::SET_HW(int w, int P)
