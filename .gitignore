@@ -15,7 +15,6 @@
 !*.hpp
 
 # Ignorowanie zadan trudnych wymagajacych uzycia  cmake 
-!src
 !cmakelists.txt
 !testyWykonawcze
 !ladnyy
