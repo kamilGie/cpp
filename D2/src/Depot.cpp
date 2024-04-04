@@ -1,19 +1,6 @@
 #include "Depot.hpp"
 #include <iostream>
 
-// Operators
-
-Place::operator int() const { return amount_; }
-
-
-
-// set
-
-void Place::setLabel(const int NewLabel) { label_ = NewLabel; }
-void Place::setAmount(const int NewAmount) { amount_ = NewAmount; }
-
-
-
 // get
 
 int Place::getAmount() const { return amount_; }
@@ -75,6 +62,14 @@ size_t Depot::getPlacesAmount()
 
 
 
+// set
+
+void Place::setLabel(const int NewLabel) { label_ = NewLabel; }
+
+void Place::setAmount(const int NewAmount) { amount_ = NewAmount; }
+
+
+
 // constructors
 
 Place::Place(int amount, int label)
@@ -111,13 +106,16 @@ bool validSet(int set) { return (set>0&&set<129);}
 bool validAmount(int amount) { return ( amount>=0 && amount<65536); }
 
 
+
 // other
 
 void error() { cout << "error" << endl; }
 
+Place::operator int() const { return amount_; }
 
 
-// methods
+
+//SET methods
 
 void Depot::FILL(int W, int R, int S, int P, int A)
 {
@@ -233,13 +231,7 @@ void Depot::SET_HS(int P)
 }
 
 
-// SET-HS P - dla podręcznej półki składu ustanawia ilość miejsc na wartość P. Ponadto:
-// Nowo powstałe miejsca przyjmują zerowe ilości towarów i puste etykiety.
-// Miejsca niemieszczące się w zakresie wartości P znikają.
-// Miejsca o pozostawionych numerach zachowują swoje ilości oraz etykiety.
-
-
-// Operacje dodawania towarów
+// PUT METHODS
 
 void Depot::PUT_W(int w, int r, int s, int p, int A)
 {
@@ -297,8 +289,7 @@ void Depot::PUT_S(int p, int A)
 }
 
 
-
-// Operacje odejmowania towarów
+// POP methods
 
 void Depot::POP_W(int w, int r, int s, int p, int A)
 {
@@ -353,8 +344,7 @@ void Depot::POP_S(int p, int A)
 }
 
 
-
-// Operacje przenoszenia towarów
+// MOV methods
 
 void Depot::MOV_W(int wb, int rb, int sb, int we, int re, int se, int p, int A)
 {
@@ -373,7 +363,6 @@ void Depot::MOV_W(int wb, int rb, int sb, int we, int re, int se, int p, int A)
     POP_W(wb,rb,sb,p,A);
     PUT_W(we,re,se,p,A);
 }
-
 
 void Depot::MOV_H(int w, int r, int s, int p, int A)
 {
@@ -410,10 +399,9 @@ void Depot::MOV_R(int w, int r, int sb, int se, int p, int A)
     PUT_R(se,p,A);
 }
 
-
 void Depot::MOV_S(int s, int p, int A)
 {
-        if (!(getHandyRack().validIndex(s) && getHandyShelf().validIndex(p)))
+    if (!(getHandyRack().validIndex(s) && getHandyShelf().validIndex(p)))
     {
         error();
         return;
@@ -428,8 +416,7 @@ void Depot::MOV_S(int s, int p, int A)
     PUT_S(p,A);
 }
 
-
-// Operacje wyświetlania informacji
+//  GET Methods
 
 void Depot::GET_E() { cout << getPlacesAmount() << endl; }
 
@@ -493,8 +480,7 @@ void Depot::GET_SR(int s)
 }
 
 
-
-// Operacje etykietowe
+// Label Methods 
 
 void Depot::SET_LW(int w, int r, int s, int p, int dd)
 {

@@ -3,9 +3,6 @@
 #include <vector>
 using namespace std;
 
-
-
-
 class Place
 {
 private:
@@ -22,7 +19,6 @@ public:
 
     operator int() const;
 };
-
 
 
 
@@ -44,7 +40,6 @@ public:
 
 
 
-
 class Rack
 {
 private:
@@ -58,7 +53,6 @@ public:
 
     bool validIndex(const int &indeks);
 };
-
 
 
 
@@ -82,7 +76,6 @@ public:
 
 
 
-
 class Depot
 {
 private:
@@ -101,7 +94,7 @@ public:
     bool validIndex(const int &indeks);
 
 
-    // Operacje ustawiania parametrów
+    //SET methods
     void FILL(int w, int r, int s, int p, int a);
     void SET_AP(int wb, int rb, int sb, int Pe);
     void SET_AS(int wb, int rb, int Se, int Pe);
@@ -111,25 +104,25 @@ public:
     void SET_HR(int S, int P);
     void SET_HS(int P);
 
-    // Operacje dodawania towarów
+    // PUT METHODS
     void PUT_W(int w, int r, int s, int p, int A);
     void PUT_H(int w, int p, int A);
     void PUT_R(int s, int p, int A);
     void PUT_S(int p, int A);
 
-    // Operacje odejmowania towarów
+    // POP methods
     void POP_W(int w, int r, int s, int p, int A);
     void POP_H(int w, int p, int A);
     void POP_R(int s, int p, int A);
     void POP_S(int p, int A);
 
-    // Operacje przenoszenia towarów
+    // MOV methods
     void MOV_W(int wb, int rb, int sb, int we, int re, int se, int p, int A);
     void MOV_H(int w, int r, int s, int p, int A);
     void MOV_R(int w, int r, int sb, int se, int p, int A);
     void MOV_S(int s, int p, int A);
 
-    // Operacje wyświetlania informacji
+    //  GET Methods
     void GET_E();
     void GET_W(int w);
     void GET_RW(int w, int r);
@@ -139,7 +132,7 @@ public:
     void GET_SR(int s);
     void GET_S();
 
-    // Operacje etykietowe
+    // Label Methods 
     void SET_LW(int w, int r, int s, int p, int dd);
     void SET_LH(int w, int p, int dd);
     void SET_LR(int s, int p, int dd);

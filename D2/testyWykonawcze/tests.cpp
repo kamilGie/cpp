@@ -3,40 +3,8 @@
 
 using namespace testing::internal;
 
-TEST(FILLCommands,FILL){
-    //for
-    Depot cut(5,5,5,5,20);
 
-    //when
-    CaptureStdout();
-    cut.FILL(2,2,2,2,10);
-    cut.GET_E();
-
-    //then
-    EXPECT_EQ(GetCapturedStdout(),"260\n");
-}
-
-
-TEST(FILLCommands,FILL_error){
-    //for
-    Depot cut;
-
-    //when
-    CaptureStdout();
-
-    cut.FILL(1,1,1,130,1);
-
-    cut.FILL(1,1,1,1,65536);
-
-    cut.FILL(1,1,0,1,1);
-
-    cut.FILL(2,2,1,1,-1);
-
-    //then
-    EXPECT_EQ(GetCapturedStdout(),"error\n" "error\n" "error\n" "error\n");
-}
-
-
+//Get Methods
 
 TEST(GetCommands,GET_E){
     //for
@@ -159,7 +127,7 @@ TEST(GetCommands,GET_S){
 }
 
 
-//LabelCommands
+//Label Methods
 
 TEST(LabelCommands,SETandGET_LW){
     //for
@@ -240,7 +208,8 @@ TEST(LabelCommands,SETandGET_LS){
     EXPECT_EQ(GetCapturedStdout(),"--\n" "12\n" "error\n" "error\n");
 }
 
-//Put commands
+
+//Put Methods
 
 TEST(PutCommands,PUT_W){
     //for
@@ -265,6 +234,7 @@ TEST(PutCommands,PUT_W){
     EXPECT_EQ(GetCapturedStdout(),"10\n" "60\n" "65535\n" "error\n");
 }
 
+
 TEST(PutCommands,PUT_H){
     //for
     Depot cut(2,2,2,2,0);
@@ -286,6 +256,7 @@ TEST(PutCommands,PUT_H){
     //then
     EXPECT_EQ(GetCapturedStdout(),"10\n" "60\n" "65535\n" "error\n");
 }
+
 
 TEST(PutCommands,PUT_R){
     //for
@@ -309,6 +280,7 @@ TEST(PutCommands,PUT_R){
     EXPECT_EQ(GetCapturedStdout(),"10\n" "60\n" "65535\n" "error\n");
 }
 
+
 TEST(PutCommands,PUT_S){
     //for
     Depot cut(2,2,2,2,0);
@@ -331,7 +303,8 @@ TEST(PutCommands,PUT_S){
     EXPECT_EQ(GetCapturedStdout(),"10\n" "10\n" "65535\n" "error\n");
 }
 
-//Pop commands
+
+//Pop Methods
 
 TEST(PopCommands,POP_W){
     //for
@@ -352,6 +325,7 @@ TEST(PopCommands,POP_W){
     EXPECT_EQ(GetCapturedStdout(),"190\n" "100\n" "error\n");
 }
 
+
 TEST(PopCommands,POP_H){
     //for
     Depot cut(2,2,2,2,100);
@@ -371,6 +345,7 @@ TEST(PopCommands,POP_H){
     EXPECT_EQ(GetCapturedStdout(),"190\n" "100\n" "error\n");
 }
 
+
 TEST(PopCommands,POP_R){
     //for
     Depot cut(2,2,2,2,100);
@@ -389,6 +364,7 @@ TEST(PopCommands,POP_R){
     //then
     EXPECT_EQ(GetCapturedStdout(),"190\n" "100\n" "error\n");
 }
+
 
 TEST(PopCommands,POP_S){
     //for
@@ -410,8 +386,7 @@ TEST(PopCommands,POP_S){
 }
 
 
-
-//Mov Commands
+//Mov Methods
 
 TEST(MovCommands,MOV_W){
     //for
@@ -436,6 +411,7 @@ TEST(MovCommands,MOV_W){
     EXPECT_EQ(GetCapturedStdout(),"110\n" "0\n" "0\n" "error\n");
 }
 
+
 TEST(MovCommands,MOV_H){
     //for
     Depot cut(2,2,2,1,100);
@@ -454,6 +430,7 @@ TEST(MovCommands,MOV_H){
     //then
     EXPECT_EQ(GetCapturedStdout(),"90\n" "0\n" "error\n");
 }
+
 
 TEST(MovCommands,MOV_R){
     //for
@@ -475,8 +452,60 @@ TEST(MovCommands,MOV_R){
 }
 
 
+TEST(MovCommands,MOV_S){
+    //for
+    Depot cut(1,1,1,1,40000);
 
-//Set Commands
+    //when
+    CaptureStdout();
+
+    cut.MOV_S(0,0,10);
+    cut.GET_S();
+
+    cut.MOV_S(0,0,65535);
+    cut.GET_S();
+
+    cut.MOV_S(2,0,10);
+
+    //then
+    EXPECT_EQ(GetCapturedStdout(),"40010\n" "65535\n" "error\n");
+}
+
+
+//Set Methods
+
+TEST(FILLCommands,FILL){
+    //for
+    Depot cut(5,5,5,5,20);
+
+    //when
+    CaptureStdout();
+    cut.FILL(2,2,2,2,10);
+    cut.GET_E();
+
+    //then
+    EXPECT_EQ(GetCapturedStdout(),"260\n");
+}
+
+TEST(FILLCommands,FILL_error){
+    //for
+    Depot cut;
+
+    //when
+    CaptureStdout();
+
+    cut.FILL(1,1,1,130,1);
+
+    cut.FILL(1,1,1,1,65536);
+
+    cut.FILL(1,1,0,1,1);
+
+    cut.FILL(2,2,1,1,-1);
+
+    //then
+    EXPECT_EQ(GetCapturedStdout(),"error\n" "error\n" "error\n" "error\n");
+}
+
 
 TEST(SetCommands,SET_AP_AddingNew){
     //for
@@ -580,6 +609,7 @@ TEST(SetCommands,SET_AR){
     EXPECT_EQ(GetCapturedStdout(),"--\n" "0\n");
 }
 
+
 TEST(SetCommands,SET_AW){
     //for
     Depot cut(2,2,2,2,10);
@@ -593,6 +623,7 @@ TEST(SetCommands,SET_AW){
     //then
     EXPECT_EQ(GetCapturedStdout(),"--\n" "0\n");
 }
+
 
 TEST(SetCommands,SET_HW){
     //for
@@ -608,6 +639,7 @@ TEST(SetCommands,SET_HW){
     //then
     EXPECT_EQ(GetCapturedStdout(),"--\n" "20\n");
 }
+
 
 TEST(SetCommands,SET_HR){
     //for
@@ -642,7 +674,31 @@ TEST(SetCommands,SET_HS){
 
 
 
+//Other tests
 
+TEST(BACA_TESTS,onPage){
+    //for
+    Depot cut;
 
+    //when
+    CaptureStdout();
 
+    cut.FILL(2, 2, 2, 2, 10);
 
+    cut.GET_E();
+    cut.GET_W(0);
+    cut.GET_RW(0,0);
+    cut.GET_SW(0,0,0);
+
+    cut.SET_AP(1,1,1,5);
+    cut.POP_W(0,0,0,0,200);
+    cut.PUT_W(2,0,0,0,200);
+
+    cut.GET_E();
+    cut.GET_W(0);
+    cut.GET_RW(0,0);
+    cut.GET_SW(0,0,0);
+
+    //then
+    EXPECT_EQ(GetCapturedStdout(),"260\n" "100\n" "40\n" "20\n" "error\n" "250\n" "90\n" "30\n" "10\n");
+}
