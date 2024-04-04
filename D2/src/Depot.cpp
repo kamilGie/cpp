@@ -144,8 +144,24 @@ void Depot::SET_AP(int wb, int rb, int sb, int Pe)
 
 void Depot::SET_AS(int wb, int rb, int Se, int Pe)
 {
-    // Implementacja
+    if (!(validIndex(wb) && getWarehouses()[wb].validIndex(rb) && validAmount(Pe)))
+    {
+        error();
+        return;
+    }
+
+    for (int i=0; i < getWarehouses()[wb].getRacks()[rb].getShelfs().size() && i<Se ; i++)
+    {
+        SET_AP(wb,rb,i,Pe);
+    }
+
+    getWarehouses()[wb].getRacks()[rb].getShelfs().resize(Se, Shelf(Pe,0));
 }
+
+// SET-AS wb rb Se Pe - w magazynie o numerze wb, w regale o numerze rb ustanawia ilość półek wynosząca Se. Ponadto:
+// Nowo powstałe półki przyjmują ilość miejsc wynoszącą Pe, z każdym miejscem posiadającym zerową ilość towaru i pustą etykietę.
+// Dotychczasowe półki niemieszczące się w zakresie wartości Se znikają.
+// Dotychczasowe półki o pozostawionych numerach 0 <= S < Se ustalają swoje parametry z uwzględnieniem parametru Pe jak dla operacji SET-AP wywołanej z parametrami wb rb S Pe.
 
 void Depot::SET_AR(int wb, int Re, int Se, int Pe)
 {
