@@ -474,6 +474,10 @@ TEST(MovCommands,MOV_R){
     EXPECT_EQ(GetCapturedStdout(),"65525\n" "65525\n" "error\n");
 }
 
+
+
+//Set Commands
+
 TEST(SetCommands,SET_AP_AddingNew){
     //for
     Depot cut(2,2,2,2,10);
@@ -516,4 +520,52 @@ TEST(SetCommands,SET_AP_Error){
     EXPECT_EQ(GetCapturedStdout(),"error\n" "error\n");
 }
 
+
+// TEST(SetCommands,SET_AS_AddingNew){
+//     //for
+//     Depot cut(2,2,2,2,10);
+
+//     //when
+//     CaptureStdout();
+//     cut.SET_AS(0,0,5,10);
+//     cut.GET_LW(0,0,4,9);
+//     cut.GET_SW(0,0,4);
+
+//     //then
+//     EXPECT_EQ(GetCapturedStdout(),"--\n" "0\n");
+// }
+
+// TEST(SetCommands,SET_AS_Deleting){
+//     //for
+//     Depot cut(2,2,2,2,10);
+
+//     //when
+//     CaptureStdout();
+//     cut.SET_AS(0,0,1,1);
+//     cut.GET_LW(0,0,1,0);
+//     cut.GET_SW(0,0,0);
+
+//     //then
+//     EXPECT_EQ(GetCapturedStdout(),"error\n" "10\n");
+// }
+
+// TEST(SetCommands,SET_AS_Error){
+//     //for
+//     Depot cut(2,2,2,2,10);
+
+//     //when
+//     CaptureStdout();
+//     cut.SET_AS(0,2,0,1);
+//     cut.SET_AS(0,0,0,0);
+
+
+//     //then
+//     EXPECT_EQ(GetCapturedStdout(),"error\n" "error\n");
+// }
+
+
+// SET-AS wb rb Se Pe - w magazynie o numerze wb, w regale o numerze rb ustanawia ilość półek wynosząca Se. Ponadto:
+// Nowo powstałe półki przyjmują ilość miejsc wynoszącą Pe, z każdym miejscem posiadającym zerową ilość towaru i pustą etykietę.
+// Dotychczasowe półki niemieszczące się w zakresie wartości Se znikają.
+// Dotychczasowe półki o pozostawionych numerach 0 <= S < Se ustalają swoje parametry z uwzględnieniem parametru Pe jak dla operacji SET-AP wywołanej z parametrami wb rb S Pe.
 

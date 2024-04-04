@@ -133,7 +133,7 @@ void Depot::FILL(int W, int R, int S, int P, int A)
 
 void Depot::SET_AP(int wb, int rb, int sb, int Pe)
 {
-    if (!(validIndex(wb) && getWarehouses()[wb].validIndex(rb) && getWarehouses()[wb].getRacks()[rb].validIndex(sb)))
+    if (!(validIndex(wb) && getWarehouses()[wb].validIndex(rb) && getWarehouses()[wb].getRacks()[rb].validIndex(sb) && validAmount(Pe)))
     {
         error();
         return;
