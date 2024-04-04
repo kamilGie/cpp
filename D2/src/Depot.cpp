@@ -133,7 +133,13 @@ void Depot::FILL(int W, int R, int S, int P, int A)
 
 void Depot::SET_AP(int wb, int rb, int sb, int Pe)
 {
-    // Implementacja
+    if (!(validIndex(wb) && getWarehouses()[wb].validIndex(rb) && getWarehouses()[wb].getRacks()[rb].validIndex(sb)))
+    {
+        error();
+        return;
+    }
+
+    getWarehouses()[wb].getRacks()[rb].getShelfs()[sb].getPlaces().resize(Pe, Place(0));
 }
 
 void Depot::SET_AS(int wb, int rb, int Se, int Pe)

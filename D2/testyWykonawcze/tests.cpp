@@ -16,6 +16,7 @@ TEST(FILLCommands,FILL){
     EXPECT_EQ(GetCapturedStdout(),"260\n");
 }
 
+
 TEST(FILLCommands,FILL_error){
     //for
     Depot cut;
@@ -472,4 +473,47 @@ TEST(MovCommands,MOV_R){
     //then
     EXPECT_EQ(GetCapturedStdout(),"65525\n" "65525\n" "error\n");
 }
+
+TEST(SetCommands,SET_AP_AddingNew){
+    //for
+    Depot cut(2,2,2,2,10);
+
+    //when
+    CaptureStdout();
+    cut.SET_AP(0,0,0,10);
+    cut.GET_LW(0,0,0,9);
+    cut.GET_SW(0,0,0);
+
+    //then
+    EXPECT_EQ(GetCapturedStdout(),"--\n" "20\n");
+}
+
+TEST(SetCommands,SET_AP_Deleting){
+    //for
+    Depot cut(2,2,2,2,10);
+
+    //when
+    CaptureStdout();
+    cut.SET_AP(0,0,0,1);
+    cut.GET_LW(0,0,0,1);
+    cut.GET_SW(0,0,0);
+
+    //then
+    EXPECT_EQ(GetCapturedStdout(),"error\n" "10\n");
+}
+
+TEST(SetCommands,SET_AP_Error){
+    //for
+    Depot cut(2,2,2,2,10);
+
+    //when
+    CaptureStdout();
+    cut.SET_AP(0,2,0,1);
+    cut.SET_AP(0,0,0,-1);
+
+
+    //then
+    EXPECT_EQ(GetCapturedStdout(),"error\n" "error\n");
+}
+
 
