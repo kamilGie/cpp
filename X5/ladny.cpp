@@ -3,13 +3,13 @@
 
 using namespace std;
 
-void increaseCapacity(int **&arr, int a, int& capacity) {
+void increaseCapacity(int *&arr, int& capacity) {
     int *tmp = new int[capacity * 2];
     for (int i = 0; i < capacity; i++) {
-        tmp[i] = arr[a][i];
+        tmp[i] = arr[i];
     }
-    delete[] arr[a];
-    arr[a] = tmp;
+    delete[] arr;
+    arr = tmp;
     capacity *= 2;
 }
 
@@ -30,9 +30,10 @@ void set() {
 
         if (a == -1) break;
         if (a > 7) continue;
-        if (++size[a] == capacity[a]) increaseCapacity(arr, a, capacity[a]);
+        if (size[a]+1 == capacity[a]) increaseCapacity(arr[a], capacity[a]);
 
-        arr[a][size[a] - 1] = b;
+        arr[a][size[a]] = b;
+        size[a]++;
     }
 
     //wypisuje tabice
