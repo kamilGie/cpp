@@ -3,7 +3,7 @@
 using namespace std;
 int main()
 {
-    int N, M, d, s;
+    int N, M;
     cin >> N >> M;
     unsigned short tablica[N];//musi byc taka bo tylko usigned short moze miec az 65536 elementow(takie moze byc N)
 
@@ -12,6 +12,7 @@ int main()
         cin >> tablica[i];
     }
 
+    int s, d;
     for (int i = 0; i < M; i++)
     {
         cin >> s >> d;
