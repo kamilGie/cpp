@@ -1,8 +1,8 @@
-# to sa kody ktore pisze na bieząco do bacy w kazdym folderze powiny byc 2 programy
+# to sa kody ktore pisze na bieżąco  do bacy w kazdym folderze powiny byc 2 programy
 
-## - ladny.cpp -> byscie wiedzieli jak zrobic dane zadanie najprosciej i najladniej jak umiem
+## - ladny.cpp -> jak zrobic dane zadanie najprosciej i najladniej jak umiem
 
-## - kroki.cpp -> krotki jest to co wysylam na bacy bym byl 1 xd 
+## - kroki.cpp ->   to co wysylam na bacy bym byl 1 xd 
 
 jak jest inaczej to progoram nie jest skonczony xd
 
