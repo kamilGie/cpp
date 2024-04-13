@@ -1,32 +1,23 @@
 //kamil gieras
 #include<iostream>
 
-int C2x(int*&T, int&C){
- int*tmp=new int[C*2],i;
- for(i=0; i<C; i++) tmp[i]=T[i];
- delete[] T;
- T=tmp;
- C*=2;
-}
-
-int set(){
+int main(){
+int N;
+std::cin>>N;
+ std::cout<<"hallooo";
+while(N--){
  int**T=new int*[8], C[8], S[8]{},a,b,i,j;
- for(i=0; i<8; C[i++]=2) T[i]=new int[2];
-
- while(std::cin>>a>>b){
-  if(a<0) break;
-  if(++S[a]==C[a]) C2x(T[a], C[a]);
-  T[a][S[a]-1]=b;
+ for(i=0;i<8;C[i++]=2) T[i]=new int[2];
+ for(;std::cin>>a>>b&&a>=0;T[a][S[a]-1]=b){
+  if(++S[a]==C[a]){
+   int*t=new int[C[a]*2];
+   for(i=0;i<C[a];i++) t[i]=T[a][i];
+   delete[]T[a];
+   T[a]=t; C[a]*=2;
+  }
  }
 
- for(i=0; i<8; delete[] T[i++])
-  for(j=0; j<S[i]; j++) printf("%d ",T[i][j]);
+ for(i=0;i<8;) for(j=0;j<S[i];printf("%d ",T[i][j++]));
  puts("");
- delete[] T;
-}
-
-main(){
- int N;
- std::cin>>N;
- while(N--) set();
+ }
 }
