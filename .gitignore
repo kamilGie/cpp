@@ -22,3 +22,6 @@
 
 # Ignorowanie  obrazów
 !*.png
+
+#ignoroowanie inne 
+!_Kolokwium
