@@ -10,7 +10,8 @@ void PrintRanking(); double percentage(int P,int events); void PrintStats(int pl
 
 int main() {
     for (int i=0;i<26;i++) Players[i]='a'+i;
-    unsigned G; cin>>G;
+    unsigned G;
+    cin>>G;
     for (int i=0;i<G;i++)
         Duel();
 
