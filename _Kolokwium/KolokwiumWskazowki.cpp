@@ -12,7 +12,7 @@ int main(){
     //data[2]= 3 6 9 12 15 18 21 24 27 30 33 36 39 42 45 48 51 54 57 60 // bo ta tablica jest jakas krotsza ma 20 elelmentow  pewnie bedzie pytanie jakie numery obejmuje ta tablica 
     int* data[] = { new int[25], new int[25], new int[20] };
     for (int i = 0; i < 3; ++i)
-        for (int j = 0; j < 20; ++j)//### te tablice czasami sa 25 elementowe a tutaj wypelniamy tylko pierwsze 20 elementow pozostale beda losowe
+        for (int j = 0; j < 20; ++j)//te tablice czasami sa 25 elementowe a tutaj wypelniamy tylko pierwsze 20 elementow pozostale beda losowe
             data[i][j] = (i+1) * (j+1);
 
     //SZCZELINA wybierz jedną z poprawnych tablic, nie dopuść, aby wybrano spoza zakresu
