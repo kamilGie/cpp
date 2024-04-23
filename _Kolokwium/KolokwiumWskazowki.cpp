@@ -1,14 +1,14 @@
 #include <iostream>
 using namespace std;
-
+//### NIE POPRAWIONY 
 int main(){
     { int mem[10000]; for (int i = 0; i < 10000; ++i) mem[i] = -1; }//mimo ze  to ze jest to w tych {klamrach} to sie to  wykonuje !
     //nie mamy po za klamrami tej tablicy, mem istnieje tylko w obrebie klamer  ale i tak zabiera czas wykonujac ta petle i wychodzac z klamer usuwa tablice mem 
 
     /**SZCZELINA stwórz przykładowe dane. TODO: wypełnij losowymi danymi? */
     // "losowe " oznacza ze tworzymy tablice ktore sa wypelnione i potem uzytkoniwk se wskaze z ktorej tablicy zgaduje i jak zgadnie to to wypisze ze zgadl te tabloce to :
-    //data[0]= 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 21 22 23 24 25 
-    //data[1]= 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40 42 44 46 48 50
+    //data[0]= 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 0 0 0 0 0 //te ostatnie to zera bo petla nic nie przypisuje bo  jest do 20 
+    //data[1]= 2 4 6 8 10 12 14 16 18 20 22 24 26 28 30 32 34 36 38 40 0 0 0 0 0
     //data[2]= 3 6 9 12 15 18 21 24 27 30 33 36 39 42 45 48 51 54 57 60 // bo ta tablica jest jakas krotsza ma 20 elelmentow  pewnie bedzie pytanie jakie numery obejmuje ta tablica 
     int* data[] = { new int[25], new int[25], new int[20] };
     for (int i = 0; i < 3; ++i)
