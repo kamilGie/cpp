@@ -19,8 +19,9 @@ int main()
 {
     int ilosci_tablic;
     cin >> ilosci_tablic;
-    while (ilosci_tablic--)
+    while (ilosci_tablic--){
         TablicaCykliczna();
+    }
 }
 
 void TablicaCykliczna()
