@@ -114,7 +114,7 @@ void zamianyParami(int *tablica)
             I = obliczIndeks(I);
             zamien_elementy(&tablica[i], &tablica[I]);
         }
-        i = obliczIndeks(I + 1);
+        i = obliczIndeks(I);
     }
 }
 
@@ -122,6 +122,9 @@ void cyklicznePrzesuniecie(int *tablica)
 {
     int i, L, s;
     cin >> i >> L >> s;
+    if(L==0) {
+        return;
+    }
 
     int ilosciFragmentow = obliczIlosciFragmentow(L);
     while (ilosciFragmentow--)
@@ -147,7 +150,7 @@ void cyklicznePrzesuniecie(int *tablica)
     {
         while (s > 0)
         {
-            cyklicznePrzesuniecieOdcinkaPrawo(tablica, obliczIndeks(i+dlugosciFragmenuMniejszegoNizL), dlugosciFragmenuMniejszegoNizL);
+            cyklicznePrzesuniecieOdcinkaPrawo(tablica, obliczIndeks(i+dlugosciFragmenuMniejszegoNizL-1), dlugosciFragmenuMniejszegoNizL);
             s--;
         }
         while (s < 0)
@@ -191,6 +194,9 @@ void zamien_elementy(int *wartosc1, int *wartosc2)
 int obliczIlosciFragmentow(int dlugoscL)
 {
     int ilosciFragmentow = 0;
+    if(dlugoscL==0){
+        return ilosciFragmentow;
+    }
     while (ilosciFragmentow <= dlugosci_tablicy)
     {
         ilosciFragmentow += dlugoscL;
