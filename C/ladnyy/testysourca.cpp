@@ -7,10 +7,6 @@ TEST(TestPokazowy, helloTest) {
     Add(3, data);
     Add(2, data);
     Add(1, data);
-    int min, max;
-    MinMax(data, &min, max);
-    EXPECT_EQ(min,1);
-    EXPECT_EQ(max,3);
 }
 
 TEST(CreateTest, BasicTest) {
@@ -76,13 +72,6 @@ TEST(ArithmeticTest, BasicTest) {
     ASSERT_EQ(Arithmetic(setB), 0.0);
 }
 
-TEST(HarmonicTest, BasicTest) {
-    int setA[] = {1, 2, 3,-1};
-    ASSERT_EQ(Harmonic(setA), 1.6363636363636365);
-
-    int setB[20] = {-1}; // Zbiór pusty
-    ASSERT_EQ(Harmonic(setB), 1.0);
-}
 
 TEST(ElementTest, BasicTest) {
     int setA[] = {1, 2, 3,-1};

@@ -1,200 +1,83 @@
 //kamil gieras
-void Add(int wartosc, int *zbiorWyjsciowy)
+void Add(int val, int out[])
 {
-    if (wartosc <= 0 || wartosc > 4095)
-        return;
-
-    int i = 0;
-    for (; zbiorWyjsciowy[i] != -1; i++)
-    {
-        if (zbiorWyjsciowy[i] == wartosc)
-            return;
-    };
-    zbiorWyjsciowy[i + 1] = -1;
-    zbiorWyjsciowy[i] = wartosc;
-}
-
-void Create(int rozmiar_tablicy, int zbiorLiczbWejsciowy[], int *zbiorWyjsciowy)
-{
-    for (int i = 0; i < rozmiar_tablicy; i++)
-    {
-        Add(zbiorLiczbWejsciowy[i], zbiorWyjsciowy);
-    }
-}
-
-void Union(int zbiorA[], int zbiorB[], int *zbiorWyjsciowy)
-{
-    for (int i = 0; zbiorA[i] != -1; i++)
-    {
-        Add(zbiorA[i], zbiorWyjsciowy);
-    }
-    for (int i = 0; zbiorB[i] != -1; i++)
-    {
-        Add(zbiorB[i], zbiorWyjsciowy);
-    }
-}
-
-void Intersection(int zbiorA[], int zbiorB[], int *zbiorWyjsciowy)
-{
-    for (int i = 0; zbiorA[i] != -1; i++)
-    {
-        for (int j = 0; zbiorB[j] != -1; j++)
-        {
-            if (zbiorA[i] == zbiorB[j])
-                Add(zbiorA[i], zbiorWyjsciowy);
-        }
-    }
-}
-
-void Difference(int zbiorA[], int zbiorB[], int *zbiorWyjsciowy)
-{
-
-    for (int i = 0; zbiorA[i] != -1; i++)
-    {
-        bool wystapila = false;
-        for (int j = 0; zbiorB[j] != -1; j++)
-        {
-            if (zbiorA[i] == zbiorB[j])
-                wystapila = true;
-        }
-        if (!wystapila)
-            Add(zbiorA[i], zbiorWyjsciowy);
-    }
-}
-
-void Symmetric(int zbiorA[], int zbiorB[], int *zbiorWyjsciowy)
-{
-    Difference(zbiorA, zbiorB, zbiorWyjsciowy);
-    Difference(zbiorB, zbiorA, zbiorWyjsciowy);
-}
-
-void Complement(int zbiorA[], int *zbiorWyjsciowy)
-{
-    bool wystapila[4096] = {};
-    for (int i = 0; zbiorA[i] != -1; i++)
-    {
-        wystapila[zbiorA[i]] = true;
-    }
-    for (int i = 1; i < 4096; i++)
-    {
-        if (!wystapila[i])
-            Add(i, zbiorWyjsciowy);
-    }
-}
-
-bool Subset (int podZbior[], int zbioru[])
-{
-    for (int i = 0; podZbior[i] != -1; i++)
-    {
-        int jestToPozdbior=false;
-        for (int j = 0; zbioru[j] != -1; j++)
-        {
-            if(podZbior[i]==zbioru[j])
-            jestToPozdbior=true;
-        }
-        if(!jestToPozdbior)
-        return false;
-    }
-    return true;
-}
-
-bool Equal(int zbiorA[], int zbiorB[])
-{
-    return Subset(zbiorA, zbiorB) && Subset(zbiorB, zbiorA);
-}
-
-bool Empty(int zbiorA[])
-{
-    return zbiorA[0] == -1;
-}
-
-bool Nonempty(int zbiorA[])
-{
-    return !Empty(zbiorA);
-}
-
-double Arithmetic (int zbiorA[])
-{
-    if(zbiorA[0]==-1)
-    return 0;
-
-    int ilosciElementow=0;
-    double srednia=0;
-    for (; zbiorA[ilosciElementow] != -1; ilosciElementow++)
-    {
-        srednia+=zbiorA[ilosciElementow];
-    }
-    return srednia =srednia/ilosciElementow;
-}
-
-double Harmonic (int zbiorA[])
-{
-    if(zbiorA[0]==-1)
-    return 1;
-
-    int ilosciElementow=0;
-    double srednia=0;
-    for (; zbiorA[ilosciElementow] != -1; ilosciElementow++)
-    {
-        srednia=srednia+1.0/zbiorA[ilosciElementow];
-    }
-    
-    return (double)ilosciElementow/srednia;
-
-}
-
-bool Element(int element, int zbiorA[])
-{
-    for (int i = 0; zbiorA[i] != -1; i++)
-    {
-        if (zbiorA[i] == element)
-        {
-            return true;
-        }
-    }
-    return false;
-}
-
-void MinMax (int zbiorA[], int *min, int &max)
-{
-    if(zbiorA[0]==-1)
+  if (val<=0||val>4095)
     return;
+  
+  int i = 0;
+  while (out[i] != -1 && out[i] != val) i++;
 
-    *min=max=zbiorA[0];
-    for (int i = 1; zbiorA[i] != -1; i++)
-    {
-        if(*min>zbiorA[i])
-            *min=zbiorA[i];
-
-        if(max<zbiorA[i])
-            max=zbiorA[i];
-    }
-
+  if (out[i] == -1){
+    out[i] = val;
+    out[i + 1] = -1;
+  }
 }
 
-void Cardinality (int zbiorA[], int *ilosciElementow)
+void Create(int size, int in[], int *out)
 {
-    *ilosciElementow=0;
-    while (zbiorA[*ilosciElementow] != -1)
-    {
-        (*ilosciElementow)++;
-    }
+  for (int i = 0; i < size; i++) in[i]=0;
+  in[0]=-1;
+  for (int i = 0; i < size; i++) Add(in[i], out); 
 }
 
-void Properties(int zbiorA[], char znaki[], double &sredniaArmetyczna, double *sredniaHarmoniczna, int & minimum, int *maksimum, int& mocZbioru)
+void Union(int set[], int setB[], int *out) 
 {
-    for(int i=0;znaki[i]!='\0';i++)
-    {
-        if(znaki[i]=='a'||znaki[i]=='A')
-            sredniaArmetyczna= Arithmetic(zbiorA);
+  out[0]=-1;
+  for (int i = 0; set[i] != -1; i++) Add(set[i], out);
+  for (int i = 0; setB[i] != -1; i++) Add(setB[i], out);
+}
 
-        if(znaki[i]=='h'||znaki[i]=='H')
-            *sredniaHarmoniczna= Harmonic(zbiorA);
+void Intersection(int set[], int setB[], int *out) 
+{
+  for (int i = 0; set[i] != -1; i++) for (int j = 0; setB[j] != -1; j++) if (set[i] == setB[j]) Add(set[i], out);
+}
 
-        if(znaki[i]=='m'||znaki[i]=='M')
-            MinMax(zbiorA,&minimum,*maksimum);
 
-        if(znaki[i]=='c'||znaki[i]=='C')
-            Cardinality(zbiorA,&mocZbioru);
-    }
+bool Subset(int podZbior[], int zbioru[])
+{
+  for (int i = 0; podZbior[i] != -1; i++) {
+    bool jestToPozdbior = 0;
+    for (int j = 0; zbioru[j] != -1; j++) if (podZbior[i] == zbioru[j]) jestToPozdbior = 1;
+    if (!jestToPozdbior) return 0;
+  }
+  return 1;
+}
+
+bool Equal(int set[], int setB[])
+{
+  return Subset(set, setB) && Subset(setB, set);
+}
+
+bool Empty(int set[])
+{
+  return set[0] == -1;
+}
+
+bool Nonempty(int set[])
+{
+  return !Empty(set);
+}
+
+double Arithmetic(int set[])
+{
+  if (set[0] == -1) return 0;
+  int size = 0;   double av = 0;
+  for (; set[size] != -1; size++) av += set[size];
+  return av / size;
+}
+
+
+bool Element(int el, int set[])
+{
+  for (int i = 0; set[i] != -1; i++)
+    if (set[i] == el)  return 1;
+
+  return 0;
+}
+
+
+void Cardinality(int set[], int *size)
+{
+  *size = 0;
+  while (set[*size] != -1) (*size)++;
 }
