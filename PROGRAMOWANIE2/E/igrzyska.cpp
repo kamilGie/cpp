@@ -13,11 +13,8 @@ unsigned int PLAYER_CLASS::getAgility() {
 }
 
 void PLAYER_CLASS::takeDamage(unsigned int damageTaken) {
-    if( health > damageTaken ) {
-        health -= damageTaken;
-    } else{
-        die();
-    }
+    health = ( health > damageTaken ) ? health - damageTaken
+                                      : 0;
 }
 
 void PLAYER_CLASS::applyWinnerReward() {
@@ -35,11 +32,7 @@ void PLAYER_CLASS::die() {
 }
 
 void CAESAR_CLASS::judgeDeathOrLife(PLAYER_CLASS* player) {
-    battleCount++;
-    if(battleCount==3){
-        if(isPairAttacksOnLastBattle) { player->die(); }
-        battleCount=0;
-    }
+    if( ++battleCount%3==0 && isPairAttacksOnLastBattle ) { player->die(); }
 }
 
 void ARENA_CLASS::fight(PLAYER_CLASS* p1, PLAYER_CLASS* p2) {

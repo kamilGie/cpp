@@ -120,7 +120,7 @@ class CAESAR_CLASS {
     bool isPairAttacksOnLastBattle;
 
    private:
-    unsigned int battleCount = 0;
+    size_t battleCount = 0;
 };
 
 class ARENA_CLASS {
