@@ -8,22 +8,25 @@ class PLAYER_CLASS {
     virtual ~PLAYER_CLASS() = default;
 
     virtual unsigned int getRemainingHealth();
-    virtual unsigned int getDamage()=0;
-    virtual unsigned int getAgility()=0;
-    virtual void takeDamage()=0;
+    virtual unsigned int getDamage();
+    virtual unsigned int getAgility();
+    virtual void takeDamage(unsigned int damageTaken);
     void applyWinnerReward();
     void cure();
     void printParams();
-    void die();
 
    public:
     unsigned int maxHealth;
     unsigned int health;
-    unsigned int atack;
+    unsigned int damage;
     unsigned int agility;
 
    public:
     friend class CAESAR_CLASS;
+    //friend class SQUAD_CLASS; nwm czy to potrzebne 
+
+    private:
+        void die();
 };
 
 class HUMAN_CLASS : virtual public PLAYER_CLASS {
@@ -31,7 +34,7 @@ class HUMAN_CLASS : virtual public PLAYER_CLASS {
     HUMAN_CLASS(std::string id) : id(id) {
         maxHealth = 200;
         health = 200;
-        atack = 30;
+        damage = 30;
         agility = 10;
         defance = 10;
     }
@@ -39,7 +42,7 @@ class HUMAN_CLASS : virtual public PLAYER_CLASS {
     unsigned int getRemainingHealth() override;
     unsigned int getDamage() override;
     unsigned int getAgility() override;
-    void takeDamage() override;
+    void takeDamage(unsigned int damageTaken) override;
 
    public:
     unsigned int defance;
@@ -56,14 +59,14 @@ class BEAST_CLASS : virtual public PLAYER_CLASS {
     BEAST_CLASS(std::string id) : id(id) {
         maxHealth = 150;
         health = 150;
-        atack = 40;
+        damage = 40;
         agility = 20;
     }
 
     unsigned int getRemainingHealth() override;
     unsigned int getDamage() override;
     unsigned int getAgility() override;
-    void takeDamage() override;
+    void takeDamage(unsigned int damageTaken) override;
 
    public:
     friend class SQUAD_CLASS;
@@ -77,7 +80,7 @@ class BERSERKER_CLASS : public BEAST_CLASS, public HUMAN_CLASS {
     BERSERKER_CLASS(std::string HummanId, std::string BeastId) : BEAST_CLASS(BeastId), HUMAN_CLASS(HummanId) {
         maxHealth = 200;
         health = 200;
-        atack = 35;
+        damage = 35;
         agility = 5;
         defance = 15;
     }
@@ -85,7 +88,7 @@ class BERSERKER_CLASS : public BEAST_CLASS, public HUMAN_CLASS {
     unsigned int getRemainingHealth() override;
     unsigned int getDamage() override;
     unsigned int getAgility() override;
-    void takeDamage() override;
+    void takeDamage(unsigned int damageTaken) override;
 
    public:
     friend class SQUAD_CLASS;
@@ -104,7 +107,7 @@ class SQUAD_CLASS : public PLAYER_CLASS {
     unsigned int getRemainingHealth() override;
     unsigned int getDamage() override;
     unsigned int getAgility() override;
-    void takeDamage() override;
+    void takeDamage(unsigned int damageTaken) override;
 
    private:
     std::string id;
