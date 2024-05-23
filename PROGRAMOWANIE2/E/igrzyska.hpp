@@ -11,9 +11,9 @@ class PLAYER_CLASS {
     virtual unsigned int getDamage();
     virtual unsigned int getAgility();
     virtual void takeDamage(unsigned int damageTaken);
-    void applyWinnerReward();
-    void cure();
-    virtual void printParams();
+    virtual void applyWinnerReward();
+    virtual void cure();
+    virtual void printParams() = 0;
 
    public:
     unsigned int maxHealth;
@@ -26,7 +26,7 @@ class PLAYER_CLASS {
     // friend class SQUAD_CLASS; nwm czy to potrzebne
 
    private:
-    void die();
+    virtual void die();
 };
 
 class HUMAN_CLASS : virtual public PLAYER_CLASS {
@@ -112,6 +112,8 @@ class SQUAD_CLASS : public PLAYER_CLASS {
 
 class CAESAR_CLASS {
    public:
+    CAESAR_CLASS(){};
+
     void judgeDeathOrLife(PLAYER_CLASS* player);
 
    public:
