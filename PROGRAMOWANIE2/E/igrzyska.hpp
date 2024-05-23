@@ -113,6 +113,12 @@ class SQUAD_CLASS : public PLAYER_CLASS {
 class CAESAR_CLASS {
    public:
     void judgeDeathOrLife(PLAYER_CLASS* player);
+
+   public:
+    bool isPairAttacksOnLastBattle;
+
+   private:
+    unsigned int battleCount = 0;
 };
 
 class ARENA_CLASS {

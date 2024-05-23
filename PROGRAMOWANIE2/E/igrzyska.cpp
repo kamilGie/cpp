@@ -36,7 +36,11 @@ void PLAYER_CLASS::die() {
 }
 
 void CAESAR_CLASS::judgeDeathOrLife(PLAYER_CLASS* player) {
-    // todo
+    battleCount++;
+    if(battleCount==3){
+        if(isPairAttacksOnLastBattle) { player->die(); }
+        battleCount=0;
+    }
 }
 
 void ARENA_CLASS::fight(PLAYER_CLASS* p1, PLAYER_CLASS* p2) {
@@ -49,18 +53,20 @@ void ARENA_CLASS::fight(PLAYER_CLASS* p1, PLAYER_CLASS* p2) {
     p1->printParams();
     p2->printParams();
 
-    int atacks = 0;
+    int attacks = 0;
     do {
         p2->takeDamage(p1->getDamage());
         p2->printParams();
-        atacks++;
+        attacks++;
         if (p2->health == 0) { break; }
 
         p1->takeDamage(p2->getDamage());
         p1->printParams();
-        atacks++;
+        attacks++;
         if (p1->health == 0) { break; }
-    } while (p1->health >= 10 || p2->health >= 10 || atacks != 40);
+    } while (p1->health >= 10 || p2->health >= 10 || attacks != 40);
+
+    caesar.isPairAttacksOnLastBattle = (attacks % 2 == 0);
 
     caesar.judgeDeathOrLife(p1);
     p1->printParams();
