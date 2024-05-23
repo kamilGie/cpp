@@ -4,7 +4,7 @@
 
 class PLAYER_CLASS {
    public:
-    PLAYER_CLASS();
+    PLAYER_CLASS(){};
     virtual ~PLAYER_CLASS() = default;
 
     virtual unsigned int getRemainingHealth();
