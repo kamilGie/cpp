@@ -13,7 +13,7 @@ class PLAYER_CLASS {
     virtual void takeDamage(unsigned int damageTaken);
     void applyWinnerReward();
     void cure();
-    void printParams();
+    virtual void printParams();
 
    public:
     unsigned int maxHealth;
@@ -23,10 +23,10 @@ class PLAYER_CLASS {
 
    public:
     friend class CAESAR_CLASS;
-    //friend class SQUAD_CLASS; nwm czy to potrzebne 
+    // friend class SQUAD_CLASS; nwm czy to potrzebne
 
-    private:
-        void die();
+   private:
+    void die();
 };
 
 class HUMAN_CLASS : virtual public PLAYER_CLASS {
@@ -39,10 +39,8 @@ class HUMAN_CLASS : virtual public PLAYER_CLASS {
         defance = 10;
     }
 
-    unsigned int getRemainingHealth() override;
-    unsigned int getDamage() override;
-    unsigned int getAgility() override;
     void takeDamage(unsigned int damageTaken) override;
+    void printParams() override;
 
    public:
     unsigned int defance;
@@ -63,10 +61,9 @@ class BEAST_CLASS : virtual public PLAYER_CLASS {
         agility = 20;
     }
 
-    unsigned int getRemainingHealth() override;
     unsigned int getDamage() override;
-    unsigned int getAgility() override;
     void takeDamage(unsigned int damageTaken) override;
+    void printParams() override;
 
    public:
     friend class SQUAD_CLASS;
@@ -85,10 +82,10 @@ class BERSERKER_CLASS : public BEAST_CLASS, public HUMAN_CLASS {
         defance = 15;
     }
 
-    unsigned int getRemainingHealth() override;
     unsigned int getDamage() override;
     unsigned int getAgility() override;
     void takeDamage(unsigned int damageTaken) override;
+    void printParams() override;
 
    public:
     friend class SQUAD_CLASS;

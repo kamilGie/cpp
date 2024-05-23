@@ -73,3 +73,49 @@ void ARENA_CLASS::fight(PLAYER_CLASS* p1, PLAYER_CLASS* p2) {
     p2->printParams();
 
 }
+
+void HUMAN_CLASS::takeDamage(unsigned int damageTaken) {
+    damageTaken=damageTaken-defance-agility;
+    if(damageTaken>0) { PLAYER_CLASS::takeDamage(damageTaken); }
+}
+
+void HUMAN_CLASS::printParams() {
+    if(health>0) {
+         std::cout<<id<<":"<<maxHealth<<":"<<health<<":"<<getRemainingHealth()<<"%:"<<damage<<":"<<agility<<":"<<defance<<"\n"; 
+    } else{
+        std::cout<<id<<":R.I.P.\n";
+    }
+}
+
+unsigned int BEAST_CLASS::getDamage() {
+    return health<25? damage*2 :damage;
+}
+
+void BEAST_CLASS::takeDamage(unsigned int damageTaken) {
+    damageTaken -= ( agility/2 );
+    if(damageTaken>0) { PLAYER_CLASS::takeDamage(damageTaken); }
+}
+
+void BEAST_CLASS::printParams() {
+    if(health>0) {
+         std::cout<<id<<":"<<maxHealth<<":"<<health<<":"<<getRemainingHealth()<<"%:"<<damage<<":"<<agility<<":"<<"\n"; 
+    } else{
+        std::cout<<id<<":R.I.P.\n";
+    }
+}
+
+unsigned int BERSERKER_CLASS::getDamage() {
+    return ( health < 25  && health>0 )  ? BEAST_CLASS::getDamage() : HUMAN_CLASS::getDamage() ;
+}
+
+unsigned int BERSERKER_CLASS::getAgility() {
+    return ( health < 25  && health>0 ) ? BEAST_CLASS::getAgility() : HUMAN_CLASS::getAgility() ;
+}
+
+void BERSERKER_CLASS::takeDamage(unsigned int damageTaken) {
+    ( health < 25  && health>0 )  ? BEAST_CLASS::takeDamage(damageTaken) : HUMAN_CLASS::takeDamage(damageTaken) ;
+}
+
+void BERSERKER_CLASS::printParams() {
+    ( health < 25  && health>0 )  ? BEAST_CLASS::printParams() : HUMAN_CLASS::printParams() ;
+}
