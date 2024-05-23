@@ -4,7 +4,7 @@
 class PLAYER_CLASS {
    public:
     PLAYER_CLASS();
-    ~PLAYER_CLASS() = default;
+    virtual ~PLAYER_CLASS() = default;
 
     virtual unsigned int getRemainingHealth();
     virtual unsigned int getDamage();
@@ -43,6 +43,9 @@ class HUMAN_CLASS : virtual public PLAYER_CLASS {
    public:
     unsigned int defance;
 
+  public:
+      friend class SQUAD_CLASS;
+
    private:
     std::string id;
 };
@@ -60,6 +63,9 @@ class BEAST_CLASS : virtual public PLAYER_CLASS {
     unsigned int getDamage() override;
     unsigned int getAgility() override;
     void takeDamage() override;
+
+    public:
+      friend class SQUAD_CLASS;
 
    private:
     std::string id;
@@ -80,21 +86,27 @@ class BERSERKER_CLASS : public BEAST_CLASS, public HUMAN_CLASS {
     unsigned int getAgility() override;
     void takeDamage() override;
 
-   public:
-    std::string HummanId;
-    std::string BeastId;
+    public:
+      friend class SQUAD_CLASS;
 
    private:
+       std::string HummanId;
+       std::string BeastId;
 };
 
 class SQUAD_CLASS : public PLAYER_CLASS {
    public:
+    SQUAD_CLASS(std::string id) : id(id) {};
+
     void addPleyer(PLAYER_CLASS* p);
 
     unsigned int getRemainingHealth() override;
     unsigned int getDamage() override;
     unsigned int getAgility() override;
     void takeDamage() override;
+
+    private:
+        std::string id;
 };
 
 class CAESAR_CLASS {
