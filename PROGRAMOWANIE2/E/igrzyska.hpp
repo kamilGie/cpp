@@ -23,7 +23,7 @@ class PLAYER_CLASS {
 
    public:
     friend class CAESAR_CLASS;
-    // friend class SQUAD_CLASS; nwm czy to potrzebne
+    friend class SQUAD_CLASS;
 
    private:
     virtual void die();
@@ -100,7 +100,6 @@ class SQUAD_CLASS : public PLAYER_CLASS {
     SQUAD_CLASS(std::string id) : id(id){};
 
     void addPleyer(PLAYER_CLASS* p);
-
     unsigned int getRemainingHealth() override;
     unsigned int getDamage() override;
     unsigned int getAgility() override;
@@ -108,6 +107,13 @@ class SQUAD_CLASS : public PLAYER_CLASS {
 
    private:
     std::string id;
+    struct Node {
+        Node(PLAYER_CLASS* p) : p(p) {};
+
+        PLAYER_CLASS* p;
+        Node* next=nullptr;
+    };
+    Node* head=nullptr;
 };
 
 class CAESAR_CLASS {

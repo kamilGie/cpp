@@ -115,3 +115,16 @@ void BERSERKER_CLASS::printParams() {
     ( health < 25  && health!=0 )  ? BEAST_CLASS::printParams() 
                                    : HUMAN_CLASS::printParams() ;
 }
+
+void SQUAD_CLASS::addPleyer(PLAYER_CLASS* p) {
+    Node* newNode = new Node(p);
+        if (!head) {
+            head = newNode;
+        } else {
+            Node* temp = head;
+            while (temp->next) {
+                temp = temp->next;
+            }
+            temp->next = newNode;
+        }
+}
