@@ -128,3 +128,63 @@ void SQUAD_CLASS::addPleyer(PLAYER_CLASS* p) {
             temp->next = newNode;
         }
 }
+
+int SQUAD_CLASS::getTeamSize() {
+    size_t teamSize=0;
+    Node* current = head;
+    while (current) {
+        teamSize++;
+        current = current->next;
+    }
+    return teamSize;
+}
+
+unsigned int SQUAD_CLASS::getDamage() {
+    unsigned int sumDamage=0;
+    Node* current = head;
+    while (current) {
+        sumDamage += current->p->getDamage(); 
+        current = current->next;
+    }
+    return sumDamage;
+}
+
+unsigned int SQUAD_CLASS::getAgility() {
+    unsigned int minAgility=UINT_MAX;
+    Node* current = head;
+    while (current) {
+        if(current->p->getAgility()<minAgility ){ minAgility = current->p->getAgility(); }
+        current = current->next;
+    }
+    return minAgility;
+}
+
+void SQUAD_CLASS::takeDamage(unsigned int damageTaken) {
+    damageTaken = damageTaken/getTeamSize();
+    //todo 
+    
+}
+
+void SQUAD_CLASS::printParams() {
+    if(getTeamSize()==0){ 
+        std::cout<<id<<":nemo\n"; 
+        return;
+    }
+
+    std::cout<<id<<":"<<getTeamSize()<<":"<<getRemainingHealth()<<":"<<getDamage()<<":"<<getAgility()<<":\n";
+    Node* current = head;
+    while (current) {
+        current->p->printParams();
+        current = current->next;
+    }
+}
+
+unsigned int SQUAD_CLASS::getRemainingHealth(){
+    unsigned int theBihestHealth=0;
+    Node* current = head;
+    while (current) {
+        if(current->p->getRemainingHealth()>theBihestHealth ){ theBihestHealth = current->p->getRemainingHealth(); }
+        current = current->next;
+    }
+    return theBihestHealth;
+}

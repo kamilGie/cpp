@@ -104,6 +104,10 @@ class SQUAD_CLASS : public PLAYER_CLASS {
     unsigned int getDamage() override;
     unsigned int getAgility() override;
     void takeDamage(unsigned int damageTaken) override;
+    void printParams() override;
+
+   private:
+    int getTeamSize();
 
    private:
     std::string id;
