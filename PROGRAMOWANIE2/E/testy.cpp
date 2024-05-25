@@ -209,7 +209,7 @@ TEST(martynaTest, Squad_takeK72dmg) {
     EXPECT_EQ( GetCapturedStdout(),"squad2:4:100%:140:5\n" "b4:150:142:94%:40:20\n" "h2:200:200:100%:30:10:10\n" "human3:200:200:100%:35:5:15\n" "human8:200:200:100%:35:5:15\n");
 }
 
-TEST(martynaTest, Squad_OnePlayer_takeKillingDemage) {
+TEST(martynaTest, Squad_OnePlayer_takeKillingDemage_andSortPrint) {
     CAESAR_CLASS caesar;
     ARENA_CLASS arena(&caesar);
 
@@ -229,7 +229,7 @@ TEST(martynaTest, Squad_OnePlayer_takeKillingDemage) {
 
     CaptureStdout();
     squad2.printParams();
-    EXPECT_EQ( GetCapturedStdout(),"squad2:3:10%:170:5\n" "h2:200:20:10%:30:10:10\n" "beast3:200:20:10%:70:5\n" "beast8:200:20:10%:70:5\n");
+    EXPECT_EQ( GetCapturedStdout(),"squad2:3:10%:170:5\n" "beast3:200:20:10%:70:5\n" "beast8:200:20:10%:70:5\n" "h2:200:20:10%:30:10:10\n");
 }
 
 TEST(martynaTest, Squad_WholeSquad_takeKillingDemage) {
@@ -350,31 +350,31 @@ TEST(martynaTest, SquadVsBeast) {
 
 }
 
-// TEST(martynaTest, printfParams_delete_dead_player) {
-//     CAESAR_CLASS caesar;
-//     ARENA_CLASS arena(&caesar);
 
-//     BERSERKER_CLASS beast3 ( "human3", "beast3");
-//     BERSERKER_CLASS beast4 ( "human4", "beast4");
-//     BERSERKER_CLASS beast8 ( "human8", "beast8");
-//     HUMAN_CLASS h2 ( "h2" );
-//     BEAST_CLASS b4 ( "b4" );
+TEST(martynaTest, printfParams_delete_dead_player) {
+    CAESAR_CLASS caesar;
+    ARENA_CLASS arena(&caesar);
+
+    BERSERKER_CLASS beast3 ( "human3", "beast3");
+    BERSERKER_CLASS beast4 ( "human4", "beast4");
+    BERSERKER_CLASS beast8 ( "human8", "beast8");
+    HUMAN_CLASS h2 ( "h2" );
+    BEAST_CLASS b4 ( "b4" );
 
 
+    SQUAD_CLASS squad2 ( "squad2" );
+    squad2.addPlayer(&beast4);
+    squad2.addPlayer(&b4);
+    squad2.addPlayer(&beast3);
+    squad2.addPlayer(&beast8);
+    squad2.addPlayer(&h2);
 
-//     SQUAD_CLASS squad2 ( "squad2" );
-//     squad2.addPlayer(&beast4);
-//     squad2.addPlayer(&b4);
-//     squad2.addPlayer(&beast3);
-//     squad2.addPlayer(&beast8);
-//     squad2.addPlayer(&h2);
+    BERSERKER_CLASS human1("HUMAN1", "BEAST1");
+    CaptureStdout();
+    arena.fight(&beast4, &human1);
+    GetCapturedStdout();
 
-//     BERSERKER_CLASS human1("HUMAN1", "BEAST1");
-//     CaptureStdout();
-//     arena.fight(&beast4, &human1);
-//     GetCapturedStdout();
-
-//     CaptureStdout();
-//     squad2.printParams();
-//     EXPECT_EQ( GetCapturedStdout(),"squad2:4:100%:140:5\nb4:150:150:100%:40:20\nh2:200:200:100%:30:10:10\nhuman3:200:200:100%:35:5:15\nhuman8:200:200:100%:35:5:15\n");
-// }
+    CaptureStdout();
+    squad2.printParams();
+    EXPECT_EQ( GetCapturedStdout(),"squad2:4:100%:140:5\nb4:150:150:100%:40:20\nh2:200:200:100%:30:10:10\nhuman3:200:200:100%:35:5:15\nhuman8:200:200:100%:35:5:15\n");
+}

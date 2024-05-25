@@ -73,24 +73,13 @@ void SQUAD_CLASS::deleteSquad(PLAYER_CLASS* p) {
 
 void SQUAD_CLASS::addPlayer(PLAYER_CLASS* p) {
     if (p->getRemainingHealth() == 0 || isAlreadyInSquad(p)) return;
-
     Node* newNode = new Node(p);
-    if (!head) {
-        head = newNode;
-    } else if (isBigger(head->p, newNode->p)) {
-        newNode->next = head;
-        head = newNode;
-    } else {
-        Node* temp = head;
-        while (temp->next && isBigger(newNode->p, temp->next->p)) {
-            temp = temp->next;
-        }
-        newNode->next = temp->next;
-        temp->next = newNode;
-    }
+    newNode->next = head;
+    head = newNode;
 }
 
 int SQUAD_CLASS::getTeamSize() {
+    UpdateSquad();
     size_t teamSize = 0;
     for (Node* current = head; current; current = current->next) {
         teamSize++;
@@ -111,10 +100,11 @@ bool SQUAD_CLASS::isBigger(PLAYER_CLASS* bigger, PLAYER_CLASS* smaler) {
     if (bigger->getRemainingHealth() != smaler->getRemainingHealth()) return bigger->getRemainingHealth() > smaler->getRemainingHealth();
     if (bigger->damage != smaler->damage) return bigger->damage > smaler->damage;
     if (bigger->agility != smaler->agility) return bigger->agility > smaler->agility;
-    return true;
+    return false;
 }
 
 unsigned int SQUAD_CLASS::getDamage() {
+    UpdateSquad();
     unsigned int sumDamage = 0;
     for (Node* current = head; current; current = current->next) {
         sumDamage += current->p->getDamage();
@@ -123,6 +113,7 @@ unsigned int SQUAD_CLASS::getDamage() {
 }
 
 unsigned int SQUAD_CLASS::getAgility() {
+    UpdateSquad();
     unsigned int minAgility = UINT_MAX;
     for (Node* current = head; current; current = current->next) {
         if (current->p->getAgility() < minAgility) minAgility = current->p->getAgility();
@@ -145,14 +136,36 @@ void SQUAD_CLASS::takeDamage(unsigned int damageTaken) {
     }
 }
 
+void SQUAD_CLASS::UpdateSquad() {
+    for (Node* current = head; current;) {
+        if (current->p->getRemainingHealth() == 0 ) {
+            Node* toDelete = current;
+            current = current->next;
+            deletePlayer(toDelete->p);
+        }else{
+            current = current->next;
+        }
+    }
+
+}
+
 void SQUAD_CLASS::printParams() {
-    if (getTeamSize() == 0) {
+    int teamSizeToPrint = getTeamSize();
+    if (!teamSizeToPrint) {
         std::cout << id << ":nemo\n";
         return;
     }
-    std::cout << id << ":" << getTeamSize() << ":" << getRemainingHealth() << "%:" << getDamage() << ":" << getAgility() << "\n";
-    for (Node* current = head; current; current = current->next) {
-        current->p->printParams();
+
+    std::cout << id << ":" << teamSizeToPrint << ":" << getRemainingHealth() << "%:" << getDamage() << ":" << getAgility() << "\n";
+    PLAYER_CLASS* toPrint = nullptr;
+    PLAYER_CLASS* printedBefore = nullptr;
+    while (teamSizeToPrint--) {
+        for (Node* current = head; current; current = current->next) {
+            if ((!printedBefore || isBigger(current->p, printedBefore)) && (!toPrint || isBigger(toPrint, current->p))) toPrint = current->p;
+        }
+        toPrint->printParams();
+        printedBefore = toPrint;
+        toPrint = nullptr;
     }
 }
 
@@ -195,15 +208,16 @@ void ARENA_CLASS::fight(PLAYER_CLASS* p1, PLAYER_CLASS* p2) {
         if (p1->getRemainingHealth() < 10) break;
     }
 
-    caesar.isPairAttacksOnLastBattle = (attacks % 2 == 0);
 
     if (p1->getRemainingHealth() > 0) {
-        // caesar.judgeDeathOrLife(p1);
+        caesar.isPairAttacksOnLastBattle = ( ((attacks+1)/2) % 2 == 0);
+        caesar.judgeDeathOrLife(p1);
         p1->printParams();
         if (p1->getRemainingHealth()) p1->applyWinnerReward();
     }
     if (p2->getRemainingHealth() > 0) {
-        // caesar.judgeDeathOrLife(p2);
+        caesar.isPairAttacksOnLastBattle = ( (attacks/2) % 2 == 0);
+        caesar.judgeDeathOrLife(p2);
         p2->printParams();
         if (p2->getRemainingHealth()) p2->applyWinnerReward();
     }

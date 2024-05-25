@@ -114,6 +114,7 @@ class BERSERKER_CLASS : public BEAST_CLASS, public HUMAN_CLASS {
 class SQUAD_CLASS : public PLAYER_CLASS {
    public:
     SQUAD_CLASS(std::string id) : id(id){};
+    ~SQUAD_CLASS(){ deleteSquad(this); }
 
     int getType() override { return 3; };
     std::string getId() override { return id; }
@@ -130,6 +131,7 @@ class SQUAD_CLASS : public PLAYER_CLASS {
 
    private:
     int getTeamSize();
+    void UpdateSquad();
     bool isAlreadyInSquad(PLAYER_CLASS* p);
     bool isBigger(PLAYER_CLASS* bigger, PLAYER_CLASS* smaler);
 
