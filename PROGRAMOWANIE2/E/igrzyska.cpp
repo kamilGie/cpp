@@ -45,7 +45,7 @@ void CAESAR_CLASS::judgeDeathOrLife(PLAYER_CLASS* player) {
 }
 
 void ARENA_CLASS::fight(PLAYER_CLASS* p1, PLAYER_CLASS* p2) {
-    if (p1->health==0 || p2->health==0) { return; }
+    if (p1->getRemainingHealth()==0 || p2->getRemainingHealth()==0) { return; }
     if (p2->getAgility() > p1->getAgility()) {
         fight(p2, p1);
         return;
@@ -55,31 +55,32 @@ void ARENA_CLASS::fight(PLAYER_CLASS* p1, PLAYER_CLASS* p2) {
     p2->printParams();
 
     int attacks = 0;
-    while (p1->health >= 10 && p2->health >= 10 && attacks != 40){
+    while ( attacks != 40){
         p2->takeDamage(p1->getDamage());
         p2->printParams();
         attacks++;
-        if (p2->health == 0) { break; }
+        if (p2->getRemainingHealth() < 10 ) { break; }
 
         p1->takeDamage(p2->getDamage());
         p1->printParams();
         attacks++;
-        if (p1->health == 0) { break; }
+        if (p1->getRemainingHealth() < 10 ) { break; }
     } 
+
 
     caesar.isPairAttacksOnLastBattle = (attacks % 2 == 0);
 
-    if(p1->health>0){
-        caesar.judgeDeathOrLife(p1);
+    if(p1->getRemainingHealth()>0){
+       // caesar.judgeDeathOrLife(p1);
         p1->printParams();
+        if(p1->getRemainingHealth()) { p1->applyWinnerReward(); }
     }
-    if(p2->health>0){
-        caesar.judgeDeathOrLife(p2);
+    if(p2->getRemainingHealth()>0){
+       // caesar.judgeDeathOrLife(p2);
         p2->printParams();
+        if(p2->getRemainingHealth()) { p2->applyWinnerReward(); }
     }
 
-    if(p1->health) { p1->applyWinnerReward(); }
-    if(p2->health) { p2->applyWinnerReward(); }
     p1->printParams();
     p2->printParams();
 }
@@ -128,12 +129,20 @@ void SQUAD_CLASS::deletePlayer(PLAYER_CLASS* p) {
             current->next = current->next->next;
             delete temp;
         }
+
+}
+
+void SQUAD_CLASS::applyWinnerReward() {
+        Node* current = head;
+        while (current->next ) {
+            current->p->applyWinnerReward();
+            current = current->next;
+        }
+        current->p->applyWinnerReward();
+
 }
 
 void SQUAD_CLASS::deleteSquad(PLAYER_CLASS* p) {
-    // Sprawdzenie, czy lista nie jest pusta
-    if (!head) { return; }
-
     Node* current = head;
     Node* nextNode = nullptr;
 
@@ -143,10 +152,6 @@ void SQUAD_CLASS::deleteSquad(PLAYER_CLASS* p) {
         current = nextNode;
     }
     head = nullptr;
-}
-
-int HUMAN_CLASS::sumOfAgilityAndDefance() {
-    return agility+defance;
 }
 
 void HUMAN_CLASS::takeDamage(unsigned int damageTaken) {
@@ -177,18 +182,12 @@ int BEAST_CLASS::getType() {
     return 2;
 }
 
-int BEAST_CLASS::sumOfAgilityAndDefance() {
-    return agility;
-}
 
 int BERSERKER_CLASS::getType() {
     return  ( getRemainingHealth() < 25  && getRemainingHealth()!=0 ) ? BEAST_CLASS::getType()
                                                                       : HUMAN_CLASS::getType();
 }
 
-int BERSERKER_CLASS::sumOfAgilityAndDefance() {
-    return agility+defance;
-}
 
 unsigned int BERSERKER_CLASS::getDamage() {
     return ( getType()==1 ) ? HUMAN_CLASS::getDamage() 
@@ -230,9 +229,6 @@ void SQUAD_CLASS::addPlayer(PLAYER_CLASS* p) {
         }
 }
 
-int SQUAD_CLASS::sumOfAgilityAndDefance() {
-    return agility;
-}
 
 int SQUAD_CLASS::getTeamSize() {
     size_t teamSize=0;
@@ -287,7 +283,7 @@ void SQUAD_CLASS::takeDamage(unsigned int damageTaken) {
     damageTaken = damageTaken/getTeamSize();
     Node* current = head;
     while (current) {
-       if( current->p->sumOfAgilityAndDefance() < damageTaken){ current->p->takeDamage(damageTaken-current->p->sumOfAgilityAndDefance()); }
+           current->p->takeDamage(damageTaken);
        if(current->p->health==0) {
             Node* next= current->next;  
             deletePlayer(current->p); 
