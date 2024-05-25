@@ -304,7 +304,7 @@ void SQUAD_CLASS::printParams() {
         return;
     }
 
-    std::cout<<id<<":"<<getTeamSize()<<":"<<getRemainingHealth()<<"%:"<<getDamage()<<":"<<getAgility()<<":\n";
+    std::cout<<id<<":"<<getTeamSize()<<":"<<getRemainingHealth()<<"%:"<<getDamage()<<":"<<getAgility()<<"\n";
     Node* current = head;
     while (current) {
         current->p->printParams();

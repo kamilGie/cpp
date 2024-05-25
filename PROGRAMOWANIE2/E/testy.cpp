@@ -62,6 +62,39 @@ TEST(martynaTest, pleyerVsPlayer) {
 }
 
 
+// TEST(martynaTest, SquadVsSquad) {
+//     CAESAR_CLASS caesar;
+//     ARENA_CLASS arena(&caesar);
+
+//     BERSERKER_CLASS human1("HUMAN1", "BEAST1");
+//     BERSERKER_CLASS human7 ( "HUMAN7", "BEAST7");
+
+//     BERSERKER_CLASS beast3 ( "human3", "beast3");
+//     BERSERKER_CLASS beast4 ( "human4", "beast4");
+//     BERSERKER_CLASS beast8 ( "human8", "beast8");
+//     HUMAN_CLASS h2 ( "h2" );
+//     BEAST_CLASS b4 ( "b4" );
+
+//     arena.fight(&beast4, &human1);
+
+//     SQUAD_CLASS squad1 ( "squad1" );
+//     squad1.addPlayer(&human7);
+//     squad1.addPlayer(&human1);
+//     squad1.addPlayer(&human7);
+
+//     SQUAD_CLASS squad2 ( "squad2" );
+//     squad2.addPlayer(&beast4);
+//     squad2.addPlayer(&b4);
+//     squad2.addPlayer(&beast3);
+//     squad2.addPlayer(&beast8);
+//     squad2.addPlayer(&h2);
+
+//     CaptureStdout();
+//     arena.fight( &squad1, &squad2 );
+//     EXPECT_EQ(GetCapturedStdout() , " squad1:2:100%:72:5\nHUMAN1:200:200:100%:37:7:15\nHUMAN7:200:200:100%:35:5:15\nsquad2:4:100%:140:5\nb4:150:150:100%:40:20\nh2:200:200:100%:30:10:10\nhuman3:200:200:100%:35:5:15\nhuman8:200:200:100%:35:5:15\nsquad2:4:100%:140:5\nb4:150:142:94%:40:20\nh2:200:200:100%:30:10:10\nhuman3:200:200:100%:35:5:15\nhuman8:200:200:100%:35:5:15\nsquad1:2:76%:72:5\nHUMAN1:200:152:76%:37:7:15\nHUMAN7:200:150:75%:35:5:15\nsquad2:4:100%:140:5\nb4:150:134:89%:40:20\nh2:200:200:100%:30:10:10\nhuman3:200:200:100%:35:5:15\nhuman8:200:200:100%:35:5:15\nsquad1:2:52%:72:5\nHUMAN1:200:104:52%:37:7:15\nHUMAN7:200:100:50%:35:5:15\nsquad2:4:100%:140:5\nb4:150:126:84%:40:20\nh2:200:200:100%:30:10:10\nhuman3:200:200:100%:35:5:15\nhuman8:200:200:100%:35:5:15\nsquad1:2:28%:72:5\nHUMAN1:200:56:28%:37:7:15\nHUMAN7:200:50:25%:35:5:15\nsquad2:4:100%:140:5\nb4:150:118:78%:40:20\nh2:200:200:100%:30:10:10\nhuman3:200:200:100%:35:5:15\nhuman8:200:200:100%:35:5:15\nsquad1:1:4%:74:7\nBEAST1:200:8:4%:74:7\nsquad1:1:4%:74:7\nBEAST1:200:8:4%:74:7\nsquad2:4:100%:140:5\nb4:150:118:78%:40:20\nh2:200:200:100%:30:10:10\nhuman3:200:200:100%:35:5:15\nhuman8:200:200:100%:35:5:15\nsquad1:1:100%:39:9\nHUMAN1:200:200:100%:39:9:15\nsquad2:4:100%:148:7\nb4:150:150:100%:42:22\nh2:200:200:100%:32:12:10\nhuman3:200:200:100%:37:7:15\nhuman8:200:200:100%:37:7:15\n" );
+// }
+
+
 TEST(martynaTest, SquadVsSquad) {
     CAESAR_CLASS caesar;
     ARENA_CLASS arena(&caesar);
@@ -69,27 +102,14 @@ TEST(martynaTest, SquadVsSquad) {
     BERSERKER_CLASS human1("HUMAN1", "BEAST1");
     BERSERKER_CLASS human7 ( "HUMAN7", "BEAST7");
 
-    BERSERKER_CLASS beast3 ( "human3", "beast3");
-    BERSERKER_CLASS beast4 ( "human4", "beast4");
-    BERSERKER_CLASS beast8 ( "human8", "beast8");
-    HUMAN_CLASS h2 ( "h2" );
-    BEAST_CLASS b4 ( "b4" );
-
-    arena.fight(&beast4, &human1);
-
     SQUAD_CLASS squad1 ( "squad1" );
     squad1.addPlayer(&human7);
     squad1.addPlayer(&human1);
     squad1.addPlayer(&human7);
 
-    SQUAD_CLASS squad2 ( "squad2" );
-    squad2.addPlayer(&beast4);
-    squad2.addPlayer(&b4);
-    squad2.addPlayer(&beast3);
-    squad2.addPlayer(&beast8);
-    squad2.addPlayer(&h2);
-
     CaptureStdout();
-    arena.fight( &squad1, &squad2 );
-    EXPECT_EQ(GetCapturedStdout() , " squad1:2:100%:72:5\nHUMAN1:200:200:100%:37:7:15\nHUMAN7:200:200:100%:35:5:15\nsquad2:4:100%:140:5\nb4:150:150:100%:40:20\nh2:200:200:100%:30:10:10\nhuman3:200:200:100%:35:5:15\nhuman8:200:200:100%:35:5:15\nsquad2:4:100%:140:5\nb4:150:142:94%:40:20\nh2:200:200:100%:30:10:10\nhuman3:200:200:100%:35:5:15\nhuman8:200:200:100%:35:5:15\nsquad1:2:76%:72:5\nHUMAN1:200:152:76%:37:7:15\nHUMAN7:200:150:75%:35:5:15\nsquad2:4:100%:140:5\nb4:150:134:89%:40:20\nh2:200:200:100%:30:10:10\nhuman3:200:200:100%:35:5:15\nhuman8:200:200:100%:35:5:15\nsquad1:2:52%:72:5\nHUMAN1:200:104:52%:37:7:15\nHUMAN7:200:100:50%:35:5:15\nsquad2:4:100%:140:5\nb4:150:126:84%:40:20\nh2:200:200:100%:30:10:10\nhuman3:200:200:100%:35:5:15\nhuman8:200:200:100%:35:5:15\nsquad1:2:28%:72:5\nHUMAN1:200:56:28%:37:7:15\nHUMAN7:200:50:25%:35:5:15\nsquad2:4:100%:140:5\nb4:150:118:78%:40:20\nh2:200:200:100%:30:10:10\nhuman3:200:200:100%:35:5:15\nhuman8:200:200:100%:35:5:15\nsquad1:1:4%:74:7\nBEAST1:200:8:4%:74:7\nsquad1:1:4%:74:7\nBEAST1:200:8:4%:74:7\nsquad2:4:100%:140:5\nb4:150:118:78%:40:20\nh2:200:200:100%:30:10:10\nhuman3:200:200:100%:35:5:15\nhuman8:200:200:100%:35:5:15\nsquad1:1:100%:39:9\nHUMAN1:200:200:100%:39:9:15\nsquad2:4:100%:148:7\nb4:150:150:100%:42:22\nh2:200:200:100%:32:12:10\nhuman3:200:200:100%:37:7:15\nhuman8:200:200:100%:37:7:15\n" );
+    squad1.printParams();
+    EXPECT_EQ( GetCapturedStdout(),"squad1:2:100%:70:5\nHUMAN1:200:200:100%:35:5:15\nHUMAN7:200:200:100%:35:5:15\n");
+
+
 }
