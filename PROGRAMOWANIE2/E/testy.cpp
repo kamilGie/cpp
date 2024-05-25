@@ -276,35 +276,6 @@ TEST(martynaTest, Squad_WholeSquad_takeKillingDemage_RemainingHealthequals0) {
 }
 
 
-// TEST(martynaTest, printfParams_delete_dead_player) {
-//     CAESAR_CLASS caesar;
-//     ARENA_CLASS arena(&caesar);
-
-//     BERSERKER_CLASS beast3 ( "human3", "beast3");
-//     BERSERKER_CLASS beast4 ( "human4", "beast4");
-//     BERSERKER_CLASS beast8 ( "human8", "beast8");
-//     HUMAN_CLASS h2 ( "h2" );
-//     BEAST_CLASS b4 ( "b4" );
-
-
-
-//     SQUAD_CLASS squad2 ( "squad2" );
-//     squad2.addPlayer(&beast4);
-//     squad2.addPlayer(&b4);
-//     squad2.addPlayer(&beast3);
-//     squad2.addPlayer(&beast8);
-//     squad2.addPlayer(&h2);
-
-//     BERSERKER_CLASS human1("HUMAN1", "BEAST1");
-//     CaptureStdout();
-//     arena.fight(&beast4, &human1);
-//     GetCapturedStdout();
-
-//     CaptureStdout();
-//     squad2.printParams();
-//     EXPECT_EQ( GetCapturedStdout(),"squad2:4:100%:140:5\nb4:150:150:100%:40:20\nh2:200:200:100%:30:10:10\nhuman3:200:200:100%:35:5:15\nhuman8:200:200:100%:35:5:15\n");
-// }
-
 TEST(martynaTest, SquadVsSquad) {
     CAESAR_CLASS caesar;
     ARENA_CLASS arena(&caesar);
@@ -378,3 +349,32 @@ TEST(martynaTest, SquadVsBeast) {
     EXPECT_EQ(GetCapturedStdout() ,"squad1:1:100%:39:9\n" "HUMAN1:200:200:100%:39:9:15\n" "human1:200:200:100%:35:5:15\n" "human1:200:181:90%:35:5:15\n" "squad1:1:94%:39:9\n" "HUMAN1:200:189:94%:39:9:15\n" "human1:200:162:81%:35:5:15\n" "squad1:1:89%:39:9\n" "HUMAN1:200:178:89%:39:9:15\n" "human1:200:143:71%:35:5:15\n" "squad1:1:83%:39:9\n" "HUMAN1:200:167:83%:39:9:15\n" "human1:200:124:62%:35:5:15\n" "squad1:1:78%:39:9\n" "HUMAN1:200:156:78%:39:9:15\n" "human1:200:105:52%:35:5:15\n" "squad1:1:72%:39:9\n" "HUMAN1:200:145:72%:39:9:15\n" "human1:200:86:43%:35:5:15\n" "squad1:1:67%:39:9\n" "HUMAN1:200:134:67%:39:9:15\n" "human1:200:67:33%:35:5:15\n" "squad1:1:61%:39:9\n" "HUMAN1:200:123:61%:39:9:15\n" "beast1:200:48:24%:70:5\n" "squad1:1:38%:39:9\n" "HUMAN1:200:77:38%:39:9:15\n" "beast1:200:11:5%:70:5\n" "squad1:1:38%:39:9\n" "HUMAN1:200:77:38%:39:9:15\n" "beast1:200:11:5%:70:5\n" "squad1:1:100%:41:11\n" "HUMAN1:200:200:100%:41:11:15\n" "human1:200:200:100%:37:7:15\n");
 
 }
+
+// TEST(martynaTest, printfParams_delete_dead_player) {
+//     CAESAR_CLASS caesar;
+//     ARENA_CLASS arena(&caesar);
+
+//     BERSERKER_CLASS beast3 ( "human3", "beast3");
+//     BERSERKER_CLASS beast4 ( "human4", "beast4");
+//     BERSERKER_CLASS beast8 ( "human8", "beast8");
+//     HUMAN_CLASS h2 ( "h2" );
+//     BEAST_CLASS b4 ( "b4" );
+
+
+
+//     SQUAD_CLASS squad2 ( "squad2" );
+//     squad2.addPlayer(&beast4);
+//     squad2.addPlayer(&b4);
+//     squad2.addPlayer(&beast3);
+//     squad2.addPlayer(&beast8);
+//     squad2.addPlayer(&h2);
+
+//     BERSERKER_CLASS human1("HUMAN1", "BEAST1");
+//     CaptureStdout();
+//     arena.fight(&beast4, &human1);
+//     GetCapturedStdout();
+
+//     CaptureStdout();
+//     squad2.printParams();
+//     EXPECT_EQ( GetCapturedStdout(),"squad2:4:100%:140:5\nb4:150:150:100%:40:20\nh2:200:200:100%:30:10:10\nhuman3:200:200:100%:35:5:15\nhuman8:200:200:100%:35:5:15\n");
+// }
