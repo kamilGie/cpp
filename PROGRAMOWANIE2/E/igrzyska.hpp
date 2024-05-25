@@ -7,6 +7,8 @@ class PLAYER_CLASS {
     PLAYER_CLASS(){};
     virtual ~PLAYER_CLASS() = default;
 
+    virtual int sumOfAgilityAndDefance()=0;
+    virtual int getType()=0;
     virtual unsigned int getRemainingHealth();
     virtual unsigned int getDamage();
     virtual unsigned int getAgility();
@@ -20,6 +22,7 @@ class PLAYER_CLASS {
     unsigned int health;
     unsigned int damage;
     unsigned int agility;
+    
 
    public:
     friend class CAESAR_CLASS;
@@ -39,11 +42,14 @@ class HUMAN_CLASS : virtual public PLAYER_CLASS {
         defance = 10;
     }
 
+    int getType() override;
+    int sumOfAgilityAndDefance() override;
     void takeDamage(unsigned int damageTaken) override;
     void printParams() override;
 
    public:
     unsigned int defance;
+    
 
    public:
     friend class SQUAD_CLASS;
@@ -61,9 +67,13 @@ class BEAST_CLASS : virtual public PLAYER_CLASS {
         agility = 20;
     }
 
+    int getType() override;
+    int sumOfAgilityAndDefance() override;
     unsigned int getDamage() override;
     void takeDamage(unsigned int damageTaken) override;
     void printParams() override;
+
+    public:
 
    public:
     friend class SQUAD_CLASS;
@@ -82,6 +92,8 @@ class BERSERKER_CLASS : public BEAST_CLASS, public HUMAN_CLASS {
         defance = 15;
     }
 
+    int getType()override;
+    int sumOfAgilityAndDefance() override;
     unsigned int getDamage() override;
     unsigned int getAgility() override;
     void takeDamage(unsigned int damageTaken) override;
@@ -99,15 +111,18 @@ class SQUAD_CLASS : public PLAYER_CLASS {
    public:
     SQUAD_CLASS(std::string id) : id(id){};
 
-    void addPleyer(PLAYER_CLASS* p);
+    void addPlayer(PLAYER_CLASS* p);
+    int sumOfAgilityAndDefance() override;
     unsigned int getRemainingHealth() override;
     unsigned int getDamage() override;
     unsigned int getAgility() override;
     void takeDamage(unsigned int damageTaken) override;
     void printParams() override;
+    int getType()override;
 
    private:
     int getTeamSize();
+    bool isAlreadyInSquad(PLAYER_CLASS* p);
 
    private:
     std::string id;

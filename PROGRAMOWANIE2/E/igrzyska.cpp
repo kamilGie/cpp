@@ -13,8 +13,11 @@ unsigned int PLAYER_CLASS::getAgility() {
 }
 
 void PLAYER_CLASS::takeDamage(unsigned int damageTaken) {
-    health = ( health > damageTaken ) ? health - damageTaken
-                                      : 0;
+    if( health > damageTaken ){
+        health -= damageTaken;
+    } else{
+        die();
+    }
 }
 
 void PLAYER_CLASS::applyWinnerReward() {
@@ -46,7 +49,7 @@ void ARENA_CLASS::fight(PLAYER_CLASS* p1, PLAYER_CLASS* p2) {
     p2->printParams();
 
     int attacks = 0;
-    do {
+    while (p1->health >= 10 && p2->health >= 10 && attacks != 40){
         p2->takeDamage(p1->getDamage());
         p2->printParams();
         attacks++;
@@ -56,20 +59,31 @@ void ARENA_CLASS::fight(PLAYER_CLASS* p1, PLAYER_CLASS* p2) {
         p1->printParams();
         attacks++;
         if (p1->health == 0) { break; }
-    } while (p1->health >= 10 || p2->health >= 10 || attacks != 40);
+    } 
 
     caesar.isPairAttacksOnLastBattle = (attacks % 2 == 0);
 
-    caesar.judgeDeathOrLife(p1);
-    p1->printParams();
-    if(p1->health) {p1->applyWinnerReward();}
-    p1->printParams();
+    if(p1->health>0){
+        caesar.judgeDeathOrLife(p1);
+        p1->printParams();
+    }
+    if(p2->health>0){
+        caesar.judgeDeathOrLife(p2);
+        p2->printParams();
+    }
 
-    caesar.judgeDeathOrLife(p2);
+    if(p1->health) { p1->applyWinnerReward(); }
+    if(p2->health) { p2->applyWinnerReward(); }
+    p1->printParams();
     p2->printParams();
-    if(p2->health) {p2->applyWinnerReward();}
-    p2->printParams();
+}
 
+int HUMAN_CLASS::getType() {
+    return 1;
+}
+
+int HUMAN_CLASS::sumOfAgilityAndDefance() {
+    return agility+defance;
 }
 
 void HUMAN_CLASS::takeDamage(unsigned int damageTaken) {
@@ -82,8 +96,8 @@ void HUMAN_CLASS::printParams() {
 }
 
 unsigned int BEAST_CLASS::getDamage() {
-    return ( health<25 ) ? damage*2 
-                         : damage;
+    return ( getRemainingHealth()<25 ) ? damage*2 
+                                       : damage;
 
 }
 
@@ -92,31 +106,50 @@ void BEAST_CLASS::takeDamage(unsigned int damageTaken) {
 }
 
 void BEAST_CLASS::printParams() {
-    ( health>0 ) ? std::cout<<id<<":"<<maxHealth<<":"<<health<<":"<<getRemainingHealth()<<"%:"<<damage<<":"<<agility<<":"<<"\n"
+    ( health>0 ) ? std::cout<<id<<":"<<maxHealth<<":"<<health<<":"<<getRemainingHealth()<<"%:"<<getDamage()<<":"<<agility<<"\n"
                  : std::cout<<id<<":R.I.P.\n";
 }
 
+int BEAST_CLASS::getType() {
+    return 2;
+}
+
+int BEAST_CLASS::sumOfAgilityAndDefance() {
+    return agility;
+}
+
+int BERSERKER_CLASS::getType() {
+    return  ( getRemainingHealth() < 25  && getRemainingHealth()!=0 ) ? BEAST_CLASS::getType()
+                                                                      : HUMAN_CLASS::getType();
+}
+
+int BERSERKER_CLASS::sumOfAgilityAndDefance() {
+    return agility+defance;
+}
+
 unsigned int BERSERKER_CLASS::getDamage() {
-    return ( health < 25  && health!=0 ) ? BEAST_CLASS::getDamage() 
-                                         : HUMAN_CLASS::getDamage();
+    return ( getType()==1 ) ? HUMAN_CLASS::getDamage() 
+                            : BEAST_CLASS::getDamage();
 }
 
 unsigned int BERSERKER_CLASS::getAgility() {
-    return ( health < 25  && health!=0 ) ? BEAST_CLASS::getAgility() 
-                                         : HUMAN_CLASS::getAgility();
+     return ( getType()==1 ) ? HUMAN_CLASS::getAgility() 
+                             : BEAST_CLASS::getAgility();
 }
 
 void BERSERKER_CLASS::takeDamage(unsigned int damageTaken) {
-    ( health < 25  && health!=0 )  ? BEAST_CLASS::takeDamage(damageTaken) 
-                                   : HUMAN_CLASS::takeDamage(damageTaken);
+    ( getType()==1 ) ? HUMAN_CLASS::takeDamage(damageTaken) 
+                     : BEAST_CLASS::takeDamage(damageTaken);
 }
 
 void BERSERKER_CLASS::printParams() {
-    ( health < 25  && health!=0 )  ? BEAST_CLASS::printParams() 
-                                   : HUMAN_CLASS::printParams() ;
+    ( getType()==1 ) ? HUMAN_CLASS::printParams() 
+                     : BEAST_CLASS::printParams();
 }
 
-void SQUAD_CLASS::addPleyer(PLAYER_CLASS* p) {
+void SQUAD_CLASS::addPlayer(PLAYER_CLASS* p) {
+    if(p->health==0 || isAlreadyInSquad(p)) { return; }
+
     Node* newNode = new Node(p);
         if (!head) {
             head = newNode;
@@ -129,6 +162,10 @@ void SQUAD_CLASS::addPleyer(PLAYER_CLASS* p) {
         }
 }
 
+int SQUAD_CLASS::sumOfAgilityAndDefance() {
+    return agility;
+}
+
 int SQUAD_CLASS::getTeamSize() {
     size_t teamSize=0;
     Node* current = head;
@@ -137,6 +174,16 @@ int SQUAD_CLASS::getTeamSize() {
         current = current->next;
     }
     return teamSize;
+}
+
+
+bool SQUAD_CLASS::isAlreadyInSquad(PLAYER_CLASS* p){
+    Node* current = head;
+    while (current) {
+        if(current->p == p) { return true; }
+        current = current->next;
+    }
+    return false;
 }
 
 unsigned int SQUAD_CLASS::getDamage() {
@@ -161,8 +208,11 @@ unsigned int SQUAD_CLASS::getAgility() {
 
 void SQUAD_CLASS::takeDamage(unsigned int damageTaken) {
     damageTaken = damageTaken/getTeamSize();
-    //todo 
-    
+    Node* current = head;
+    while (current) {
+       if( current->p->sumOfAgilityAndDefance() < damageTaken){ current->p->takeDamage(damageTaken-current->p->sumOfAgilityAndDefance()); }
+        current = current->next;
+    }
 }
 
 void SQUAD_CLASS::printParams() {
@@ -171,12 +221,16 @@ void SQUAD_CLASS::printParams() {
         return;
     }
 
-    std::cout<<id<<":"<<getTeamSize()<<":"<<getRemainingHealth()<<":"<<getDamage()<<":"<<getAgility()<<":\n";
+    std::cout<<id<<":"<<getTeamSize()<<":"<<getRemainingHealth()<<"%:"<<getDamage()<<":"<<getAgility()<<":\n";
     Node* current = head;
     while (current) {
         current->p->printParams();
         current = current->next;
     }
+}
+
+int SQUAD_CLASS::getType() {
+    return 3;
 }
 
 unsigned int SQUAD_CLASS::getRemainingHealth(){
