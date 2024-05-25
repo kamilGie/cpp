@@ -7,8 +7,11 @@ class PLAYER_CLASS {
     PLAYER_CLASS(){};
     virtual ~PLAYER_CLASS() = default;
 
+    virtual void deletePlayer(PLAYER_CLASS* p){};
+    virtual void deleteSquad(PLAYER_CLASS* p){};
     virtual int sumOfAgilityAndDefance()=0;
     virtual int getType()=0;
+    virtual std::string getId()=0;
     virtual unsigned int getRemainingHealth();
     virtual unsigned int getDamage();
     virtual unsigned int getAgility();
@@ -43,6 +46,7 @@ class HUMAN_CLASS : virtual public PLAYER_CLASS {
     }
 
     int getType() override;
+    std::string getId() override;
     int sumOfAgilityAndDefance() override;
     void takeDamage(unsigned int damageTaken) override;
     void printParams() override;
@@ -69,6 +73,7 @@ class BEAST_CLASS : virtual public PLAYER_CLASS {
 
     int getType() override;
     int sumOfAgilityAndDefance() override;
+    std::string getId() override;
     unsigned int getDamage() override;
     void takeDamage(unsigned int damageTaken) override;
     void printParams() override;
@@ -92,7 +97,8 @@ class BERSERKER_CLASS : public BEAST_CLASS, public HUMAN_CLASS {
         defance = 15;
     }
 
-    int getType()override;
+    std::string getId() override;
+    int getType() override;
     int sumOfAgilityAndDefance() override;
     unsigned int getDamage() override;
     unsigned int getAgility() override;
@@ -111,6 +117,9 @@ class SQUAD_CLASS : public PLAYER_CLASS {
    public:
     SQUAD_CLASS(std::string id) : id(id){};
 
+    std::string getId() override;
+    void deletePlayer(PLAYER_CLASS* p) override;
+    void deleteSquad(PLAYER_CLASS* p) override;
     void addPlayer(PLAYER_CLASS* p);
     int sumOfAgilityAndDefance() override;
     unsigned int getRemainingHealth() override;
@@ -123,6 +132,7 @@ class SQUAD_CLASS : public PLAYER_CLASS {
    private:
     int getTeamSize();
     bool isAlreadyInSquad(PLAYER_CLASS* p);
+    bool isBigger(PLAYER_CLASS* bigger, PLAYER_CLASS* smaler);
 
    private:
     std::string id;
