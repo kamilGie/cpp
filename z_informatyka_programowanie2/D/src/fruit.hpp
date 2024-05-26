@@ -3,7 +3,11 @@
 
 class FRUIT_CLASS {
    public:
-   unsigned int getWeightsTotal();
+    unsigned int getWeights();
+    void growthFruit();
+    void fadeFruit();
+    void pluckFruit();
+
    private:
-    unsigned int fruitWeight=0;
+    unsigned int fruitWeight = 0;
 };

@@ -16,7 +16,7 @@ unsigned int BRANCH_CLASS::getFruitsTotal() {
 unsigned int BRANCH_CLASS::getWeightsTotal() {
     unsigned int weightsTotal = 0;
     for (fruitNode* current = head; current; current = current->next) {
-        weightsTotal += current->value->getWeightsTotal();
+        weightsTotal += current->value->getWeights();
     }
     return weightsTotal;
 }
