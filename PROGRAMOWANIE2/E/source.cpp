@@ -1,3 +1,4 @@
+// kamil gieras
 #include <iostream>
 #include <string>
 
