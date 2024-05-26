@@ -3,6 +3,7 @@
 
 class FRUIT_CLASS {
    public:
+   unsigned int getWeightsTotal();
    private:
-    unsigned int mass;
+    unsigned int fruitWeight=0;
 };

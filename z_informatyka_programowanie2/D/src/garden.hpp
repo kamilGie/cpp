@@ -7,9 +7,12 @@ class GARDEN_CLASS {
     GARDEN_CLASS() {}
     ~GARDEN_CLASS();
 
+    void plantTree();
     unsigned int getTressTotal();
-    unsigned int getBranchesTotal();
     unsigned int getFruitsTotal();
+    unsigned int getWeightsTotal();
+    unsigned int getBranchesTotal();
+    unsigned int getMinAvibleNumber();
 
    private:
     struct treeNode {

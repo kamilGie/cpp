@@ -15,4 +15,12 @@ TEST(gardenClass, getTotal_amouth0) {
     ASSERT_EQ(garden.getTressTotal(),0);
     ASSERT_EQ(garden.getBranchesTotal(),0);
     ASSERT_EQ(garden.getFruitsTotal(),0);
+    ASSERT_EQ(garden.getWeightsTotal(),0);
+}
+
+TEST(gardenClass, getTressTotal) {
+    GARDEN_CLASS garden;
+    garden.plantTree();
+    garden.plantTree();
+    ASSERT_EQ(garden.getTressTotal(),2);
 }

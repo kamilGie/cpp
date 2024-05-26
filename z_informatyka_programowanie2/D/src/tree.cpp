@@ -9,6 +9,10 @@ TREE_CLASS::~TREE_CLASS() {
     }
 }
 
+unsigned int TREE_CLASS::getNumber() {
+    return number;
+}
+
 unsigned int TREE_CLASS::getBranchesTotal() {
     return totalBranches;
 }
@@ -19,4 +23,12 @@ unsigned int TREE_CLASS::getFruitsTotal() {
         FruitsTotal += current->value->getFruitsTotal();
     }
     return FruitsTotal;
+}
+
+unsigned int TREE_CLASS::getWeightsTotal() {
+    unsigned int weightsTotal = 0;
+    for (branchNode* current = head; current; current = current->next) {
+        weightsTotal += current->value->getWeightsTotal();
+    }
+    return weightsTotal;
 }

@@ -7,6 +7,7 @@ class BRANCH_CLASS {
    ~BRANCH_CLASS();
 
    unsigned int getFruitsTotal();
+   unsigned int getWeightsTotal();
 
    private:
     struct fruitNode {

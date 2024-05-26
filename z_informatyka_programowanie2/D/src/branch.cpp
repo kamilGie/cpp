@@ -12,3 +12,11 @@ BRANCH_CLASS::~BRANCH_CLASS() {
 unsigned int BRANCH_CLASS::getFruitsTotal() {
     return totalFruits;
 }
+
+unsigned int BRANCH_CLASS::getWeightsTotal() {
+    unsigned int weightsTotal = 0;
+    for (fruitNode* current = head; current; current = current->next) {
+        weightsTotal += current->value->getWeightsTotal();
+    }
+    return weightsTotal;
+}

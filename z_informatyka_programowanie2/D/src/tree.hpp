@@ -4,11 +4,13 @@
 
 class TREE_CLASS {
    public:
-    TREE_CLASS() {}
+    TREE_CLASS(unsigned int number) : number(number){};
     ~TREE_CLASS();
 
+    unsigned int getNumber();
     unsigned int getBranchesTotal();
     unsigned int getFruitsTotal();
+    unsigned int getWeightsTotal();
 
    private:
     struct branchNode {
@@ -18,7 +20,7 @@ class TREE_CLASS {
         branchNode* next = nullptr;
     };
     branchNode* head = nullptr;
-    unsigned int id;
+    unsigned int number;
     unsigned int totalBranches = 0;
     unsigned int height = 0;
     unsigned int sumFruitWeight = 0;
