@@ -13,6 +13,7 @@ class GARDEN_CLASS {
     unsigned int getWeightsTotal();
     unsigned int getBranchesTotal();
     unsigned int getMinAvibleNumber();
+    void ExtractTree(unsigned int NumberToDalate);
 
    private:
     struct treeNode {

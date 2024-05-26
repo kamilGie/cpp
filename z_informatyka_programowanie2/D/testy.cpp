@@ -18,9 +18,16 @@ TEST(gardenClass, getTotal_amouth0) {
     ASSERT_EQ(garden.getWeightsTotal(),0);
 }
 
-TEST(gardenClass, getTressTotal) {
+TEST(gardenClass, plantExtractTree) {
     GARDEN_CLASS garden;
     garden.plantTree();
     garden.plantTree();
-    ASSERT_EQ(garden.getTressTotal(),2);
+    garden.plantTree();
+    ASSERT_EQ(garden.getTressTotal(),3);
+    garden.ExtractTree(2);
+    garden.ExtractTree(1);
+    ASSERT_EQ(garden.getTressTotal(),1);
+    garden.ExtractTree(0);
+    garden.ExtractTree(0);
+    ASSERT_EQ(garden.getTressTotal(),0);
 }

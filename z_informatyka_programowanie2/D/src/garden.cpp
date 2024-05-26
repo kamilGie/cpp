@@ -34,6 +34,27 @@ unsigned int GARDEN_CLASS::getMinAvibleNumber() {
     }
 }
 
+void GARDEN_CLASS::ExtractTree(unsigned int NumberToDalate) {
+    for (treeNode* current = head; current; current = current->next) {
+        if (current->value->getNumber() == NumberToDalate) {
+            if (current->prev) {
+                current->prev->next = current->next;
+            } else {
+                head = current->next;
+            }
+            if (current->next) {
+                current->next->prev = current->prev;
+            }
+            delete current->value;
+            delete current;
+            totalTrees--;
+            return;
+        }
+    }
+
+}
+   
+
 unsigned int GARDEN_CLASS::getTressTotal() {
     return totalTrees;
 }
