@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "igrzyska.hpp"
+#include "source.cpp"
 
 using namespace testing::internal;
 

@@ -1,5 +1,5 @@
 //Kamil Gieras
-#include "igrzyska.hpp"
+#include "source.cpp"
 
 int main() {
     CAESAR_CLASS caesar;
