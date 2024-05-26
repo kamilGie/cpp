@@ -3,13 +3,20 @@
 
 class BRANCH_CLASS {
    public:
+   BRANCH_CLASS(){};
+   ~BRANCH_CLASS();
+
+   unsigned int getFruitsTotal();
+
    private:
     struct fruitNode {
-        FRUIT_CLASS value;
-        fruitNode* prev;
-        fruitNode* next;
+        fruitNode(FRUIT_CLASS* val):value(val){}
+        FRUIT_CLASS *value;
+        fruitNode* prev=nullptr;
+        fruitNode* next=nullptr;
     };
-    unsigned int length;
-    unsigned int totalFruits;
-    unsigned int sumFruitWeight;
+    fruitNode* head = nullptr;
+    unsigned int length=0;
+    unsigned int totalFruits=0;
+    unsigned int sumFruitWeight=0;
 };
