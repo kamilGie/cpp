@@ -37,6 +37,18 @@ void BRANCH_CLASS::Growthbranch() {
     if (length % 2 == 0 && isLengthFree) GrowthFruit();
 }
 
+void BRANCH_CLASS::fadeBranch() {
+    length--;
+        for (fruitNode* current = head; current; current = current->next) {
+            if(current->value->getLength() >length ) {
+                    //todo
+            }else{
+                current->value->fadeFruit();
+            }
+
+        }
+}
+
 void BRANCH_CLASS::GrowthFruit() {
     fruitNode* newFruit = new fruitNode(new FRUIT_CLASS(this, length));
     if (head) {

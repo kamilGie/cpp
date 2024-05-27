@@ -5,14 +5,14 @@ class BRANCH_CLASS;
 
 class FRUIT_CLASS {
    public:
-    FRUIT_CLASS(BRANCH_CLASS* BranchPointer, unsigned int length) :  BranchPointer(BranchPointer),length(length) {}
+    FRUIT_CLASS(BRANCH_CLASS* BranchPointer, unsigned int length) : BranchPointer(BranchPointer), length(length) {}
 
-    void growthFruit();
-    void fadeFruit();
-    void pluckFruit();
-    unsigned int getWeights();
-    unsigned int getLength();
-    BRANCH_CLASS* getBranchPointer();
+    void growthFruit() { ++fruitWeight; }
+    void fadeFruit() { --fruitWeight; }
+    void pluckFruit() { fruitWeight = 0; }
+    unsigned int getWeights() { return fruitWeight; }
+    unsigned int getLength() { return length; }
+    BRANCH_CLASS* getBranchPointer() { return BranchPointer; }
 
    private:
     BRANCH_CLASS* BranchPointer;

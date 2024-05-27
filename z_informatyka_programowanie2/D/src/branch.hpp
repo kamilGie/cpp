@@ -9,6 +9,7 @@ class BRANCH_CLASS {
    unsigned int getHeight(){ return height; }
    unsigned int getLength() { return length; }
 
+   void fadeBranch();
    void GrowthFruit();
    void Growthbranch();
    unsigned int getFruitsTotal();
