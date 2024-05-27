@@ -6,11 +6,13 @@ class BRANCH_CLASS {
    BRANCH_CLASS(unsigned int height): height(height) {};
    ~BRANCH_CLASS();
 
+   unsigned int getHeight(){ return height; }
+   unsigned int getLength() { return length; }
+
+   void GrowthFruit();
+   void Growthbranch();
    unsigned int getFruitsTotal();
    unsigned int getWeightsTotal();
-   unsigned int getLength();
-   void Growthbranch();
-   void GrowthFruit();
 
    private:
     struct fruitNode {
@@ -22,5 +24,4 @@ class BRANCH_CLASS {
     fruitNode* head = nullptr;
     unsigned int height;
     unsigned int length;
-    unsigned int totalFruits=0;
 };

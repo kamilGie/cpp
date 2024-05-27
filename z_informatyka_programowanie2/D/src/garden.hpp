@@ -7,13 +7,15 @@ class GARDEN_CLASS {
     GARDEN_CLASS() {}
     ~GARDEN_CLASS();
 
+    unsigned int getFruitsTotal() { return getTotal(&TREE_CLASS::getFruitsTotal); }
+    unsigned int getWeightsTotal() { return getTotal(&TREE_CLASS::getWeightsTotal); }
+    unsigned int getBranchesTotal() { return getTotal(&TREE_CLASS::getBranchesTotal); }
+
     void plantTree();
     unsigned int getTressTotal();
-    unsigned int getFruitsTotal();
-    unsigned int getWeightsTotal();
-    unsigned int getBranchesTotal();
     unsigned int getMinAvibleNumber();
     void ExtractTree(unsigned int NumberToDalate);
+    unsigned int getTotal(unsigned int (TREE_CLASS::*func)()) const;
 
    private:
     struct treeNode {
@@ -23,6 +25,4 @@ class GARDEN_CLASS {
         treeNode* next=nullptr;
     };
     treeNode *head = nullptr;
-    unsigned int totalTrees = 0;
-    unsigned int sumFruitWeight = 0;
 };

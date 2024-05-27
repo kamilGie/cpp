@@ -11,7 +11,11 @@ BRANCH_CLASS::~BRANCH_CLASS() {
 }
 
 unsigned int BRANCH_CLASS::getFruitsTotal() {
-    return totalFruits;
+    unsigned int FruitsTotal = 0;
+    for (fruitNode* current = head; current; current = current->next) {
+        FruitsTotal++;
+    }
+    return FruitsTotal;
 }
 
 unsigned int BRANCH_CLASS::getWeightsTotal() {
@@ -22,37 +26,19 @@ unsigned int BRANCH_CLASS::getWeightsTotal() {
     return weightsTotal;
 }
 
-unsigned int BRANCH_CLASS::getLength() {
-    return length;
-}
 
 void BRANCH_CLASS::Growthbranch() {
     length++;
-
-    fruitNode* current = head;
-    if (length % 2 == 0) {
-        bool isLengthoccupied = false;
-        while(current) {
-            current->value->growthFruit();
-            if (current->value->getLength() == length){
-                isLengthoccupied = true;
-                break;
-            } 
-            current = current->next;
-        }
-        current = current->next;
-        if (!isLengthoccupied) GrowthFruit();
-    }
-
-    while(current){
+    bool isLengthFree = true;
+    for (fruitNode* current = head; current; current = current->next) {
         current->value->growthFruit();
-        current = current->next;
+        if (current->value->getLength() == length) isLengthFree = false;
     }
+    if (length % 2 == 0 && isLengthFree) GrowthFruit();
 }
 
 void BRANCH_CLASS::GrowthFruit() {
-    FRUIT_CLASS* newFruitClass = new FRUIT_CLASS(this,length);
-    fruitNode* newFruit = new fruitNode(newFruitClass);
+    fruitNode* newFruit = new fruitNode(new FRUIT_CLASS(this, length));
     if (head) {
         newFruit->next = head;
         head->prev = newFruit;

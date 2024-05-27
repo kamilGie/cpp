@@ -31,3 +31,13 @@ TEST(gardenClass, plantExtractTree) {
     garden.ExtractTree(0);
     ASSERT_EQ(garden.getTressTotal(),0);
 }
+
+TEST(branchClass, Growthbranch) {
+    BRANCH_CLASS branch(0);
+    ASSERT_EQ(branch.getFruitsTotal(),0);
+    branch.Growthbranch();
+    branch.Growthbranch();
+    branch.Growthbranch();
+    branch.Growthbranch();
+    ASSERT_EQ(branch.getFruitsTotal(),2);
+}

@@ -11,14 +11,12 @@ GARDEN_CLASS::~GARDEN_CLASS() {
 }
 
 void GARDEN_CLASS::plantTree() {
-    TREE_CLASS* newTreeClass = new TREE_CLASS(getMinAvibleNumber());
-    treeNode* newTree = new treeNode(newTreeClass);
+    treeNode* newTree = new treeNode(new TREE_CLASS(getMinAvibleNumber()));
     if (head) {
         newTree->next = head;
         head->prev = newTree;
     }
     head = newTree;
-    totalTrees++;
 }
 
 unsigned int GARDEN_CLASS::getMinAvibleNumber() {
@@ -47,38 +45,23 @@ void GARDEN_CLASS::ExtractTree(unsigned int NumberToDalate) {
             }
             delete current->value;
             delete current;
-            totalTrees--;
             return;
         }
     }
-
 }
    
-
 unsigned int GARDEN_CLASS::getTressTotal() {
-    return totalTrees;
+    unsigned int tressTotal=0;
+    for (treeNode* current = head; current; current = current->next) {
+        tressTotal++;
+    }
+    return tressTotal;
 }
 
-unsigned int GARDEN_CLASS::getBranchesTotal() {
-    unsigned int BranchesTotal = 0;
+unsigned int GARDEN_CLASS::getTotal(unsigned int (TREE_CLASS::*func)()) const {
+    unsigned int total = 0;
     for (treeNode* current = head; current; current = current->next) {
-        BranchesTotal += current->value->getBranchesTotal();
+        total += (current->value->*func)();
     }
-    return BranchesTotal;
-}
-
-unsigned int GARDEN_CLASS::getFruitsTotal() {
-    unsigned int FruitsTotal = 0;
-    for (treeNode* current = head; current; current = current->next) {
-        FruitsTotal += current->value->getFruitsTotal();
-    }
-    return FruitsTotal;
-}
-
-unsigned int GARDEN_CLASS::getWeightsTotal() {
-    unsigned int weightsTotal = 0;
-    for (treeNode* current = head; current; current = current->next) {
-        weightsTotal += current->value->getWeightsTotal();
-    }
-    return weightsTotal;
+    return total;
 }

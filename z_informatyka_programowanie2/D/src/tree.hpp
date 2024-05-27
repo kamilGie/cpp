@@ -23,5 +23,4 @@ class TREE_CLASS {
     unsigned int number;
     unsigned int totalBranches = 0;
     unsigned int height = 0;
-    unsigned int sumFruitWeight = 0;
 };
