@@ -11,24 +11,25 @@ GARDEN_CLASS::~GARDEN_CLASS() {
 }
 
 void GARDEN_CLASS::plantTree() {
-    treeNode* newTree = new treeNode(new TREE_CLASS(getMinAvibleNumber()));
-    if (head) {
-        newTree->next = head;
-        head->prev = newTree;
+    unsigned int minimalNumber = 0;
+    treeNode* current = head;
+    treeNode* previous = nullptr;
+    while (current && current->value->getNumber() == minimalNumber) {
+        minimalNumber++;
+        previous = current;
+        current = current->next;
     }
-    head = newTree;
-}
+    treeNode* newTree = new treeNode(new TREE_CLASS(minimalNumber));
 
-unsigned int GARDEN_CLASS::getMinAvibleNumber() {
-    for(unsigned int min = 0;; min++) {
-        bool find=true;
-        for (treeNode* current = head; current; current = current->next) {
-            if (current->value->getNumber() == min) {
-                find=false;
-                break;
-            }
-        }
-        if(find) return min;
+    if (!previous) { // begin
+        newTree->next = head;
+        head = newTree;
+    } else if (!previous->next) { //end
+        previous->next = newTree;
+        newTree->prev = previous;
+    } else { // middle
+        newTree->next = previous->next;
+        previous->next = newTree;
     }
 }
 
@@ -49,9 +50,9 @@ void GARDEN_CLASS::ExtractTree(unsigned int NumberToDalate) {
         }
     }
 }
-   
+
 unsigned int GARDEN_CLASS::getTressTotal() {
-    unsigned int tressTotal=0;
+    unsigned int tressTotal = 0;
     for (treeNode* current = head; current; current = current->next) {
         tressTotal++;
     }
