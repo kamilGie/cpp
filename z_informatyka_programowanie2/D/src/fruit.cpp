@@ -6,7 +6,7 @@ unsigned int FRUIT_CLASS::getWeights() {
 }
 
 unsigned int FRUIT_CLASS::getLength() {
-    return positionOnBranch;
+    return length;
 }
 
 void FRUIT_CLASS::growthFruit() {

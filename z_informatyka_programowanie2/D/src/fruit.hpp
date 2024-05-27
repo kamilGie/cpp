@@ -5,7 +5,7 @@ class BRANCH_CLASS;
 
 class FRUIT_CLASS {
    public:
-    FRUIT_CLASS(BRANCH_CLASS* BranchPointer, int positionOnBranch) : positionOnBranch(positionOnBranch), BranchPointer(BranchPointer) {}
+    FRUIT_CLASS(BRANCH_CLASS* BranchPointer, unsigned int length) : length(length), BranchPointer(BranchPointer) {}
 
     void growthFruit();
     void fadeFruit();
@@ -15,7 +15,7 @@ class FRUIT_CLASS {
     BRANCH_CLASS* getBranchPointer();
 
    private:
-    int positionOnBranch;
+    unsigned int length;
     BRANCH_CLASS* BranchPointer;
     unsigned int fruitWeight = 0;
 };
