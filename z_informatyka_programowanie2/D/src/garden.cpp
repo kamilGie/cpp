@@ -21,29 +21,23 @@ void GARDEN_CLASS::plantTree() {
     }
     treeNode* newTree = new treeNode(new TREE_CLASS(minimalNumber));
 
-    if (!previous) { // begin
+    if (!previous) {  // insert begin
         newTree->next = head;
+        if (head) head->prev = newTree;
         head = newTree;
-    } else if (!previous->next) { //end
-        previous->next = newTree;
+    } else {  // insert middle or end
+        newTree->next = current;
         newTree->prev = previous;
-    } else { // middle
-        newTree->next = previous->next;
         previous->next = newTree;
+        if (current) current->prev = newTree;
     }
 }
 
 void GARDEN_CLASS::ExtractTree(unsigned int NumberToDalate) {
     for (treeNode* current = head; current; current = current->next) {
         if (current->value->getNumber() == NumberToDalate) {
-            if (current->prev) {
-                current->prev->next = current->next;
-            } else {
-                head = current->next;
-            }
-            if (current->next) {
-                current->next->prev = current->prev;
-            }
+            current->prev ? current->prev->next = current->next : head = current->next;     
+            if (current->next) current->next->prev = current->prev;
             delete current->value;
             delete current;
             return;
