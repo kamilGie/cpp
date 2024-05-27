@@ -3,6 +3,9 @@
 #include "branch.hpp"
 
 class TREE_CLASS {
+   private:
+    struct branchNode;
+
    public:
     TREE_CLASS(unsigned int number) : number(number){};
     ~TREE_CLASS();

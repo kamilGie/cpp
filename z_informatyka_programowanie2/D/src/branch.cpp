@@ -26,7 +26,6 @@ unsigned int BRANCH_CLASS::getWeightsTotal() {
     return weightsTotal;
 }
 
-
 void BRANCH_CLASS::Growthbranch() {
     length++;
     bool isLengthFree = true;
@@ -39,14 +38,10 @@ void BRANCH_CLASS::Growthbranch() {
 
 void BRANCH_CLASS::fadeBranch() {
     length--;
-        for (fruitNode* current = head; current; current = current->next) {
-            if(current->value->getLength() >length ) {
-                    //todo
-            }else{
-                current->value->fadeFruit();
-            }
-
-        }
+    for (fruitNode* current = head; current; current = current->next) {
+        current->value->fadeFruit();
+        
+    }
 }
 
 void BRANCH_CLASS::GrowthFruit() {

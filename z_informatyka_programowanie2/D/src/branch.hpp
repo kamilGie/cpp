@@ -2,25 +2,28 @@
 #include "fruit.hpp"
 
 class BRANCH_CLASS {
+   private:
+    struct fruitNode;
+
    public:
-   BRANCH_CLASS(unsigned int height): height(height) {};
-   ~BRANCH_CLASS();
+    BRANCH_CLASS(unsigned int height) : height(height){};
+    ~BRANCH_CLASS();
 
-   unsigned int getHeight(){ return height; }
-   unsigned int getLength() { return length; }
+    unsigned int getHeight() { return height; }
+    unsigned int getLength() { return length; }
 
-   void fadeBranch();
-   void GrowthFruit();
-   void Growthbranch();
-   unsigned int getFruitsTotal();
-   unsigned int getWeightsTotal();
+    void fadeBranch();
+    void GrowthFruit();
+    void Growthbranch();
+    unsigned int getFruitsTotal();
+    unsigned int getWeightsTotal();
 
    private:
     struct fruitNode {
-        fruitNode(FRUIT_CLASS* val):value(val){}
-        FRUIT_CLASS *value;
-        fruitNode* prev=nullptr;
-        fruitNode* next=nullptr;
+        fruitNode(FRUIT_CLASS* val) : value(val) {}
+        FRUIT_CLASS* value;
+        fruitNode* prev = nullptr;
+        fruitNode* next = nullptr;
     };
     fruitNode* head = nullptr;
     unsigned int height;

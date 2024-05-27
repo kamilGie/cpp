@@ -31,6 +31,7 @@ void GARDEN_CLASS::plantTree() {
         previous->next = newTree;
         if (current) current->prev = newTree;
     }
+    tressTotal++;
 }
 
 void GARDEN_CLASS::ExtractTree(unsigned int NumberToDalate) {
@@ -40,17 +41,10 @@ void GARDEN_CLASS::ExtractTree(unsigned int NumberToDalate) {
             if (current->next) current->next->prev = current->prev;
             delete current->value;
             delete current;
+            tressTotal--;
             return;
         }
     }
-}
-
-unsigned int GARDEN_CLASS::getTressTotal() {
-    unsigned int tressTotal = 0;
-    for (treeNode* current = head; current; current = current->next) {
-        tressTotal++;
-    }
-    return tressTotal;
 }
 
 unsigned int GARDEN_CLASS::getTotal(unsigned int (TREE_CLASS::*func)()) const {
