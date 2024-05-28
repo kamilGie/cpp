@@ -79,3 +79,40 @@ TEST(branchClass, Growthbranch) {
     branch.Growthbranch();
     ASSERT_EQ(branch.getFruitsTotal(),2);
 }
+
+TEST(branchClass, getFruitsTotal) {
+    GARDEN_CLASS garden;
+    TREE_CLASS tree(&garden,0);
+    BRANCH_CLASS branch(&tree,2);
+    ASSERT_EQ(branch.getFruitsTotal(),0);
+    branch.Growthbranch();
+    ASSERT_EQ(branch.getFruitsTotal(),0);
+    branch.Growthbranch();
+    branch.Growthbranch();
+    branch.Growthbranch();
+    ASSERT_EQ(branch.getFruitsTotal(),2);
+    ASSERT_EQ(branch.getWeightsTotal(),2);
+    branch.fadeBranch();
+    EXPECT_EQ(branch.getFruitsTotal(),1); 
+    EXPECT_EQ(branch.getWeightsTotal(),1); // 1 DLUGOSCI 3 
+
+    branch.Growthbranch(); // 2 0 DLUGOSCI 4 
+    branch.Growthbranch(); // 3 1 DLUGOSCI 5
+    EXPECT_EQ(branch.getWeightsTotal(),4);
+
+    branch.Growthbranch(); // 4 2 0  DLUGOSCI 6
+    branch.Growthbranch(); // 5 3 1  DLUGOSCI 7
+    EXPECT_EQ(branch.getWeightsTotal(),9);
+
+    branch.Growthbranch(); // 6 4 2 0  DLUGOSCI 8
+    branch.Growthbranch(); // 7 5 3 1  DLUGOSCI 9
+    branch.Growthbranch(); // 8 6 4 2 0  DLUGOSCI 10
+    EXPECT_EQ(branch.getWeightsTotal(),20);
+    branch.harvestBranch(6); // 0 0 4 2 0  DLUGOSCI 10
+    EXPECT_EQ(branch.getWeightsTotal(),6);
+    ASSERT_EQ(branch.getFruitsTotal(),5);
+    branch.harvestBranch(6); // 0 0 4 2 0  DLUGOSCI 10
+    branch.cutBranch(6); // 4 2 0  DLUGOSCI 6
+    EXPECT_EQ(branch.getWeightsTotal(),6);
+    ASSERT_EQ(branch.getFruitsTotal(),5);
+}

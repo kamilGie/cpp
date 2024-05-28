@@ -3,6 +3,10 @@
 
 #include "branch.hpp"
 
+FRUIT_CLASS::~FRUIT_CLASS() {
+    BranchPointer->decreaseWeightsTotal(fruitWeight);
+}
+
 void FRUIT_CLASS::growthFruit() {
     BranchPointer->increaseWeightsTotal(1);
     fruitWeight++;

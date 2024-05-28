@@ -6,7 +6,7 @@ typedef unsigned int amount;
 
 class BRANCH_CLASS {
    public:
-    BRANCH_CLASS(TREE_CLASS* treePointer,amount height) :treePointer(treePointer), height(height){};
+    BRANCH_CLASS(TREE_CLASS* treePointer, amount height) : treePointer(treePointer), height(height){};
     ~BRANCH_CLASS();
 
     amount getHeight() { return height; }
@@ -15,19 +15,23 @@ class BRANCH_CLASS {
     amount getWeightsTotal() { return weightsTotal; }
     TREE_CLASS* getTreePointer() { return treePointer; }
 
+    void cutBranch(amount newLength);
     void fadeBranch();
     void GrowthFruit();
     void Growthbranch();
-    void decreaseWeightsTotal( amount ValToDecrease );
-    void increaseWeightsTotal( amount ValToIncrease );
+    void removeFruitFromTop();
+    void harvestBranch(amount weightToPluck);
+    void decreaseWeightsTotal(amount ValToDecrease);
+    void increaseWeightsTotal(amount ValToIncrease);
+    FRUIT_CLASS* getFruitsPointer(amount fruitLength);
 
    private:
     TREE_CLASS* treePointer;
 
-    amount height;
     amount length;
-    amount FruitsTotal=0;
-    amount weightsTotal=0;
+    amount height=0;
+    amount FruitsTotal = 0;
+    amount weightsTotal = 0;
 
     struct fruitNode {
         fruitNode(FRUIT_CLASS* val) : value(val) {}

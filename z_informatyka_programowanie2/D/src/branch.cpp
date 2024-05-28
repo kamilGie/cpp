@@ -22,6 +22,19 @@ void BRANCH_CLASS::increaseWeightsTotal(amount ValToIncrease) {
     weightsTotal += ValToIncrease;
 }
 
+void BRANCH_CLASS::harvestBranch(amount weightToPluck) {
+    for (fruitNode* current = head; current; current = current->next) {
+        if(current->value->getWeight() >= weightToPluck) current->value->pluckFruit();
+    }
+}
+
+FRUIT_CLASS* BRANCH_CLASS::getFruitsPointer(amount fruitLength) {
+    for (fruitNode* current = head; current; current = current->next) {
+        if(current->value->getLength()==fruitLength) return current->value;
+    }
+    return nullptr;
+}
+
 void BRANCH_CLASS::Growthbranch() {
     length++;
     bool isLengthFree = true;
@@ -32,11 +45,28 @@ void BRANCH_CLASS::Growthbranch() {
     if (length % 2 == 0 && isLengthFree) GrowthFruit();
 }
 
+void BRANCH_CLASS::cutBranch(amount newLength) {
+    length=newLength;
+    for (fruitNode* current = head; current && current->value->getLength()<length ; current = current->next) {
+        removeFruitFromTop();
+    }
+}
+
 void BRANCH_CLASS::fadeBranch() {
+    if(!length) return;
     length--;
+    if(head->value->getLength()>length) removeFruitFromTop();
     for (fruitNode* current = head; current; current = current->next) {
         current->value->fadeFruit();
     }
+}
+
+void BRANCH_CLASS::removeFruitFromTop() {
+        fruitNode* temp = head;
+        head = head->next;
+        delete temp->value;
+        delete temp;
+        FruitsTotal--;
 }
 
 void BRANCH_CLASS::GrowthFruit() {
