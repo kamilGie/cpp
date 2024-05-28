@@ -10,12 +10,12 @@ TREE_CLASS::~TREE_CLASS() {
     }
 }
 
-void TREE_CLASS::decreaseWeightsTotal(unsigned int ValToDecrease) {
+void TREE_CLASS::decreaseWeightsTotal(amount ValToDecrease) {
     gardenPointer->decreaseWeightsTotal(ValToDecrease);
     WeightsTotal-=ValToDecrease;
 }
 
-void TREE_CLASS::increaseWeightsTotal(unsigned int ValToIncrease) {
+void TREE_CLASS::increaseWeightsTotal(amount ValToIncrease) {
     gardenPointer->increaseWeightsTotal(ValToIncrease);
-    WeightsTotal-=ValToIncrease;
+    WeightsTotal+=ValToIncrease;
 }

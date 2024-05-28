@@ -2,30 +2,31 @@
 #pragma once
 #include "tree.hpp"
 
-class GARDEN_CLASS {
-   private:
-    struct treeNode;
+typedef unsigned int amount;
+typedef unsigned int number;
 
+class GARDEN_CLASS {
    public:
     GARDEN_CLASS() {}
     ~GARDEN_CLASS();
 
-    unsigned int getTressTotal() { return tressTotal; }
-    unsigned int getFruitsTotal() { return FruitsTotal; }
-    unsigned int getWeightsTotal() { return weightsTotal; }
-    unsigned int getBranchesTotal() { return BranchesTotal; }
-    void decreaseWeightsTotal( unsigned int ValToDecrease ) { weightsTotal-=ValToDecrease; }
-    void increaseWeightsTotal( unsigned int ValToIncrease ) { weightsTotal-=ValToIncrease; }
+    amount getTressTotal() { return tressTotal; }
+    amount getFruitsTotal() { return FruitsTotal; }
+    amount getWeightsTotal() { return weightsTotal; }
+    amount getBranchesTotal() { return BranchesTotal; }
+    void decreaseWeightsTotal(amount ValToDecrease) { weightsTotal -= ValToDecrease; }
+    void increaseWeightsTotal(amount ValToIncrease) { weightsTotal += ValToIncrease; }
 
     void plantTree();
-    void ExtractTree(unsigned int NumberToDalate);
+    void ExtractTree(number numberToDalate);
+    TREE_CLASS* getTreePointer(number numberToFind);
 
    private:
-    unsigned int tressTotal = 0;
-    unsigned int FruitsTotal = 0;
-    unsigned int weightsTotal = 0;
-    unsigned int BranchesTotal = 0;
-    
+    amount tressTotal = 0;
+    amount FruitsTotal = 0;
+    amount weightsTotal = 0;
+    amount BranchesTotal = 0;
+
     struct treeNode {
         treeNode(TREE_CLASS* val) : value(val) {}
         TREE_CLASS* value;
@@ -33,4 +34,12 @@ class GARDEN_CLASS {
         treeNode* next = nullptr;
     };
     treeNode* head = nullptr;
+
+    // struct MinimumNumberNode {
+    //     MinimumNumberNode(number minNumber, treeNode* prevClass = nullptr) : minNumber(minNumber) {}
+    //     number minNumber;
+    //     MinimumNumberNode* next = nullptr;
+    //     treeNode* prevClass;
+    // };
+    // MinimumNumberNode* curentMinNumber = new MinimumNumberNode(0);
 };

@@ -3,33 +3,32 @@
 #include "branch.hpp"
 
 class GARDEN_CLASS;
+typedef unsigned int amount;
+typedef unsigned int number;
 
 class TREE_CLASS {
-   private:
-    struct branchNode;
-
    public:
-    TREE_CLASS(GARDEN_CLASS* gardenPointer, unsigned int number) :gardenPointer(gardenPointer), number(number){};
+    TREE_CLASS(GARDEN_CLASS* gardenPointer, amount treeNumber) :gardenPointer(gardenPointer), treeNumber(treeNumber){};
     ~TREE_CLASS();
 
-    unsigned int getHeight() { return height; }
-    unsigned int getNumber() { return number; }
-    unsigned int getFruitsTotal() { return fruitsTotal; }
-    unsigned int getWeightsTotal() { return WeightsTotal; }
-    unsigned int getBranchesTotal() { return totalBranches; }
+    amount getHeight() { return height; }
+    number getNumber() { return treeNumber; }
+    amount getFruitsTotal() { return fruitsTotal; }
+    amount getWeightsTotal() { return WeightsTotal; }
+    amount getBranchesTotal() { return totalBranches; }
     GARDEN_CLASS* gatGardenPointer() { return gardenPointer; }
 
-    void decreaseWeightsTotal( unsigned int ValToDecrease );
-    void increaseWeightsTotal( unsigned int ValToIncrease );
+    void decreaseWeightsTotal( amount ValToDecrease );
+    void increaseWeightsTotal( amount ValToIncrease );
 
    private:
     GARDEN_CLASS* gardenPointer;
 
-    unsigned int number;
-    unsigned int height = 0;
-    unsigned int fruitsTotal = 0;
-    unsigned int WeightsTotal = 0;
-    unsigned int totalBranches = 0;
+    number treeNumber;
+    amount height = 0;
+    amount fruitsTotal = 0;
+    amount WeightsTotal = 0;
+    amount totalBranches = 0;
 
     struct branchNode {
         branchNode(BRANCH_CLASS* val) : value(val) {}

@@ -1,5 +1,6 @@
 // kamil gieras
 #include "branch.hpp"
+
 #include "tree.hpp"
 
 BRANCH_CLASS::~BRANCH_CLASS() {
@@ -11,14 +12,14 @@ BRANCH_CLASS::~BRANCH_CLASS() {
     }
 }
 
-void BRANCH_CLASS::decreaseWeightsTotal(unsigned int ValTodecrease) {
+void BRANCH_CLASS::decreaseWeightsTotal(amount ValTodecrease) {
     treePointer->decreaseWeightsTotal(ValTodecrease);
-     weightsTotal-=ValTodecrease; 
+    weightsTotal -= ValTodecrease;
 }
 
-void BRANCH_CLASS::increaseWeightsTotal(unsigned int ValToIncrease) {
+void BRANCH_CLASS::increaseWeightsTotal(amount ValToIncrease) {
     treePointer->increaseWeightsTotal(ValToIncrease);
-    weightsTotal+=ValToIncrease; 
+    weightsTotal += ValToIncrease;
 }
 
 void BRANCH_CLASS::Growthbranch() {

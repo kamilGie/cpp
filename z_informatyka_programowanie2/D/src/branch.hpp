@@ -2,34 +2,32 @@
 #include "fruit.hpp"
 
 class TREE_CLASS;
+typedef unsigned int amount;
 
 class BRANCH_CLASS {
-   private:
-    struct fruitNode;
-
    public:
-    BRANCH_CLASS(TREE_CLASS* treePointer,unsigned int height) :treePointer(treePointer), height(height){};
+    BRANCH_CLASS(TREE_CLASS* treePointer,amount height) :treePointer(treePointer), height(height){};
     ~BRANCH_CLASS();
 
-    unsigned int getHeight() { return height; }
-    unsigned int getLength() { return length; }
+    amount getHeight() { return height; }
+    amount getLength() { return length; }
+    amount getFruitsTotal() { return FruitsTotal; }
+    amount getWeightsTotal() { return weightsTotal; }
     TREE_CLASS* getTreePointer() { return treePointer; }
-    unsigned int getFruitsTotal() { return FruitsTotal; }
-    unsigned int getWeightsTotal() { return weightsTotal; }
 
     void fadeBranch();
     void GrowthFruit();
     void Growthbranch();
-    void decreaseWeightsTotal( unsigned int ValToDecrease );
-    void increaseWeightsTotal( unsigned int ValToIncrease );
+    void decreaseWeightsTotal( amount ValToDecrease );
+    void increaseWeightsTotal( amount ValToIncrease );
 
    private:
     TREE_CLASS* treePointer;
 
-    unsigned int height;
-    unsigned int length;
-    unsigned int FruitsTotal=0;
-    unsigned int weightsTotal=0;
+    amount height;
+    amount length;
+    amount FruitsTotal=0;
+    amount weightsTotal=0;
 
     struct fruitNode {
         fruitNode(FRUIT_CLASS* val) : value(val) {}
