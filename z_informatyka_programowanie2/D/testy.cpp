@@ -116,3 +116,25 @@ TEST(branchClass, getFruitsTotal) {
     EXPECT_EQ(branch.getWeightsTotal(),6);
     ASSERT_EQ(branch.getFruitsTotal(),5);
 }
+
+TEST(TreeClass, getFruitsTotal) {
+    GARDEN_CLASS garden;
+    TREE_CLASS tree(&garden,0);
+    tree.growthTree(); // height 1
+    tree.growthTree(); // height 2
+    tree.growthTree(); // 0 height 3
+    EXPECT_EQ(tree.getBranchesTotal(),1);
+    EXPECT_EQ(tree.getFruitsTotal(),0);
+    EXPECT_EQ(tree.getWeightsTotal(),0);
+    tree.growthTree(); // 1 height 4
+    EXPECT_EQ(tree.getWeightsTotal(),0);
+    EXPECT_EQ(tree.getFruitsTotal(),0);
+    EXPECT_EQ(tree.getWeightsTotal(),0);
+
+
+    tree.growthTree(); // drzewo 5 ( galaz 2 (owoc 0 ) ) ) ) 
+    EXPECT_EQ(tree.getHeight(),5);
+    EXPECT_EQ(tree.getFruitsTotal(),1);
+    EXPECT_EQ(tree.getHeight(),5);
+    EXPECT_EQ(tree.getWeightsTotal(),0);
+}

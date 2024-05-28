@@ -17,7 +17,7 @@ class BRANCH_CLASS {
 
     void cutBranch(amount newLength);
     void fadeBranch();
-    void GrowthFruit();
+    void addNewFruit();
     void Growthbranch();
     void removeFruitFromTop();
     void harvestBranch(amount weightToPluck);

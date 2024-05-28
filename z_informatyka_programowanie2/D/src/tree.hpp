@@ -18,6 +18,12 @@ class TREE_CLASS {
     amount getBranchesTotal() { return totalBranches; }
     GARDEN_CLASS* gatGardenPointer() { return gardenPointer; }
 
+    void fadeTree();
+    void addNewTree();
+    void growthTree();
+    void removeBranchFromTop();
+    void decreaseFruitsTotal();
+    void increaseFruitsTotal();
     void decreaseWeightsTotal( amount ValToDecrease );
     void increaseWeightsTotal( amount ValToIncrease );
 
