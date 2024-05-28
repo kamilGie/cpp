@@ -1,5 +1,6 @@
 // kamil gieras
 #include "tree.hpp"
+#include "garden.hpp"
 
 TREE_CLASS::~TREE_CLASS() {
     while (head) {
@@ -9,26 +10,12 @@ TREE_CLASS::~TREE_CLASS() {
     }
 }
 
-unsigned int TREE_CLASS::getNumber() {
-    return number;
+void TREE_CLASS::decreaseWeightsTotal(unsigned int ValToDecrease) {
+    gardenPointer->decreaseWeightsTotal(ValToDecrease);
+    WeightsTotal-=ValToDecrease;
 }
 
-unsigned int TREE_CLASS::getBranchesTotal() {
-    return totalBranches;
-}
-
-unsigned int TREE_CLASS::getFruitsTotal() {
-    unsigned int FruitsTotal = 0;
-    for (branchNode* current = head; current; current = current->next) {
-        FruitsTotal += current->value->getFruitsTotal();
-    }
-    return FruitsTotal;
-}
-
-unsigned int TREE_CLASS::getWeightsTotal() {
-    unsigned int weightsTotal = 0;
-    for (branchNode* current = head; current; current = current->next) {
-        weightsTotal += current->value->getWeightsTotal();
-    }
-    return weightsTotal;
+void TREE_CLASS::increaseWeightsTotal(unsigned int ValToIncrease) {
+    gardenPointer->increaseWeightsTotal(ValToIncrease);
+    WeightsTotal-=ValToIncrease;
 }

@@ -1,5 +1,6 @@
 // kamil gieras
 #include "branch.hpp"
+#include "tree.hpp"
 
 BRANCH_CLASS::~BRANCH_CLASS() {
     while (head) {
@@ -10,20 +11,14 @@ BRANCH_CLASS::~BRANCH_CLASS() {
     }
 }
 
-unsigned int BRANCH_CLASS::getFruitsTotal() {
-    unsigned int FruitsTotal = 0;
-    for (fruitNode* current = head; current; current = current->next) {
-        FruitsTotal++;
-    }
-    return FruitsTotal;
+void BRANCH_CLASS::decreaseWeightsTotal(unsigned int ValTodecrease) {
+    treePointer->decreaseWeightsTotal(ValTodecrease);
+     weightsTotal-=ValTodecrease; 
 }
 
-unsigned int BRANCH_CLASS::getWeightsTotal() {
-    unsigned int weightsTotal = 0;
-    for (fruitNode* current = head; current; current = current->next) {
-        weightsTotal += current->value->getWeights();
-    }
-    return weightsTotal;
+void BRANCH_CLASS::increaseWeightsTotal(unsigned int ValToIncrease) {
+    treePointer->increaseWeightsTotal(ValToIncrease);
+    weightsTotal+=ValToIncrease; 
 }
 
 void BRANCH_CLASS::Growthbranch() {
@@ -40,7 +35,6 @@ void BRANCH_CLASS::fadeBranch() {
     length--;
     for (fruitNode* current = head; current; current = current->next) {
         current->value->fadeFruit();
-        
     }
 }
 
@@ -51,4 +45,5 @@ void BRANCH_CLASS::GrowthFruit() {
         head->prev = newFruit;
     }
     head = newFruit;
+    FruitsTotal++;
 }

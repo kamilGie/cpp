@@ -19,7 +19,7 @@ void GARDEN_CLASS::plantTree() {
         previous = current;
         current = current->next;
     }
-    treeNode* newTree = new treeNode(new TREE_CLASS(minimalNumber));
+    treeNode* newTree = new treeNode(new TREE_CLASS(this,minimalNumber));
 
     if (!previous) {  // insert begin
         newTree->next = head;
@@ -37,6 +37,7 @@ void GARDEN_CLASS::plantTree() {
 void GARDEN_CLASS::ExtractTree(unsigned int NumberToDalate) {
     for (treeNode* current = head; current; current = current->next) {
         if (current->value->getNumber() == NumberToDalate) {
+            //todo weights zmieniszyc jak sie usuwa ;
             current->prev ? current->prev->next = current->next : head = current->next;     
             if (current->next) current->next->prev = current->prev;
             delete current->value;
@@ -45,12 +46,4 @@ void GARDEN_CLASS::ExtractTree(unsigned int NumberToDalate) {
             return;
         }
     }
-}
-
-unsigned int GARDEN_CLASS::getTotal(unsigned int (TREE_CLASS::*func)()) const {
-    unsigned int total = 0;
-    for (treeNode* current = head; current; current = current->next) {
-        total += (current->value->*func)();
-    }
-    return total;
 }

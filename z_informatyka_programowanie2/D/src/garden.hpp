@@ -11,15 +11,21 @@ class GARDEN_CLASS {
     ~GARDEN_CLASS();
 
     unsigned int getTressTotal() { return tressTotal; }
-    unsigned int getFruitsTotal() { return getTotal(&TREE_CLASS::getFruitsTotal); }
-    unsigned int getWeightsTotal() { return getTotal(&TREE_CLASS::getWeightsTotal); }
-    unsigned int getBranchesTotal() { return getTotal(&TREE_CLASS::getBranchesTotal); }
+    unsigned int getFruitsTotal() { return FruitsTotal; }
+    unsigned int getWeightsTotal() { return weightsTotal; }
+    unsigned int getBranchesTotal() { return BranchesTotal; }
+    void decreaseWeightsTotal( unsigned int ValToDecrease ) { weightsTotal-=ValToDecrease; }
+    void increaseWeightsTotal( unsigned int ValToIncrease ) { weightsTotal-=ValToIncrease; }
 
     void plantTree();
     void ExtractTree(unsigned int NumberToDalate);
-    unsigned int getTotal(unsigned int (TREE_CLASS::*func)()) const;
 
    private:
+    unsigned int tressTotal = 0;
+    unsigned int FruitsTotal = 0;
+    unsigned int weightsTotal = 0;
+    unsigned int BranchesTotal = 0;
+    
     struct treeNode {
         treeNode(TREE_CLASS* val) : value(val) {}
         TREE_CLASS* value;
@@ -27,5 +33,4 @@ class GARDEN_CLASS {
         treeNode* next = nullptr;
     };
     treeNode* head = nullptr;
-    unsigned int tressTotal = 0;
 };

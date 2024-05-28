@@ -33,7 +33,9 @@ TEST(gardenClass, plantExtractTree) {
 }
 
 TEST(branchClass, Growthbranch) {
-    BRANCH_CLASS branch(0);
+    GARDEN_CLASS garden;
+    TREE_CLASS tree(&garden,0);
+    BRANCH_CLASS branch(&tree,2);
     ASSERT_EQ(branch.getFruitsTotal(),0);
     branch.Growthbranch();
     branch.Growthbranch();
