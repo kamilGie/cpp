@@ -8,11 +8,6 @@ GARDEN_CLASS::~GARDEN_CLASS() {
         delete temp->value;
         delete temp;
     }
-    // while (curentMinNumber) {
-    //     MinimumNumberNode* temp = curentMinNumber;
-    //     curentMinNumber = curentMinNumber->next;
-    //     delete temp;
-    // }
 }
 
 void GARDEN_CLASS::plantTree() {
@@ -36,7 +31,6 @@ void GARDEN_CLASS::plantTree() {
         previous->next = newTree;
         if (current) current->prev = newTree;
     }
-    tressTotal++;
 }
 
 // void GARDEN_CLASS::plantTree() {
@@ -78,7 +72,6 @@ void GARDEN_CLASS::ExtractTree(number numberToDalate) {
             if (current->next) current->next->prev = current->prev;
             delete current->value;
             delete current;
-            tressTotal--;
             return;
         }
     }

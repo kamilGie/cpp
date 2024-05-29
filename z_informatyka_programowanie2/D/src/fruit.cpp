@@ -3,7 +3,12 @@
 
 #include "branch.hpp"
 
+FRUIT_CLASS::FRUIT_CLASS(BRANCH_CLASS* BranchPointer, amount length)  : BranchPointer(BranchPointer), length(length) {
+    BranchPointer->increaseFruitsTotal();
+}
+
 FRUIT_CLASS::~FRUIT_CLASS() {
+    BranchPointer->decreaseFruitsTotal();
     BranchPointer->decreaseWeightsTotal(fruitWeight);
 }
 

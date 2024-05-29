@@ -3,6 +3,10 @@
 
 #include "tree.hpp"
 
+BRANCH_CLASS::BRANCH_CLASS(TREE_CLASS* treePointer, amount height)  : treePointer(treePointer), height(height) {
+    treePointer->increaseBranchesTotal();
+}
+
 BRANCH_CLASS::~BRANCH_CLASS() {
     while (head) {
         fruitNode* temp = head;
@@ -10,6 +14,17 @@ BRANCH_CLASS::~BRANCH_CLASS() {
         delete temp->value;
         delete temp;
     }
+    treePointer->decreaseBranchesTotal();
+}
+
+void BRANCH_CLASS::increaseFruitsTotal() {
+    treePointer->increaseFruitsTotal();
+    FruitsTotal++;
+}
+
+void BRANCH_CLASS::decreaseFruitsTotal() {
+    treePointer->decreaseFruitsTotal();
+    FruitsTotal--;
 }
 
 void BRANCH_CLASS::decreaseWeightsTotal(amount ValTodecrease) {
@@ -66,8 +81,6 @@ void BRANCH_CLASS::removeFruitFromTop() {
     head = head->next;
     delete temp->value;
     delete temp;
-    treePointer->decreaseFruitsTotal();
-    FruitsTotal--;
 }
 
 void BRANCH_CLASS::addNewFruit() {
@@ -77,6 +90,4 @@ void BRANCH_CLASS::addNewFruit() {
         head->prev = newFruit;
     }
     head = newFruit;
-    treePointer->increaseFruitsTotal();
-    FruitsTotal++;
 }

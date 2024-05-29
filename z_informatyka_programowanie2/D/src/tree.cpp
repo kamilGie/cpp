@@ -3,12 +3,17 @@
 
 #include "garden.hpp"
 
+TREE_CLASS::TREE_CLASS(GARDEN_CLASS* gardenPointer, amount treeNumber) :gardenPointer(gardenPointer), treeNumber(treeNumber) {
+    gardenPointer->increaseTressTotal();
+}
+
 TREE_CLASS::~TREE_CLASS() {
     while (head) {
         branchNode* temp = head;
         head = head->next;
         delete temp;
     }
+    gardenPointer->decreaseTressTotal();
 }
 
 void TREE_CLASS::growthTree() {
@@ -37,7 +42,6 @@ void TREE_CLASS::addNewTree() {
         head->prev = newBranch;
     }
     head = newBranch;
-    totalBranches++;
 }
 
 void TREE_CLASS::removeBranchFromTop() {
@@ -45,7 +49,6 @@ void TREE_CLASS::removeBranchFromTop() {
     head = head->next;
     delete temp->value;
     delete temp;
-    totalBranches--;
 }
 
 void TREE_CLASS::decreaseWeightsTotal(amount ValToDecrease) {
@@ -59,9 +62,21 @@ void TREE_CLASS::increaseWeightsTotal(amount ValToIncrease) {
 }
 
 void TREE_CLASS::decreaseFruitsTotal() {
+    gardenPointer->decreaseFruitsTotal();
     fruitsTotal--;
 }
 
+void TREE_CLASS::increaseBranchesTotal() {
+    gardenPointer->increaseBranchesTotal();
+    totalBranches++;
+}
+
+void TREE_CLASS::decreaseBranchesTotal() {
+    gardenPointer->decreaseBranchesTotal();
+    totalBranches--;
+}
+
 void TREE_CLASS::increaseFruitsTotal() {
+    gardenPointer->increaseFruitsTotal();
     fruitsTotal++;
 }

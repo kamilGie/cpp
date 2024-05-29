@@ -8,7 +8,7 @@ typedef unsigned int number;
 
 class TREE_CLASS {
    public:
-    TREE_CLASS(GARDEN_CLASS* gardenPointer, amount treeNumber) :gardenPointer(gardenPointer), treeNumber(treeNumber){};
+    TREE_CLASS(GARDEN_CLASS* gardenPointer, amount treeNumber);
     ~TREE_CLASS();
 
     amount getHeight() { return height; }
@@ -24,6 +24,8 @@ class TREE_CLASS {
     void removeBranchFromTop();
     void decreaseFruitsTotal();
     void increaseFruitsTotal();
+    void increaseBranchesTotal();
+    void decreaseBranchesTotal();
     void decreaseWeightsTotal( amount ValToDecrease );
     void increaseWeightsTotal( amount ValToIncrease );
 

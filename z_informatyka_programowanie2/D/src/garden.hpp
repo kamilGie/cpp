@@ -10,8 +10,14 @@ class GARDEN_CLASS {
     GARDEN_CLASS() {}
     ~GARDEN_CLASS();
 
+    void decreaseTressTotal() { tressTotal--; }
+    void increaseTressTotal() { tressTotal++; }
+    void decreaseFruitsTotal() { FruitsTotal--; }
+    void increaseFruitsTotal() { FruitsTotal++; }
     amount getTressTotal() { return tressTotal; }
     amount getFruitsTotal() { return FruitsTotal; }
+    void increaseBranchesTotal() { BranchesTotal++; }
+    void decreaseBranchesTotal() { BranchesTotal--; }
     amount getWeightsTotal() { return weightsTotal; }
     amount getBranchesTotal() { return BranchesTotal; }
     void decreaseWeightsTotal(amount ValToDecrease) { weightsTotal -= ValToDecrease; }
