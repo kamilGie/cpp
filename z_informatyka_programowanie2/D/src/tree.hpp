@@ -9,6 +9,7 @@ typedef unsigned int number;
 class TREE_CLASS {
    public:
     TREE_CLASS(GARDEN_CLASS* gardenPointer, amount treeNumber);
+    TREE_CLASS(const TREE_CLASS& other,number treeNumber);
     ~TREE_CLASS();
 
     amount getHeight() { return height; }
@@ -23,10 +24,10 @@ class TREE_CLASS {
     void growthTree();
     void removeBranchFromTop();
     void decreaseFruitsTotal();
-    void increaseFruitsTotal();
+    void increaseFruitsTotal(amount ValToIncrease=1);
     void increaseBranchesTotal();
     void decreaseBranchesTotal();
-    void cloneBranch(BRANCH_CLASS* branchToClone);
+    void cloneBranch(BRANCH_CLASS* cloningBranch);
     void cutTree(amount newHeigth);
     void harvestTree(amount weightToPluck);
     void decreaseWeightsTotal( amount ValToDecrease );

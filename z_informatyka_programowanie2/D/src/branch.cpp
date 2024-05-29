@@ -3,8 +3,25 @@
 
 #include "tree.hpp"
 
-BRANCH_CLASS::BRANCH_CLASS(TREE_CLASS* treePointer, amount height)  : treePointer(treePointer), height(height) {
+BRANCH_CLASS::BRANCH_CLASS(TREE_CLASS* treePointer, amount height) : treePointer(treePointer), height(height) {
     treePointer->increaseBranchesTotal();
+}
+
+BRANCH_CLASS::BRANCH_CLASS(const BRANCH_CLASS& clone) :
+    treePointer(clone.treePointer), length(clone.length), height(clone.height), FruitsTotal(clone.FruitsTotal), weightsTotal(clone.weightsTotal) {
+        treePointer->increaseWeightsTotal(weightsTotal);
+        treePointer->increaseFruitsTotal(FruitsTotal);
+    if (clone.head) {
+        head = new fruitNode(clone.head->value);
+        fruitNode* current = head;
+        fruitNode* cloneCurrent = clone.head->next;
+        while (cloneCurrent) {
+            current->next = new fruitNode(cloneCurrent->value);
+            current->next->prev = current;
+            current = current->next;
+            cloneCurrent = cloneCurrent->next;
+        }
+    }
 }
 
 BRANCH_CLASS::~BRANCH_CLASS() {

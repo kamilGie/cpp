@@ -7,6 +7,7 @@ typedef unsigned int amount;
 class BRANCH_CLASS {
    public:
     BRANCH_CLASS(TREE_CLASS* treePointer, amount height);
+    BRANCH_CLASS(const BRANCH_CLASS& clone);
     ~BRANCH_CLASS();
 
     amount getHeight() { return height; }

@@ -7,6 +7,27 @@ TREE_CLASS::TREE_CLASS(GARDEN_CLASS* gardenPointer, amount treeNumber) : gardenP
     gardenPointer->increaseTressTotal();
 }
 
+TREE_CLASS::TREE_CLASS(const TREE_CLASS& other, number treeNumber)
+    : gardenPointer(other.gardenPointer),
+      treeNumber(treeNumber),
+      height(other.height),
+      fruitsTotal(other.fruitsTotal),
+      WeightsTotal(other.WeightsTotal),
+      totalBranches(other.totalBranches),
+      head(nullptr) {
+    if (other.head) {
+        head = new branchNode(new BRANCH_CLASS(*other.head->value));
+        branchNode* current = head;
+        branchNode* otherCurrent = other.head->next;
+        while (otherCurrent) {
+            current->next = new branchNode(new BRANCH_CLASS(*otherCurrent->value));
+            current->next->prev = current;
+            current = current->next;
+            otherCurrent = otherCurrent->next;
+        }
+    }
+}
+
 TREE_CLASS::~TREE_CLASS() {
     while (head) {
         branchNode* temp = head;
@@ -83,8 +104,15 @@ void TREE_CLASS::decreaseBranchesTotal() {
     totalBranches--;
 }
 
-void TREE_CLASS::cloneBranch(BRANCH_CLASS* branchToClone) {
-    //todo
+void TREE_CLASS::cloneBranch(BRANCH_CLASS* cloningBranch) {
+    branchNode* cloneDir = nullptr;
+    for (branchNode* current = head; current; current = current->next) {
+        if (current->value->getLength() == 0) cloneDir = current;
+    }
+    if (cloneDir) {
+        delete cloneDir->value;
+        cloneDir->value = new BRANCH_CLASS(*cloningBranch);
+    }
 }
 
 void TREE_CLASS::cutTree(amount newHeigth) {
@@ -100,7 +128,7 @@ void TREE_CLASS::harvestTree(amount weightToPluck) {
     }
 }
 
-void TREE_CLASS::increaseFruitsTotal() {
-    gardenPointer->increaseFruitsTotal();
-    fruitsTotal++;
+void TREE_CLASS::increaseFruitsTotal(amount ValToIncrease) {
+    gardenPointer->increaseFruitsTotal(ValToIncrease);
+    fruitsTotal += ValToIncrease;
 }

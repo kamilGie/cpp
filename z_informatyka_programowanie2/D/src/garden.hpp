@@ -13,7 +13,7 @@ class GARDEN_CLASS {
     void decreaseTressTotal() { tressTotal--; }
     void increaseTressTotal() { tressTotal++; }
     void decreaseFruitsTotal() { FruitsTotal--; }
-    void increaseFruitsTotal() { FruitsTotal++; }
+    void increaseFruitsTotal(amount ValToIncrease=1) { FruitsTotal+=ValToIncrease; }
     amount getTressTotal() { return tressTotal; }
     amount getFruitsTotal() { return FruitsTotal; }
     void increaseBranchesTotal() { BranchesTotal++; }
@@ -26,7 +26,7 @@ class GARDEN_CLASS {
     void plantTree();
     void fadeGarden();
     void growthGarden();
-    void cloneTree(BRANCH_CLASS* treeToClone);
+    void cloneTree(TREE_CLASS* treeToClone);
     void harvestGarden(amount weightToPluck);
     void ExtractTree(number numberToDalate);
     TREE_CLASS* getTreePointer(number numberToFind);
