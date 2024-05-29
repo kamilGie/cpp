@@ -26,8 +26,13 @@ class TREE_CLASS {
     void increaseFruitsTotal();
     void increaseBranchesTotal();
     void decreaseBranchesTotal();
+    void cloneBranch(BRANCH_CLASS* branchToClone);
+    void cutTree(amount newHeigth);
+    void harvestTree(amount weightToPluck);
     void decreaseWeightsTotal( amount ValToDecrease );
     void increaseWeightsTotal( amount ValToIncrease );
+    BRANCH_CLASS* getBranchPointer(amount fruitLength);
+
 
    private:
     GARDEN_CLASS* gardenPointer;

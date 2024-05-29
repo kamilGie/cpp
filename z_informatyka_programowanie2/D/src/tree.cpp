@@ -3,7 +3,7 @@
 
 #include "garden.hpp"
 
-TREE_CLASS::TREE_CLASS(GARDEN_CLASS* gardenPointer, amount treeNumber) :gardenPointer(gardenPointer), treeNumber(treeNumber) {
+TREE_CLASS::TREE_CLASS(GARDEN_CLASS* gardenPointer, amount treeNumber) : gardenPointer(gardenPointer), treeNumber(treeNumber) {
     gardenPointer->increaseTressTotal();
 }
 
@@ -61,6 +61,13 @@ void TREE_CLASS::increaseWeightsTotal(amount ValToIncrease) {
     WeightsTotal += ValToIncrease;
 }
 
+BRANCH_CLASS* TREE_CLASS::getBranchPointer(amount branchHeigth) {
+    for (branchNode* current = head; current; current = current->next) {
+        if (current->value->getLength() == branchHeigth) return current->value;
+    }
+    return nullptr;
+}
+
 void TREE_CLASS::decreaseFruitsTotal() {
     gardenPointer->decreaseFruitsTotal();
     fruitsTotal--;
@@ -74,6 +81,23 @@ void TREE_CLASS::increaseBranchesTotal() {
 void TREE_CLASS::decreaseBranchesTotal() {
     gardenPointer->decreaseBranchesTotal();
     totalBranches--;
+}
+
+void TREE_CLASS::cloneBranch(BRANCH_CLASS* branchToClone) {
+    //todo
+}
+
+void TREE_CLASS::cutTree(amount newHeigth) {
+    height = newHeigth;
+    for (branchNode* current = head; current && current->value->getHeight() < height; current = current->next) {
+        removeBranchFromTop();
+    }
+}
+
+void TREE_CLASS::harvestTree(amount weightToPluck) {
+    for (branchNode* current = head; current; current = current->next) {
+        current->value->harvestBranch(weightToPluck);
+    }
 }
 
 void TREE_CLASS::increaseFruitsTotal() {

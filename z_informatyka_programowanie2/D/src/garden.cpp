@@ -33,6 +33,28 @@ void GARDEN_CLASS::plantTree() {
     }
 }
 
+void GARDEN_CLASS::growthGarden() {
+    for (treeNode* current = head; current; current = current->next) {
+        current->value->growthTree();
+    }
+}
+
+void GARDEN_CLASS::cloneTree(BRANCH_CLASS* treeToClone) {
+    //todo
+}
+
+void GARDEN_CLASS::harvestGarden(amount weightToPluck) {
+    for (treeNode* current = head; current; current = current->next) {
+        current->value->harvestTree(weightToPluck);
+    }
+}
+
+void GARDEN_CLASS::fadeGarden() {
+    for (treeNode* current = head; current; current = current->next) {
+        current->value->fadeTree();
+    }
+}
+
 // void GARDEN_CLASS::plantTree() {
 //     treeNode* newTree = new treeNode(new TREE_CLASS(this, curentMinNumber->minNumber));
 

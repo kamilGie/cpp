@@ -24,6 +24,10 @@ class GARDEN_CLASS {
     void increaseWeightsTotal(amount ValToIncrease) { weightsTotal += ValToIncrease; }
 
     void plantTree();
+    void fadeGarden();
+    void growthGarden();
+    void cloneTree(BRANCH_CLASS* treeToClone);
+    void harvestGarden(amount weightToPluck);
     void ExtractTree(number numberToDalate);
     TREE_CLASS* getTreePointer(number numberToFind);
 
