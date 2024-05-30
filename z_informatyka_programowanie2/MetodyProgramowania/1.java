@@ -1,1 +1,0 @@
-// nie umiej javy jeszcze xdd
