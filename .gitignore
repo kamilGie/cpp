@@ -10,9 +10,10 @@
 # ignorowania plikow malych X
 !X*/
 
-# Ignorowanie plików z rozszerzeniem .cpp i .hpp
+# Ignorowanie plików z rozszerzeniem .cpp i .hpp .java
 !*.cpp
 !*.hpp
+!*.java
 
 # Ignorowanie zadan trudnych wymagajacych uzycia  cmake 
 !cmakelists.txt
@@ -28,3 +29,4 @@
 !kolokwium*
 !z_informatyka_programowanie2
 !src
+!MetodyProgramowania
