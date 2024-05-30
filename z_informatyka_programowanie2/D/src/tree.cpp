@@ -7,21 +7,21 @@ TREE_CLASS::TREE_CLASS(GARDEN_CLASS* gardenPointer, amount treeNumber) : gardenP
     gardenPointer->increaseTressTotal();
 }
 
-TREE_CLASS::TREE_CLASS(const TREE_CLASS& other, number treeNumber)
-    : gardenPointer(other.gardenPointer),
-      treeNumber(treeNumber),
-      height(other.height),
-      fruitsTotal(other.fruitsTotal),
-      WeightsTotal(other.WeightsTotal),
-      totalBranches(other.totalBranches),
-      head(nullptr) {
+TREE_CLASS::TREE_CLASS(const TREE_CLASS& other, number treeNumber) : TREE_CLASS(other.gardenPointer, treeNumber) {
+    height = other.height;
+    fruitsTotal = other.fruitsTotal;
+    increaseFruitsTotal(other.fruitsTotal);
+    WeightsTotal = other.WeightsTotal;
+    increaseWeightsTotal(other.WeightsTotal);
+    totalBranches = other.totalBranches;
+    increaseBranchesTotal(other.totalBranches);
+
     if (other.head) {
         head = new branchNode(new BRANCH_CLASS(*other.head->value));
         branchNode* current = head;
         branchNode* otherCurrent = other.head->next;
         while (otherCurrent) {
             current->next = new branchNode(new BRANCH_CLASS(*otherCurrent->value));
-            current->next->prev = current;
             current = current->next;
             otherCurrent = otherCurrent->next;
         }
@@ -44,11 +44,10 @@ void TREE_CLASS::growthTree() {
         current->value->Growthbranch();
         if (current->value->getLength() == height) isLengthFree = false;
     }
-    if (height % 3 == 0 && isLengthFree) addNewTree();
+    if (height % 3 == 0 && isLengthFree) addNewBranch();
 }
 
 void TREE_CLASS::fadeTree() {
-    if (!height) return;
     height--;
     if (head->value->getLength() > height) removeBranchFromTop();
     for (branchNode* current = head; current; current = current->next) {
@@ -56,12 +55,9 @@ void TREE_CLASS::fadeTree() {
     }
 }
 
-void TREE_CLASS::addNewTree() {
+void TREE_CLASS::addNewBranch() {
     branchNode* newBranch = new branchNode(new BRANCH_CLASS(this, height));
-    if (head) {
-        newBranch->next = head;
-        head->prev = newBranch;
-    }
+    newBranch->next = head;
     head = newBranch;
 }
 
@@ -94,9 +90,9 @@ void TREE_CLASS::decreaseFruitsTotal() {
     fruitsTotal--;
 }
 
-void TREE_CLASS::increaseBranchesTotal() {
-    gardenPointer->increaseBranchesTotal();
-    totalBranches++;
+void TREE_CLASS::increaseBranchesTotal(amount ValToIncrease) {
+    gardenPointer->increaseBranchesTotal(ValToIncrease);
+    totalBranches+=ValToIncrease;
 }
 
 void TREE_CLASS::decreaseBranchesTotal() {

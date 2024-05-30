@@ -7,17 +7,20 @@ BRANCH_CLASS::BRANCH_CLASS(TREE_CLASS* treePointer, amount height) : treePointer
     treePointer->increaseBranchesTotal();
 }
 
-BRANCH_CLASS::BRANCH_CLASS(const BRANCH_CLASS& clone) :
-    treePointer(clone.treePointer), length(clone.length), height(clone.height), FruitsTotal(clone.FruitsTotal), weightsTotal(clone.weightsTotal) {
-        treePointer->increaseWeightsTotal(weightsTotal);
-        treePointer->increaseFruitsTotal(FruitsTotal);
+BRANCH_CLASS::BRANCH_CLASS(const BRANCH_CLASS& clone) : BRANCH_CLASS(clone.treePointer, clone.height) {
+    length = clone.length;
+    FruitsTotal = clone.FruitsTotal;
+    weightsTotal = clone.weightsTotal;
+    
+    treePointer->increaseWeightsTotal(weightsTotal);
+    treePointer->increaseFruitsTotal(FruitsTotal);
+
     if (clone.head) {
         head = new fruitNode(clone.head->value);
         fruitNode* current = head;
         fruitNode* cloneCurrent = clone.head->next;
         while (cloneCurrent) {
             current->next = new fruitNode(cloneCurrent->value);
-            current->next->prev = current;
             current = current->next;
             cloneCurrent = cloneCurrent->next;
         }
@@ -85,7 +88,6 @@ void BRANCH_CLASS::cutBranch(amount newLength) {
 }
 
 void BRANCH_CLASS::fadeBranch() {
-    if (!length) return;
     length--;
     if (head->value->getLength() > length) removeFruitFromTop();
     for (fruitNode* current = head; current; current = current->next) {
@@ -102,9 +104,6 @@ void BRANCH_CLASS::removeFruitFromTop() {
 
 void BRANCH_CLASS::addNewFruit() {
     fruitNode* newFruit = new fruitNode(new FRUIT_CLASS(this, length));
-    if (head) {
-        newFruit->next = head;
-        head->prev = newFruit;
-    }
+    newFruit->next = head;
     head = newFruit;
 }

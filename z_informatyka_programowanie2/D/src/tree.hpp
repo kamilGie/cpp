@@ -9,7 +9,7 @@ typedef unsigned int number;
 class TREE_CLASS {
    public:
     TREE_CLASS(GARDEN_CLASS* gardenPointer, amount treeNumber);
-    TREE_CLASS(const TREE_CLASS& other,number treeNumber);
+    TREE_CLASS(const TREE_CLASS& other, number treeNumber);
     ~TREE_CLASS();
 
     amount getHeight() { return height; }
@@ -20,20 +20,19 @@ class TREE_CLASS {
     GARDEN_CLASS* gatGardenPointer() { return gardenPointer; }
 
     void fadeTree();
-    void addNewTree();
+    void addNewBranch();
     void growthTree();
     void removeBranchFromTop();
     void decreaseFruitsTotal();
-    void increaseFruitsTotal(amount ValToIncrease=1);
-    void increaseBranchesTotal();
     void decreaseBranchesTotal();
-    void cloneBranch(BRANCH_CLASS* cloningBranch);
     void cutTree(amount newHeigth);
     void harvestTree(amount weightToPluck);
-    void decreaseWeightsTotal( amount ValToDecrease );
-    void increaseWeightsTotal( amount ValToIncrease );
+    void cloneBranch(BRANCH_CLASS* cloningBranch);
+    void decreaseWeightsTotal(amount ValToDecrease);
+    void increaseWeightsTotal(amount ValToIncrease);
     BRANCH_CLASS* getBranchPointer(amount fruitLength);
-
+    void increaseFruitsTotal(amount ValToIncrease = 1);
+    void increaseBranchesTotal(amount ValToIncrease = 1);
 
    private:
     GARDEN_CLASS* gardenPointer;
@@ -47,7 +46,6 @@ class TREE_CLASS {
     struct branchNode {
         branchNode(BRANCH_CLASS* val) : value(val) {}
         BRANCH_CLASS* value;
-        branchNode* prev = nullptr;
         branchNode* next = nullptr;
     };
     branchNode* head = nullptr;

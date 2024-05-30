@@ -13,22 +13,23 @@ class GARDEN_CLASS {
     void decreaseTressTotal() { tressTotal--; }
     void increaseTressTotal() { tressTotal++; }
     void decreaseFruitsTotal() { FruitsTotal--; }
-    void increaseFruitsTotal(amount ValToIncrease=1) { FruitsTotal+=ValToIncrease; }
     amount getTressTotal() { return tressTotal; }
     amount getFruitsTotal() { return FruitsTotal; }
-    void increaseBranchesTotal() { BranchesTotal++; }
     void decreaseBranchesTotal() { BranchesTotal--; }
     amount getWeightsTotal() { return weightsTotal; }
     amount getBranchesTotal() { return BranchesTotal; }
+    void fadeGarden() { ForEachTree(&TREE_CLASS::fadeTree); }
+    void growthGarden() { ForEachTree(&TREE_CLASS::growthTree); }
+    void cloneTree(TREE_CLASS* treeToClone) { plantTree(treeToClone); }
     void decreaseWeightsTotal(amount ValToDecrease) { weightsTotal -= ValToDecrease; }
     void increaseWeightsTotal(amount ValToIncrease) { weightsTotal += ValToIncrease; }
+    void increaseBranchesTotal(amount ValToIncrease=1) { BranchesTotal+= ValToIncrease; }
+    void increaseFruitsTotal(amount ValToIncrease = 1) { FruitsTotal += ValToIncrease; }
 
-    void plantTree();
-    void fadeGarden();
-    void growthGarden();
-    void cloneTree(TREE_CLASS* treeToClone);
-    void harvestGarden(amount weightToPluck);
     void ExtractTree(number numberToDalate);
+    void harvestGarden(amount weightToPluck);
+    void plantTree(TREE_CLASS* seed = nullptr);
+    void ForEachTree(void (TREE_CLASS::*func)());
     TREE_CLASS* getTreePointer(number numberToFind);
 
    private:
@@ -40,16 +41,7 @@ class GARDEN_CLASS {
     struct treeNode {
         treeNode(TREE_CLASS* val) : value(val) {}
         TREE_CLASS* value;
-        treeNode* prev = nullptr;
         treeNode* next = nullptr;
     };
     treeNode* head = nullptr;
-
-    // struct MinimumNumberNode {
-    //     MinimumNumberNode(number minNumber, treeNode* prevClass = nullptr) : minNumber(minNumber) {}
-    //     number minNumber;
-    //     MinimumNumberNode* next = nullptr;
-    //     treeNode* prevClass;
-    // };
-    // MinimumNumberNode* curentMinNumber = new MinimumNumberNode(0);
 };
