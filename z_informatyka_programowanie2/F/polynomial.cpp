@@ -54,15 +54,29 @@ class POLYNOMIAL {
     }
 
    public:   // operators overload
-    POLYNOMIAL operator=(const POLYNOMIAL& other){
-        return *this;
-    }
     POLYNOMIAL operator+(const POLYNOMIAL& other){
-        return *this;
+        POLYNOMIAL res(*this);
+        res+=other;
+        return res;
     }
 
     POLYNOMIAL operator+=(const POLYNOMIAL& other){
-        return *this;
+        integerNode *mineCurrent=head;
+        integerNode *otherCurrent=other.head;
+        while(otherCurrent){
+            mineCurrent->coefficient+=otherCurrent->coefficient;
+            otherCurrent=otherCurrent->next;
+            if(!mineCurrent->next) break;
+            mineCurrent=mineCurrent->next;
+        }
+        while(otherCurrent){
+            POLYNOMIAL::integerNode* newNode = new POLYNOMIAL::integerNode;
+            newNode->coefficient=otherCurrent->coefficient;
+            mineCurrent->next=newNode;
+            mineCurrent=mineCurrent->next;
+            otherCurrent=otherCurrent->next;
+        }
+    return *this;
     }
 
 

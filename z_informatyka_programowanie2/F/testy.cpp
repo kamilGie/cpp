@@ -53,18 +53,18 @@ TEST(polynomial, overloadEquals) {
     EXPECT_EQ(GetCapturedStdout(), "( 0, 1, 2, 3, 4 )");
 }
 
-// TEST(polynomial, overloadAdd) {  
-//     POLYNOMIAL polynomial1(4, 0, 1, 2, 3, 4);
-//     POLYNOMIAL polynomial2(4, 0, 1, 2, 3, 3);
-//     POLYNOMIAL polynomial3 = polynomial1 +  polynomial2;
-//     CaptureStdout();
-//     std::cout << polynomial3;
-//     EXPECT_EQ(GetCapturedStdout(), "( 0, 2, 4, 6, 7 )");
+TEST(polynomial, overloadAdd) {  
+    POLYNOMIAL polynomial1(4, 0, 1, 2, 3, 4);
+    POLYNOMIAL polynomial2(4, 0, 1, 2, 3, 3);
+    POLYNOMIAL polynomial3 = polynomial1 +  polynomial2;
+    CaptureStdout();
+    std::cout << polynomial3;
+    EXPECT_EQ(GetCapturedStdout(), "( 0, 2, 4, 6, 7 )");
 
-//     POLYNOMIAL polynomial4(2,1,1,100);
-//     polynomial4+=polynomial3;
+    POLYNOMIAL polynomial4(2,1,1,100);
+    polynomial4+=polynomial3;
 
-//     CaptureStdout();
-//     std::cout << polynomial4;
-//     EXPECT_EQ(GetCapturedStdout(), "( 1, 3, 105, 6, 7 )");
-// }
+    CaptureStdout();
+    std::cout << polynomial4;
+    EXPECT_EQ(GetCapturedStdout(), "( 1, 3, 104, 6, 7 )");
+}
