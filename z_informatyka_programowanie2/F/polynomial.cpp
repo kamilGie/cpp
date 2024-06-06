@@ -4,6 +4,15 @@
 class POLYNOMIAL {
    public:
     POLYNOMIAL(){};
+    POLYNOMIAL(const POLYNOMIAL&toClone){
+        POLYNOMIAL::integerNode* prev = nullptr;
+        for (POLYNOMIAL::integerNode* other = toClone.head; other; other = other->next) {
+            POLYNOMIAL::integerNode* newNode = new POLYNOMIAL::integerNode;
+            newNode->coefficient=other->coefficient;
+            prev ? prev->next = newNode : head = newNode;
+            prev = newNode;
+        }
+    };
     POLYNOMIAL(int degree, ...) {
         va_list args;
         va_start(args, degree);
@@ -45,6 +54,18 @@ class POLYNOMIAL {
     }
 
    public:   // operators overload
+    POLYNOMIAL operator=(const POLYNOMIAL& other){
+        return *this;
+    }
+    POLYNOMIAL operator+(const POLYNOMIAL& other){
+        return *this;
+    }
+
+    POLYNOMIAL operator+=(const POLYNOMIAL& other){
+        return *this;
+    }
+
+
    private:  // params
     struct integerNode {
         integerNode* next = nullptr;
