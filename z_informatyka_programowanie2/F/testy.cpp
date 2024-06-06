@@ -27,3 +27,29 @@ TEST(polynomial, constructor) {
     std::cout << polynomial;
     EXPECT_EQ(GetCapturedStdout(), "( 0, 1, 2, 3, 4 )");
 }
+
+TEST(polynomial, GreatestCommonDivisor) {
+    POLYNOMIAL polynomial1(4, 0, 2, 4, 6, 8);
+    POLYNOMIAL polynomial2(2, 4, -6, 8);
+    POLYNOMIAL polynomial3(4, 4, 4, 8, 12, 14);
+
+    CaptureStdout();
+    std::cout << polynomial1;
+    EXPECT_EQ(GetCapturedStdout(), "( 0, 1, 2, 3, 4 )");
+    CaptureStdout();
+    std::cout << polynomial2;
+    EXPECT_EQ(GetCapturedStdout(), "( 2, -3, 4 )");
+    CaptureStdout();
+    std::cout << polynomial3;
+    EXPECT_EQ(GetCapturedStdout(), "( 2, 2, 4, 6, 7 )");
+}
+
+TEST(polynomial, overloadEquals) {  // nie rozumiem tbh co to ma znaczyc w tym poleceniu
+    POLYNOMIAL polynomial1(4, 0, 1, 2, 3, 4);
+    POLYNOMIAL polynomial2;
+    POLYNOMIAL polynomial3;
+    POLYNOMIAL polynomial4;
+
+    polynomial1 = polynomial2;
+    polynomial3 = polynomial4;
+}

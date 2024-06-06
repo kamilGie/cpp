@@ -2,7 +2,7 @@
 #include "iostream"
 
 class POLYNOMIAL {
-   public:
+   public:  // constructor and destructors
     POLYNOMIAL(){};
     POLYNOMIAL(int degree, ...) {
         va_list args;
@@ -15,6 +15,7 @@ class POLYNOMIAL {
             prev = cur;
         }
         va_end(args);
+        CheckForReduce();
     }
 
     ~POLYNOMIAL() {
@@ -26,12 +27,40 @@ class POLYNOMIAL {
         }
     }
 
-   public:
+    void CheckForReduce() {
+        int minValue = INT_MAX;
+        for (POLYNOMIAL::integerNode* cur = head; cur; cur = cur->next) {
+            if (cur->coefficient == 0) continue;
+            if (minValue > abs(cur->coefficient)) minValue = abs(cur->coefficient);
+        }
+
+        for (int reducer = minValue; reducer > 1 ; reducer--) {
+            if(minValue% reducer != 0) continue;
+            bool toReduce = true;
+            for (POLYNOMIAL::integerNode* cur = head; cur && toReduce; cur = cur->next) {
+                if (cur->coefficient % reducer != 0) toReduce = false;
+            }
+            if (toReduce) {
+                for (POLYNOMIAL::integerNode* cur = head; cur; cur = cur->next) {
+                    cur->coefficient /= reducer;
+                }
+                minValue /= reducer;
+                reducer = minValue+1;
+            }
+        }
+    }
+
+   public:   // operators overload
+   private:  // params
     struct integerNode {
         integerNode* next = nullptr;
         int coefficient;
     };
     integerNode* head = nullptr;
+
+   public:  // friend
+    friend std::istream& operator>>(std::istream& is, POLYNOMIAL& c);
+    friend std::ostream& operator<<(std::ostream& os, const POLYNOMIAL& c);
 };
 
 std::ostream& operator<<(std::ostream& os, const POLYNOMIAL& c) {
@@ -53,5 +82,6 @@ std::istream& operator>>(std::istream& is, POLYNOMIAL& c) {
         prev ? prev->next = cur : c.head = cur;  // its first ?
         prev = cur;
     }
+    c.CheckForReduce();
     return is;
 }
