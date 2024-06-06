@@ -15,8 +15,10 @@ int *wczytaj_tablice(); int obliczIndeks(int indeks); int obliczIlosciFragmentow
 
 int dlugosci_tablicy;//zmiena globalna bo jest potrzebna prawie wszedzie wiec tak wygodniej;
 
+
 int main()
 {
+    
     int ilosci_tablic;
     cin >> ilosci_tablic;
     while (ilosci_tablic--){
