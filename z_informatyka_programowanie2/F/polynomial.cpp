@@ -2,7 +2,7 @@
 #include "iostream"
 
 class POLYNOMIAL {
-   public:  // constructor and destructors
+   public:
     POLYNOMIAL(){};
     POLYNOMIAL(int degree, ...) {
         va_list args;
@@ -17,7 +17,6 @@ class POLYNOMIAL {
         va_end(args);
         CheckForReduce();
     }
-
     ~POLYNOMIAL() {
         integerNode* cur = head;
         while (cur) {
@@ -28,14 +27,9 @@ class POLYNOMIAL {
     }
 
     void CheckForReduce() {
-        int minValue = INT_MAX;
-        for (POLYNOMIAL::integerNode* cur = head; cur; cur = cur->next) {
-            if (cur->coefficient == 0) continue;
-            if (minValue > abs(cur->coefficient)) minValue = abs(cur->coefficient);
-        }
-
-        for (int reducer = minValue; reducer > 1 ; reducer--) {
-            if(minValue% reducer != 0) continue;
+        int minValue = minimalNonZeroCoefficient();
+        for (int reducer = minValue; reducer > 1; reducer--) { 
+            if (minValue % reducer != 0) continue;
             bool toReduce = true;
             for (POLYNOMIAL::integerNode* cur = head; cur && toReduce; cur = cur->next) {
                 if (cur->coefficient % reducer != 0) toReduce = false;
@@ -45,7 +39,7 @@ class POLYNOMIAL {
                     cur->coefficient /= reducer;
                 }
                 minValue /= reducer;
-                reducer = minValue+1;
+                reducer = minValue + 1;
             }
         }
     }
@@ -57,6 +51,15 @@ class POLYNOMIAL {
         int coefficient;
     };
     integerNode* head = nullptr;
+
+   private:  // private methods
+    int minimalNonZeroCoefficient() {
+        int minValue = INT_MAX;
+        for (POLYNOMIAL::integerNode* cur = head; cur; cur = cur->next) {
+            if (cur->coefficient != 0 && minValue > abs(cur->coefficient)) minValue = abs(cur->coefficient);
+        }
+        return minValue;
+    }
 
    public:  // friend
     friend std::istream& operator>>(std::istream& is, POLYNOMIAL& c);
