@@ -3,6 +3,20 @@
 
 class POLYNOMIAL {
    public:
+    POLYNOMIAL(){};
+    POLYNOMIAL(int degree, ...) {
+        va_list args;
+        va_start(args, degree);
+        POLYNOMIAL::integerNode* prev = nullptr;
+        for (int i = 0; i <= degree; i++) {
+            POLYNOMIAL::integerNode* cur = new POLYNOMIAL::integerNode;
+            cur->coefficient = va_arg(args, int);
+            prev ? prev->next = cur : head = cur;  // its first ?
+            prev = cur;
+        }
+        va_end(args);
+    }
+
     ~POLYNOMIAL() {
         integerNode* cur = head;
         while (cur) {
@@ -11,9 +25,11 @@ class POLYNOMIAL {
             delete tmp;
         }
     }
+
+   public:
     struct integerNode {
         integerNode* next = nullptr;
-        int integral;
+        int coefficient;
     };
     integerNode* head = nullptr;
 };
@@ -21,8 +37,8 @@ class POLYNOMIAL {
 std::ostream& operator<<(std::ostream& os, const POLYNOMIAL& c) {
     os << "( ";
     for (POLYNOMIAL::integerNode* cur = c.head; cur; cur = cur->next) {
-        os << cur->integral;
-        cur->next ? os << ", " : os << " )"; //its last ? 
+        os << cur->coefficient;
+        cur->next ? os << ", " : os << " )";  // its last ?
     }
     return os;
 }
@@ -32,11 +48,10 @@ std::istream& operator>>(std::istream& is, POLYNOMIAL& c) {
     is >> degree;
     POLYNOMIAL::integerNode* prev = nullptr;
     for (int i = 0; i <= degree; ++i) {
-        POLYNOMIAL::integerNode* pol = new POLYNOMIAL::integerNode;
-        is >> pol->integral;
-        prev ? prev->next = pol : c.head = pol;  // its first ?
-        prev = pol;
+        POLYNOMIAL::integerNode* cur = new POLYNOMIAL::integerNode;
+        is >> cur->coefficient;
+        prev ? prev->next = cur : c.head = cur;  // its first ?
+        prev = cur;
     }
     return is;
 }
-
