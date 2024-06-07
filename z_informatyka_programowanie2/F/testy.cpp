@@ -1,10 +1,12 @@
 #include <gtest/gtest.h>
-
+#include "cstdarg"
+#include "iostream"
+using namespace std;
 #include "polynomial.cpp"
 
 using namespace testing::internal;
 
-TEST(OutOfClassOperators, ostream) {
+TEST(OutOfClassOperators, ostreamMethods) {
     POLYNOMIAL polynomial;
     std::istringstream input_stream("4 1 0 -5 0 3   2 1 0 0");
     std::cin.rdbuf(input_stream.rdbuf());
@@ -172,19 +174,45 @@ TEST(polynomial, overloadNewAndDelete) {
     EXPECT_EQ(GetCapturedStdout(), "010");
 }
 
-// TEST(polynomial, memoryLeaksTest) {
-//     {
-//         POLYNOMIAL p(3, 1, 3, 4, -1);
-//         POLYNOMIAL q(2, 6, 8, -7);
-//         p=q;
-//         p*=q;
-//         p+=q;
-//         p-=q;
-//         POLYNOMIAL test = p - q;
-//         test>>=2;
-//     }
 
-//     CaptureStdout();
-//     std::cout << POLYNOMIAL::overloaded;
-//     EXPECT_EQ(GetCapturedStdout(), "0");
-// }
+TEST(globalOverload, bigger) {
+    EXPECT_TRUE(POLYNOMIAL(2,1,1,1)<POLYNOMIAL(3,1,1,1,1));
+    EXPECT_TRUE(POLYNOMIAL(2,1,1,1)<POLYNOMIAL(2,2,1,1));
+    EXPECT_TRUE(POLYNOMIAL(2,1,1,1)<POLYNOMIAL(2,1,1,2));
+    EXPECT_FALSE(POLYNOMIAL(2,1,2,1)<POLYNOMIAL(2,1,1,1));
+}
+
+TEST(globalOverload, biggerOrEquals) {
+    EXPECT_TRUE(POLYNOMIAL(2,1,1,1)<=POLYNOMIAL(2,1,1,1));
+    EXPECT_TRUE(POLYNOMIAL(0,1)<=POLYNOMIAL(0,1));
+    EXPECT_TRUE(POLYNOMIAL(2,1,1,1)<=POLYNOMIAL(2,1,1,2));
+    EXPECT_FALSE(POLYNOMIAL(2,1,2,1)<=POLYNOMIAL(2,1,1,1));
+}
+
+TEST(globalOverload, Equals) {
+    EXPECT_TRUE(POLYNOMIAL(2,1,1,1)==POLYNOMIAL(2,1,1,1));
+    EXPECT_TRUE(POLYNOMIAL(0,1)==POLYNOMIAL(0,3)); // they reduce
+    EXPECT_TRUE(POLYNOMIAL(3,1,1,1,0)==POLYNOMIAL(2,1,1,1));
+    EXPECT_FALSE(POLYNOMIAL(2,1,2,1)==POLYNOMIAL(2,1,1,1));
+}
+
+TEST(globalOverload, NotEquals) {
+    EXPECT_TRUE(POLYNOMIAL(2,1,1,1)!=POLYNOMIAL(2,1,2,1));
+    EXPECT_TRUE(POLYNOMIAL(1,1,1)!=POLYNOMIAL(0,2));
+    EXPECT_TRUE(POLYNOMIAL(3,1,1,1,1)!=POLYNOMIAL(2,1,1,1));
+    EXPECT_FALSE(POLYNOMIAL(2,1,1,1)!=POLYNOMIAL(2,1,1,1));
+}
+
+TEST(globalOverload, smaller) {
+    EXPECT_TRUE(POLYNOMIAL(3,1,1,1,1)>POLYNOMIAL(2,1,1,1));
+    EXPECT_TRUE(POLYNOMIAL(2,2,1,1)>POLYNOMIAL(2,1,1,1));
+    EXPECT_TRUE(POLYNOMIAL(2,1,1,2)>POLYNOMIAL(2,1,1,1));
+    EXPECT_FALSE(POLYNOMIAL(2,1,1,1)>POLYNOMIAL(2,1,2,1));
+}
+
+TEST(globalOverload, smallerOrEquals) {
+    EXPECT_TRUE(POLYNOMIAL(2,1,1,1)>=POLYNOMIAL(2,1,1,1));
+    EXPECT_TRUE(POLYNOMIAL(0,1)>=POLYNOMIAL(0,1));
+    EXPECT_TRUE(POLYNOMIAL(2,1,1,2)>=POLYNOMIAL(2,1,1,1));
+    EXPECT_FALSE(POLYNOMIAL(2,1,1,1)>=POLYNOMIAL(2,1,2,1));
+}

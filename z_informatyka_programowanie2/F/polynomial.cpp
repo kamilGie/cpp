@@ -1,32 +1,36 @@
-#include "cstdarg"
-#include "iostream"
-
 class POLYNOMIAL {
    public:
     struct integerNode {
+        integerNode(){};
+        integerNode(integerNode** currentHead){
+            next = *currentHead;  // Ustaw następny węzeł na aktualną głowę listy
+            *currentHead = this; 
+        };
         integerNode* next = nullptr;
-        int coefficient;
+        int coefficient=0;
     };
     integerNode* head = nullptr;
-    static int overloaded; 
+    static int overloaded;
 
    public:
     POLYNOMIAL(){};
+
     POLYNOMIAL(const POLYNOMIAL& toClone) {
-        POLYNOMIAL::integerNode* prev = nullptr;
-        for (POLYNOMIAL::integerNode* other = toClone.head; other; other = other->next) {
-            POLYNOMIAL::integerNode* newNode = new POLYNOMIAL::integerNode;
+        integerNode* prev = nullptr;
+        for (integerNode* other = toClone.head; other; other = other->next) {
+            integerNode* newNode = new integerNode;
             newNode->coefficient = other->coefficient;
             prev ? prev->next = newNode : head = newNode;
             prev = newNode;
         }
     };
+
     POLYNOMIAL(int degree, ...) {
         va_list args;
         va_start(args, degree);
-        POLYNOMIAL::integerNode* prev = nullptr;
+        integerNode* prev = nullptr;
         for (int i = 0; i <= degree; i++) {
-            POLYNOMIAL::integerNode* cur = new POLYNOMIAL::integerNode;
+            integerNode* cur = new integerNode;
             cur->coefficient = va_arg(args, int);
             prev ? prev->next = cur : head = cur;  // its first ?
             prev = cur;
@@ -34,16 +38,16 @@ class POLYNOMIAL {
         va_end(args);
         CheckForReduce();
     }
+
     ~POLYNOMIAL() {
         clear();
     }
 
    public:  // operators overload
-    POLYNOMIAL operator=(const POLYNOMIAL& other) {
+    POLYNOMIAL operator=(const POLYNOMIAL& copy) {
         clear();
-        head = new POLYNOMIAL::integerNode;
-        head->coefficient = 0;
-        *this += other;
+        head = new integerNode; // making polynomial empty (0,0) to add the copy and make it same
+        *this += copy;
         return *this;
     }
 
@@ -63,7 +67,7 @@ class POLYNOMIAL {
             mineCurrent = mineCurrent->next;
         }
         while (otherCurrent) {
-            POLYNOMIAL::integerNode* newNode = new POLYNOMIAL::integerNode;
+            integerNode* newNode = new integerNode;
             newNode->coefficient = otherCurrent->coefficient;
             mineCurrent->next = newNode;
             mineCurrent = mineCurrent->next;
@@ -89,7 +93,7 @@ class POLYNOMIAL {
             mineCurrent = mineCurrent->next;
         }
         while (otherCurrent) {
-            POLYNOMIAL::integerNode* newNode = new POLYNOMIAL::integerNode;
+            integerNode* newNode = new integerNode;
             newNode->coefficient = (otherCurrent->coefficient * -1);
             mineCurrent->next = newNode;
             mineCurrent = mineCurrent->next;
@@ -118,10 +122,7 @@ class POLYNOMIAL {
             }
 
             for (int i = 0; i < multiplicationDegree; i++) {
-                integerNode* prevZeroIntergral = new integerNode;
-                prevZeroIntergral->next = partialProduct.head;
-                prevZeroIntergral->coefficient = 0;
-                partialProduct.head = prevZeroIntergral;
+                new integerNode(&partialProduct.head);
             }
             multiplicationDegree++;
             res += partialProduct;
@@ -165,17 +166,14 @@ class POLYNOMIAL {
 
     POLYNOMIAL operator>>=(int amount) {
         while (amount--) {
-            POLYNOMIAL::integerNode* newIntegral = new integerNode;
-            newIntegral->coefficient = 0;
-            newIntegral->next = head;
-            head = newIntegral;
+            new integerNode(&head);
         }
         return *this;
     }
 
     POLYNOMIAL operator<<=(int amount) {
         while (amount-- && head) {
-            POLYNOMIAL::integerNode* tmp = head;
+            integerNode* tmp = head;
             head = head->next;
             delete tmp;
         }
@@ -210,7 +208,7 @@ class POLYNOMIAL {
         return temp;
     }
 
-    void*  operator new(size_t size) {
+    void* operator new(size_t size) {
         overloaded++;
         return ::operator new(size);
     }
@@ -220,17 +218,13 @@ class POLYNOMIAL {
         ::operator delete(ptr);
     }
 
-
-
    private:  // private methods
     void clear() {
-        integerNode* cur = head;
-        while (cur) {
-            integerNode* tmp = cur;
-            cur = cur->next;
+        while (head) {
+            integerNode* tmp = head;
+            head = head->next;
             delete tmp;
         }
-        head = nullptr;
     }
 
     void CheckForReduce() {
@@ -239,16 +233,32 @@ class POLYNOMIAL {
         for (int reducer = minValue; reducer > 1; reducer--) {
             if (minValue % reducer != 0) continue;
             bool toReduce = true;
-            for (POLYNOMIAL::integerNode* cur = head; cur && toReduce; cur = cur->next) {
+            for (integerNode* cur = head; cur && toReduce; cur = cur->next) {
                 if (cur->coefficient % reducer != 0) toReduce = false;
             }
             if (toReduce) {
-                for (POLYNOMIAL::integerNode* cur = head; cur; cur = cur->next) {
+                for (integerNode* cur = head; cur; cur = cur->next) {
                     cur->coefficient /= reducer;
                 }
                 minValue /= reducer;
                 reducer = minValue + 1;
             }
+        }
+    }
+
+    void removeLeadingZeros() {
+        integerNode* lastNonZeroNode = head;
+        for (integerNode* cur = head; cur; cur = cur->next) {
+            if (cur->coefficient) lastNonZeroNode = cur;
+        }
+        if (!lastNonZeroNode->next) return;  // last is non zero node
+
+        integerNode* tmp = lastNonZeroNode->next;
+        lastNonZeroNode->next = nullptr;
+        while (tmp) {
+            integerNode* toDelete = tmp;
+            tmp = tmp->next;
+            delete toDelete;
         }
     }
 
@@ -260,32 +270,15 @@ class POLYNOMIAL {
         return minValue;
     }
 
-    void removeLeadingZeros(){
-        integerNode *lastNonZeroNode=head;
-        for (integerNode* cur = head; cur; cur = cur->next) {
-            if(cur->coefficient!=0) lastNonZeroNode=cur;
-        }
-        if(!lastNonZeroNode->next) return; // its last 
-
-        integerNode* tmp=lastNonZeroNode->next;
-        lastNonZeroNode->next=nullptr;
-        while(tmp){
-            integerNode* toDelete = tmp;
-            tmp=tmp->next;
-            delete toDelete;
-        }
-    }
-
-   public:  // friend
+   public:
     friend std::istream& operator>>(std::istream& is, POLYNOMIAL& c);
-    friend std::ostream& operator<<(std::ostream& os, const POLYNOMIAL& c);
 };
 
 std::ostream& operator<<(std::ostream& os, const POLYNOMIAL& c) {
     os << "( ";
     for (POLYNOMIAL::integerNode* cur = c.head; cur; cur = cur->next) {
         os << cur->coefficient;
-        cur->next ? os << ", " : os << " )";  // its last ?
+        os << (cur->next ? ", " : " )");  // its last ?
     }
     return os;
 }
@@ -297,11 +290,49 @@ std::istream& operator>>(std::istream& is, POLYNOMIAL& c) {
     for (int i = 0; i <= degree; ++i) {
         POLYNOMIAL::integerNode* cur = new POLYNOMIAL::integerNode;
         is >> cur->coefficient;
-        prev ? prev->next = cur : c.head = cur;  // its first ?
+        prev ? prev->next = cur : c.head = cur;  // its not first ?
         prev = cur;
     }
     c.CheckForReduce();
     return is;
+}
+
+bool compare(const POLYNOMIAL& smaller, const POLYNOMIAL& bigger, bool allowEquality) {
+    bool res = allowEquality;
+    POLYNOMIAL::integerNode* biggerNode = bigger.head;
+    POLYNOMIAL::integerNode* smallerNode = smaller.head;
+    while (biggerNode && smallerNode) {
+        if (biggerNode->coefficient != smallerNode->coefficient) res = biggerNode->coefficient > smallerNode->coefficient;
+        biggerNode = biggerNode->next;
+        smallerNode = smallerNode->next;
+    }
+    if (smallerNode) return false;
+    if (biggerNode) return true;
+    return res;
+}
+
+bool operator<(const POLYNOMIAL& smaller, const POLYNOMIAL& bigger) {
+    return compare(smaller, bigger, false);
+}
+
+bool operator<=(const POLYNOMIAL& smaller, const POLYNOMIAL& bigger) {
+    return compare(smaller, bigger, true);
+}
+
+bool operator>(const POLYNOMIAL& bigger, const POLYNOMIAL& smaller) {
+    return compare(smaller, bigger, false);
+}
+
+bool operator>=(const POLYNOMIAL& bigger, const POLYNOMIAL& smaller) {
+    return compare(smaller, bigger, true);
+}
+
+bool operator==(const POLYNOMIAL& pol1, const POLYNOMIAL& pol2) {
+    return compare(pol1, pol2, true) && compare(pol2, pol1, true);
+}
+
+bool operator!=(const POLYNOMIAL& pol1, const POLYNOMIAL& pol2) {
+    return compare(pol1, pol2, false) || compare(pol2, pol1, false);
 }
 
 int POLYNOMIAL::overloaded = 0;
