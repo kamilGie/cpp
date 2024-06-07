@@ -8,6 +8,7 @@ class POLYNOMIAL {
         int coefficient;
     };
     integerNode* head = nullptr;
+    static int overloaded; 
 
    public:
     POLYNOMIAL(){};
@@ -209,6 +210,16 @@ class POLYNOMIAL {
         return temp;
     }
 
+    void*  operator new(size_t size) {
+        overloaded++;
+        return ::operator new(size);
+    }
+
+    void operator delete(void* ptr) {
+        overloaded--;
+        ::operator delete(ptr);
+    }
+
 
 
    private:  // private methods
@@ -292,3 +303,5 @@ std::istream& operator>>(std::istream& is, POLYNOMIAL& c) {
     c.CheckForReduce();
     return is;
 }
+
+int POLYNOMIAL::overloaded = 0;

@@ -44,7 +44,7 @@ TEST(polynomial, GreatestCommonDivisor) {
     EXPECT_EQ(GetCapturedStdout(), "( 2, 2, 4, 6, 7 )");
 }
 
-TEST(polynomial, overloadEquals) {  
+TEST(polynomial, overloadEquals) {
     POLYNOMIAL polynomial1(4, 0, 1, 2, 3, 4);
     POLYNOMIAL polynomial2 = polynomial1;
     CaptureStdout();
@@ -58,46 +58,46 @@ TEST(polynomial, overloadEquals) {
     EXPECT_EQ(GetCapturedStdout(), "( 0, 1, 2, 3, 4 )");
 }
 
-TEST(polynomial, overloadAdd) {  
+TEST(polynomial, overloadAdd) {
     POLYNOMIAL polynomial3 = POLYNOMIAL(4, 0, 1, 2, 3, 4) + POLYNOMIAL(4, 0, 1, 2, 3, 3);
     CaptureStdout();
     std::cout << polynomial3;
     EXPECT_EQ(GetCapturedStdout(), "( 0, 2, 4, 6, 7 )");
 
-    POLYNOMIAL polynomial4(2,1,1,100);
-    polynomial4+=polynomial3;
+    POLYNOMIAL polynomial4(2, 1, 1, 100);
+    polynomial4 += polynomial3;
     CaptureStdout();
     std::cout << polynomial4;
     EXPECT_EQ(GetCapturedStdout(), "( 1, 3, 104, 6, 7 )");
 }
 
-TEST(polynomial, overloadMinus) {  
+TEST(polynomial, overloadMinus) {
     POLYNOMIAL polynomial3 = POLYNOMIAL(4, 0, 1, 2, 3, 4) - POLYNOMIAL(4, 0, 1, 2, 3, 3);
     CaptureStdout();
     std::cout << polynomial3;
     EXPECT_EQ(GetCapturedStdout(), "( 0, 0, 0, 0, 1 )");
 
-    POLYNOMIAL polynomial4(2,1,1,100);
-    polynomial4-=polynomial3;
+    POLYNOMIAL polynomial4(2, 1, 1, 100);
+    polynomial4 -= polynomial3;
     CaptureStdout();
     std::cout << polynomial4;
     EXPECT_EQ(GetCapturedStdout(), "( 1, 1, 100, 0, -1 )");
 }
 
-TEST(polynomial, overloadMultiplication) {  
+TEST(polynomial, overloadMultiplication) {
     POLYNOMIAL polynomial3 = POLYNOMIAL(4, 0, 1, 2, 3, 4) * POLYNOMIAL(4, 0, 1, 2, 3, 3);
     CaptureStdout();
     std::cout << polynomial3;
     EXPECT_EQ(GetCapturedStdout(), "( 0, 0, 1, 4, 10, 19, 23, 21, 12 )");
 
-    POLYNOMIAL polynomial4(2,1,1,100);
-    polynomial4*=polynomial3;
+    POLYNOMIAL polynomial4(2, 1, 1, 100);
+    polynomial4 *= polynomial3;
     CaptureStdout();
     std::cout << polynomial4;
     EXPECT_EQ(GetCapturedStdout(), "( 0, 0, 1, 5, 114, 429, 1042, 1944, 2333, 2112, 1200 )");
 }
 
-// TEST(polynomial, overloadDivision) {  
+// TEST(polynomial, overloadDivision) {
 //     POLYNOMIAL polynomial3 = POLYNOMIAL(4, 0, 1, 2, 3, 4) / POLYNOMIAL(4, 0, 1, 2, 3, 4);
 //     CaptureStdout();
 //     std::cout << polynomial3;
@@ -110,7 +110,7 @@ TEST(polynomial, overloadMultiplication) {
 //     EXPECT_EQ(GetCapturedStdout(), "( 0, 0, 1, 5, 114, 429, 1042, 1944, 2333, 2112, 1200 )");
 // }
 
-// TEST(polynomial, overloadResFromDivision) {  
+// TEST(polynomial, overloadResFromDivision) {
 //     POLYNOMIAL polynomial3 = POLYNOMIAL(4, 0, 1, 2, 3, 4) % POLYNOMIAL(4, 0, 1, 2, 3, 4);
 //     CaptureStdout();
 //     std::cout << polynomial3;
@@ -123,40 +123,68 @@ TEST(polynomial, overloadMultiplication) {
 //     EXPECT_EQ(GetCapturedStdout(), "( 0, 0, 1, 5, 114, 429, 1042, 1944, 2333, 2112, 1200 )");
 // }
 
-
-TEST(polynomial, overloadBitOperators) {  
-    POLYNOMIAL p( 3, 1, 3, 4, -1);
+TEST(polynomial, overloadBitOperators) {
+    POLYNOMIAL p(3, 1, 3, 4, -1);
     CaptureStdout();
-    std::cout << ( p << 1 );
+    std::cout << (p << 1);
     EXPECT_EQ(GetCapturedStdout(), "( 3, 4, -1 )");
 
-    POLYNOMIAL q( 2, 6, 8, -7);
+    POLYNOMIAL q(2, 6, 8, -7);
     CaptureStdout();
-    std::cout << (q >> 2 );
+    std::cout << (q >> 2);
     EXPECT_EQ(GetCapturedStdout(), "( 0, 0, 6, 8, -7 )");
 }
 
-TEST(polynomial, overloadIncremenAndDecrement) {  
-    POLYNOMIAL p( 3, 1, 3, 4, -1);
-    POLYNOMIAL q( 2, 6, 8, -7);
+TEST(polynomial, overloadIncremenAndDecrement) {
+    POLYNOMIAL p(3, 1, 3, 4, -1);
+    POLYNOMIAL q(2, 6, 8, -7);
 
     q = ++p;
 
     CaptureStdout();
-    std::cout<< p;
+    std::cout << p;
     EXPECT_EQ(GetCapturedStdout(), "( 2, 4, 5 )");
 
     CaptureStdout();
-    std::cout<< q;
+    std::cout << q;
     EXPECT_EQ(GetCapturedStdout(), "( 2, 4, 5 )");
 
     p = q--;
 
     CaptureStdout();
-    std::cout<< p;
+    std::cout << p;
     EXPECT_EQ(GetCapturedStdout(), "( 2, 4, 5 )");
 
     CaptureStdout();
-    std::cout<< q;
+    std::cout << q;
     EXPECT_EQ(GetCapturedStdout(), "( 1, 3, 4 )");
 }
+
+TEST(polynomial, overloadNewAndDelete) {
+    CaptureStdout();
+
+    std::cout << POLYNOMIAL::overloaded;
+    POLYNOMIAL* polyPTR = new POLYNOMIAL;
+    std::cout << POLYNOMIAL::overloaded;
+    delete polyPTR;
+    std::cout << POLYNOMIAL::overloaded;
+
+    EXPECT_EQ(GetCapturedStdout(), "010");
+}
+
+// TEST(polynomial, memoryLeaksTest) {
+//     {
+//         POLYNOMIAL p(3, 1, 3, 4, -1);
+//         POLYNOMIAL q(2, 6, 8, -7);
+//         p=q;
+//         p*=q;
+//         p+=q;
+//         p-=q;
+//         POLYNOMIAL test = p - q;
+//         test>>=2;
+//     }
+
+//     CaptureStdout();
+//     std::cout << POLYNOMIAL::overloaded;
+//     EXPECT_EQ(GetCapturedStdout(), "0");
+// }
