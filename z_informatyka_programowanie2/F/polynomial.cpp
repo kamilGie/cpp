@@ -3,6 +3,13 @@
 
 class POLYNOMIAL {
    public:
+    struct integerNode {
+        integerNode* next = nullptr;
+        int coefficient;
+    };
+    integerNode* head = nullptr;
+
+   public:
     POLYNOMIAL(){};
     POLYNOMIAL(const POLYNOMIAL& toClone) {
         POLYNOMIAL::integerNode* prev = nullptr;
@@ -27,28 +34,17 @@ class POLYNOMIAL {
         CheckForReduce();
     }
     ~POLYNOMIAL() {
-        integerNode* cur = head;
-        while (cur) {
-            integerNode* tmp = cur;
-            cur = cur->next;
-            delete tmp;
-        }
+        clear();
     }
 
    public:  // operators overload
     POLYNOMIAL operator=(const POLYNOMIAL& other) {
-        integerNode* cur = head;
-        while (cur) {
-            integerNode* tmp = cur;
-            cur = cur->next;
-            delete tmp;
-        }
+        clear();
         head = new POLYNOMIAL::integerNode;
-        head->coefficient=0;
-        *this +=other;
+        head->coefficient = 0;
+        *this += other;
         return *this;
     }
-
 
     POLYNOMIAL operator+(const POLYNOMIAL& other) {
         POLYNOMIAL res(*this);
@@ -102,40 +98,49 @@ class POLYNOMIAL {
         return *this;
     }
 
-        POLYNOMIAL operator*(const POLYNOMIAL& other) {
+    POLYNOMIAL operator*(const POLYNOMIAL& other) {
         POLYNOMIAL res(*this);
         res *= other;
         return res;
     }
 
     POLYNOMIAL operator*=(const POLYNOMIAL& other) {
-        integerNode* mineCurrent = head;
         integerNode* otherCurrent = other.head;
+
+        int multiplicationDegree = 0;
+        POLYNOMIAL res(0, 0);
+        POLYNOMIAL partialProduct;
         while (otherCurrent) {
-            mineCurrent->coefficient *= otherCurrent->coefficient;
+            partialProduct = *this;
+            for (POLYNOMIAL::integerNode* cur = partialProduct.head; cur; cur = cur->next) {
+                cur->coefficient *= otherCurrent->coefficient;
+            }
+
+            for (int i = 0; i < multiplicationDegree; i++) {
+                POLYNOMIAL::integerNode* prevZeroIntergral = new POLYNOMIAL::integerNode;
+                prevZeroIntergral->next = partialProduct.head;
+                prevZeroIntergral->coefficient = 0;
+                partialProduct.head = prevZeroIntergral;
+            }
+            multiplicationDegree++;
+            res += partialProduct;
             otherCurrent = otherCurrent->next;
-            if (!mineCurrent->next) break;
-            mineCurrent = mineCurrent->next;
         }
-        while (otherCurrent) {
-            POLYNOMIAL::integerNode* newNode = new POLYNOMIAL::integerNode;
-            newNode->coefficient = (otherCurrent->coefficient * -1);
-            mineCurrent->next = newNode;
-            mineCurrent = mineCurrent->next;
-            otherCurrent = otherCurrent->next;
-        }
-        CheckForReduce();
+        *this = res;
         return *this;
     }
 
-   private:  // params
-    struct integerNode {
-        integerNode* next = nullptr;
-        int coefficient;
-    };
-    integerNode* head = nullptr;
-
    private:  // private methods
+    void clear() {
+        integerNode* cur = head;
+        while (cur) {
+            integerNode* tmp = cur;
+            cur = cur->next;
+            delete tmp;
+        }
+        head = nullptr;
+    }
+
     void CheckForReduce() {
         int minValue = minimalNonZeroCoefficient();
         for (int reducer = minValue; reducer > 1; reducer--) {
@@ -153,6 +158,7 @@ class POLYNOMIAL {
             }
         }
     }
+
     int minimalNonZeroCoefficient() {
         int minValue = INT_MAX;
         for (POLYNOMIAL::integerNode* cur = head; cur; cur = cur->next) {
