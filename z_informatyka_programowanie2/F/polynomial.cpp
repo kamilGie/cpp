@@ -112,12 +112,12 @@ class POLYNOMIAL {
         POLYNOMIAL partialProduct;
         while (otherCurrent) {
             partialProduct = *this;
-            for (POLYNOMIAL::integerNode* cur = partialProduct.head; cur; cur = cur->next) {
+            for (integerNode* cur = partialProduct.head; cur; cur = cur->next) {
                 cur->coefficient *= otherCurrent->coefficient;
             }
 
             for (int i = 0; i < multiplicationDegree; i++) {
-                POLYNOMIAL::integerNode* prevZeroIntergral = new POLYNOMIAL::integerNode;
+                integerNode* prevZeroIntergral = new integerNode;
                 prevZeroIntergral->next = partialProduct.head;
                 prevZeroIntergral->coefficient = 0;
                 partialProduct.head = prevZeroIntergral;
@@ -127,6 +127,54 @@ class POLYNOMIAL {
             otherCurrent = otherCurrent->next;
         }
         *this = res;
+        return *this;
+    }
+
+    POLYNOMIAL operator/(const POLYNOMIAL& other) {
+        //todo
+    }
+
+    POLYNOMIAL operator/=(const POLYNOMIAL& other) {
+        //todo
+
+    }
+
+    POLYNOMIAL operator%(const POLYNOMIAL& other) {
+        //todo
+    }
+
+    POLYNOMIAL operator%=(const POLYNOMIAL& other) {
+        //todo
+    }
+
+    POLYNOMIAL operator>>(int amount) {
+        POLYNOMIAL res = *this;
+        res >>= amount;
+        return res;
+    }
+
+    POLYNOMIAL operator<<(int amount) {
+        POLYNOMIAL res = *this;
+        res <<= amount;
+        return res;
+    }
+
+    POLYNOMIAL operator>>=(int amount) {
+        while (amount--) {
+            POLYNOMIAL::integerNode* newIntegral = new integerNode;
+            newIntegral->coefficient = 0;
+            newIntegral->next = head;
+            head = newIntegral;
+        }
+        return *this;
+    }
+
+    POLYNOMIAL operator<<=(int amount) {
+        while (amount-- && head) {
+            POLYNOMIAL::integerNode* tmp = head;
+            head = head->next;
+            delete tmp;
+        }
         return *this;
     }
 
