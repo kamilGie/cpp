@@ -4,11 +4,11 @@
 class POLYNOMIAL {
    public:
     POLYNOMIAL(){};
-    POLYNOMIAL(const POLYNOMIAL&toClone){
+    POLYNOMIAL(const POLYNOMIAL& toClone) {
         POLYNOMIAL::integerNode* prev = nullptr;
         for (POLYNOMIAL::integerNode* other = toClone.head; other; other = other->next) {
             POLYNOMIAL::integerNode* newNode = new POLYNOMIAL::integerNode;
-            newNode->coefficient=other->coefficient;
+            newNode->coefficient = other->coefficient;
             prev ? prev->next = newNode : head = newNode;
             prev = newNode;
         }
@@ -35,9 +35,70 @@ class POLYNOMIAL {
         }
     }
 
+   public:  // operators overload
+    POLYNOMIAL operator+(const POLYNOMIAL& other) {
+        POLYNOMIAL res(*this);
+        res += other;
+        return res;
+    }
+
+    POLYNOMIAL operator+=(const POLYNOMIAL& other) {
+        integerNode* mineCurrent = head;
+        integerNode* otherCurrent = other.head;
+        while (otherCurrent) {
+            mineCurrent->coefficient += otherCurrent->coefficient;
+            otherCurrent = otherCurrent->next;
+            if (!mineCurrent->next) break;
+            mineCurrent = mineCurrent->next;
+        }
+        while (otherCurrent) {
+            POLYNOMIAL::integerNode* newNode = new POLYNOMIAL::integerNode;
+            newNode->coefficient = otherCurrent->coefficient;
+            mineCurrent->next = newNode;
+            mineCurrent = mineCurrent->next;
+            otherCurrent = otherCurrent->next;
+        }
+        CheckForReduce();
+        return *this;
+    }
+
+    POLYNOMIAL operator-(const POLYNOMIAL& other) {
+        POLYNOMIAL res(*this);
+        res -= other;
+        return res;
+    }
+
+    POLYNOMIAL operator-=(const POLYNOMIAL& other) {
+        integerNode* mineCurrent = head;
+        integerNode* otherCurrent = other.head;
+        while (otherCurrent) {
+            mineCurrent->coefficient -= otherCurrent->coefficient;
+            otherCurrent = otherCurrent->next;
+            if (!mineCurrent->next) break;
+            mineCurrent = mineCurrent->next;
+        }
+        while (otherCurrent) {
+            POLYNOMIAL::integerNode* newNode = new POLYNOMIAL::integerNode;
+            newNode->coefficient = (otherCurrent->coefficient * -1);
+            mineCurrent->next = newNode;
+            mineCurrent = mineCurrent->next;
+            otherCurrent = otherCurrent->next;
+        }
+        CheckForReduce();
+        return *this;
+    }
+
+   private:  // params
+    struct integerNode {
+        integerNode* next = nullptr;
+        int coefficient;
+    };
+    integerNode* head = nullptr;
+
+   private:  // private methods
     void CheckForReduce() {
         int minValue = minimalNonZeroCoefficient();
-        for (int reducer = minValue; reducer > 1; reducer--) { 
+        for (int reducer = minValue; reducer > 1; reducer--) {
             if (minValue % reducer != 0) continue;
             bool toReduce = true;
             for (POLYNOMIAL::integerNode* cur = head; cur && toReduce; cur = cur->next) {
@@ -52,42 +113,6 @@ class POLYNOMIAL {
             }
         }
     }
-
-   public:   // operators overload
-    POLYNOMIAL operator+(const POLYNOMIAL& other){
-        POLYNOMIAL res(*this);
-        res+=other;
-        return res;
-    }
-
-    POLYNOMIAL operator+=(const POLYNOMIAL& other){
-        integerNode *mineCurrent=head;
-        integerNode *otherCurrent=other.head;
-        while(otherCurrent){
-            mineCurrent->coefficient+=otherCurrent->coefficient;
-            otherCurrent=otherCurrent->next;
-            if(!mineCurrent->next) break;
-            mineCurrent=mineCurrent->next;
-        }
-        while(otherCurrent){
-            POLYNOMIAL::integerNode* newNode = new POLYNOMIAL::integerNode;
-            newNode->coefficient=otherCurrent->coefficient;
-            mineCurrent->next=newNode;
-            mineCurrent=mineCurrent->next;
-            otherCurrent=otherCurrent->next;
-        }
-    return *this;
-    }
-
-
-   private:  // params
-    struct integerNode {
-        integerNode* next = nullptr;
-        int coefficient;
-    };
-    integerNode* head = nullptr;
-
-   private:  // private methods
     int minimalNonZeroCoefficient() {
         int minValue = INT_MAX;
         for (POLYNOMIAL::integerNode* cur = head; cur; cur = cur->next) {

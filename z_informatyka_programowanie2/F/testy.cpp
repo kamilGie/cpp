@@ -68,3 +68,19 @@ TEST(polynomial, overloadAdd) {
     std::cout << polynomial4;
     EXPECT_EQ(GetCapturedStdout(), "( 1, 3, 104, 6, 7 )");
 }
+
+TEST(polynomial, overloadMinus) {  
+    POLYNOMIAL polynomial1(4, 0, 1, 2, 3, 4);
+    POLYNOMIAL polynomial2(4, 0, 1, 2, 3, 3);
+    POLYNOMIAL polynomial3 = polynomial1 - polynomial2;
+    CaptureStdout();
+    std::cout << polynomial3;
+    EXPECT_EQ(GetCapturedStdout(), "( 0, 0, 0, 0, 1 )");
+
+    POLYNOMIAL polynomial4(2,1,1,100);
+    polynomial4-=polynomial3;
+
+    CaptureStdout();
+    std::cout << polynomial4;
+    EXPECT_EQ(GetCapturedStdout(), "( 1, 1, 100, 0, -1 )");
+}
