@@ -51,6 +51,12 @@ TEST(polynomial, overloadEquals) {
     CaptureStdout();
     std::cout << polynomial2;
     EXPECT_EQ(GetCapturedStdout(), "( 0, 1, 2, 3, 4 )");
+
+    POLYNOMIAL polynomial3(4, 10, 10, 10, 10, 10);
+    polynomial3 = polynomial2;
+    CaptureStdout();
+    std::cout << polynomial3;
+    EXPECT_EQ(GetCapturedStdout(), "( 0, 1, 2, 3, 4 )");
 }
 
 TEST(polynomial, overloadAdd) {  
@@ -83,4 +89,20 @@ TEST(polynomial, overloadMinus) {
     CaptureStdout();
     std::cout << polynomial4;
     EXPECT_EQ(GetCapturedStdout(), "( 1, 1, 100, 0, -1 )");
+}
+
+TEST(polynomial, overloadMultiplication) {  
+    POLYNOMIAL polynomial1(4, 0, 1, 2, 3, 4);
+    POLYNOMIAL polynomial2(4, 0, 1, 2, 3, 3);
+    POLYNOMIAL polynomial3 = polynomial1 * polynomial2;
+    CaptureStdout();
+    std::cout << polynomial3;
+    EXPECT_EQ(GetCapturedStdout(), "( 0, 0, 1, 4, 10, 19, 23, 21, 12 )");
+
+    POLYNOMIAL polynomial4(2,1,1,100);
+    polynomial4*=polynomial3;
+
+    CaptureStdout();
+    std::cout << polynomial4;
+    EXPECT_EQ(GetCapturedStdout(), "( 0, 0, 1, 5, 114, 429, 1042, 1944, 2333, 2112, 1200 ");
 }

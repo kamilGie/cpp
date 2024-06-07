@@ -36,6 +36,20 @@ class POLYNOMIAL {
     }
 
    public:  // operators overload
+    POLYNOMIAL operator=(const POLYNOMIAL& other) {
+        integerNode* cur = head;
+        while (cur) {
+            integerNode* tmp = cur;
+            cur = cur->next;
+            delete tmp;
+        }
+        head = new POLYNOMIAL::integerNode;
+        head->coefficient=0;
+        *this +=other;
+        return *this;
+    }
+
+
     POLYNOMIAL operator+(const POLYNOMIAL& other) {
         POLYNOMIAL res(*this);
         res += other;
@@ -73,6 +87,32 @@ class POLYNOMIAL {
         integerNode* otherCurrent = other.head;
         while (otherCurrent) {
             mineCurrent->coefficient -= otherCurrent->coefficient;
+            otherCurrent = otherCurrent->next;
+            if (!mineCurrent->next) break;
+            mineCurrent = mineCurrent->next;
+        }
+        while (otherCurrent) {
+            POLYNOMIAL::integerNode* newNode = new POLYNOMIAL::integerNode;
+            newNode->coefficient = (otherCurrent->coefficient * -1);
+            mineCurrent->next = newNode;
+            mineCurrent = mineCurrent->next;
+            otherCurrent = otherCurrent->next;
+        }
+        CheckForReduce();
+        return *this;
+    }
+
+        POLYNOMIAL operator*(const POLYNOMIAL& other) {
+        POLYNOMIAL res(*this);
+        res *= other;
+        return res;
+    }
+
+    POLYNOMIAL operator*=(const POLYNOMIAL& other) {
+        integerNode* mineCurrent = head;
+        integerNode* otherCurrent = other.head;
+        while (otherCurrent) {
+            mineCurrent->coefficient *= otherCurrent->coefficient;
             otherCurrent = otherCurrent->next;
             if (!mineCurrent->next) break;
             mineCurrent = mineCurrent->next;
