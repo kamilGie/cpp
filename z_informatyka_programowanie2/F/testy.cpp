@@ -17,7 +17,7 @@ TEST(OutOfClassOperators, ostream) {
     std::cin >> polynomial;
     CaptureStdout();
     std::cout << polynomial;
-    ASSERT_EQ(GetCapturedStdout(), "( 1, 0, 0 )");
+    ASSERT_EQ(GetCapturedStdout(), "( 1 )");
 }
 
 TEST(polynomial, constructor) {
@@ -134,4 +134,29 @@ TEST(polynomial, overloadBitOperators) {
     CaptureStdout();
     std::cout << (q >> 2 );
     EXPECT_EQ(GetCapturedStdout(), "( 0, 0, 6, 8, -7 )");
+}
+
+TEST(polynomial, overloadIncremenAndDecrement) {  
+    POLYNOMIAL p( 3, 1, 3, 4, -1);
+    POLYNOMIAL q( 2, 6, 8, -7);
+
+    q = ++p;
+
+    CaptureStdout();
+    std::cout<< p;
+    EXPECT_EQ(GetCapturedStdout(), "( 2, 4, 5 )");
+
+    CaptureStdout();
+    std::cout<< q;
+    EXPECT_EQ(GetCapturedStdout(), "( 2, 4, 5 )");
+
+    p = q--;
+
+    CaptureStdout();
+    std::cout<< p;
+    EXPECT_EQ(GetCapturedStdout(), "( 2, 4, 5 )");
+
+    CaptureStdout();
+    std::cout<< q;
+    EXPECT_EQ(GetCapturedStdout(), "( 1, 3, 4 )");
 }

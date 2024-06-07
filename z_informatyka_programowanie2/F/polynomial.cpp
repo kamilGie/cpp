@@ -131,20 +131,23 @@ class POLYNOMIAL {
     }
 
     POLYNOMIAL operator/(const POLYNOMIAL& other) {
-        //todo
+        // todo
+        return *this;
     }
 
     POLYNOMIAL operator/=(const POLYNOMIAL& other) {
-        //todo
-
+        // todo
+        return *this;
     }
 
     POLYNOMIAL operator%(const POLYNOMIAL& other) {
-        //todo
+        // todo
+        return *this;
     }
 
     POLYNOMIAL operator%=(const POLYNOMIAL& other) {
-        //todo
+        // todo
+        return *this;
     }
 
     POLYNOMIAL operator>>(int amount) {
@@ -178,6 +181,36 @@ class POLYNOMIAL {
         return *this;
     }
 
+    POLYNOMIAL& operator++() {
+        for (integerNode* cur = head; cur; cur = cur->next) {
+            ++cur->coefficient;
+        }
+        CheckForReduce();
+        return *this;
+    }
+
+    POLYNOMIAL operator++(int) {
+        POLYNOMIAL temp = *this;
+        ++(*this);
+        return temp;
+    }
+
+    POLYNOMIAL& operator--() {
+        for (integerNode* cur = head; cur; cur = cur->next) {
+            --cur->coefficient;
+        }
+        CheckForReduce();
+        return *this;
+    }
+
+    POLYNOMIAL operator--(int) {
+        POLYNOMIAL temp = *this;
+        --(*this);
+        return temp;
+    }
+
+
+
    private:  // private methods
     void clear() {
         integerNode* cur = head;
@@ -190,6 +223,7 @@ class POLYNOMIAL {
     }
 
     void CheckForReduce() {
+        removeLeadingZeros();
         int minValue = minimalNonZeroCoefficient();
         for (int reducer = minValue; reducer > 1; reducer--) {
             if (minValue % reducer != 0) continue;
@@ -209,10 +243,26 @@ class POLYNOMIAL {
 
     int minimalNonZeroCoefficient() {
         int minValue = INT_MAX;
-        for (POLYNOMIAL::integerNode* cur = head; cur; cur = cur->next) {
+        for (integerNode* cur = head; cur; cur = cur->next) {
             if (cur->coefficient != 0 && minValue > abs(cur->coefficient)) minValue = abs(cur->coefficient);
         }
         return minValue;
+    }
+
+    void removeLeadingZeros(){
+        integerNode *lastNonZeroNode=head;
+        for (integerNode* cur = head; cur; cur = cur->next) {
+            if(cur->coefficient!=0) lastNonZeroNode=cur;
+        }
+        if(!lastNonZeroNode->next) return; // its last 
+
+        integerNode* tmp=lastNonZeroNode->next;
+        lastNonZeroNode->next=nullptr;
+        while(tmp){
+            integerNode* toDelete = tmp;
+            tmp=tmp->next;
+            delete toDelete;
+        }
     }
 
    public:  // friend
