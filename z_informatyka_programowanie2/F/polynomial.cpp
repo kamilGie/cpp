@@ -1,13 +1,13 @@
 class POLYNOMIAL {
    public:
     struct integerNode {
-        integerNode(){};
-        integerNode(integerNode** currentHead){
-            next = *currentHead;  // Ustaw następny węzeł na aktualną głowę listy
-            *currentHead = this; 
+        integerNode(int coefficient = 0) : coefficient(coefficient) {}
+        integerNode(integerNode** insertNode, int coefficient = 0) : coefficient(coefficient) {
+            next = *insertNode;  // Set next to the node pointed by insertNode
+            *insertNode = this;  // Update insertNode to point here
         };
         integerNode* next = nullptr;
-        int coefficient=0;
+        int coefficient;
     };
     integerNode* head = nullptr;
     static int overloaded;
@@ -18,11 +18,11 @@ class POLYNOMIAL {
     POLYNOMIAL(const POLYNOMIAL& toClone) {
         integerNode* prev = nullptr;
         for (integerNode* other = toClone.head; other; other = other->next) {
-            integerNode* newNode = new integerNode;
-            newNode->coefficient = other->coefficient;
-            prev ? prev->next = newNode : head = newNode;
+            integerNode* newNode = new integerNode(other->coefficient);
+            prev ? prev->next = newNode : head = newNode;  // its first ?
             prev = newNode;
         }
+        CheckForReduce();
     };
 
     POLYNOMIAL(int degree, ...) {
@@ -30,10 +30,9 @@ class POLYNOMIAL {
         va_start(args, degree);
         integerNode* prev = nullptr;
         for (int i = 0; i <= degree; i++) {
-            integerNode* cur = new integerNode;
-            cur->coefficient = va_arg(args, int);
-            prev ? prev->next = cur : head = cur;  // its first ?
-            prev = cur;
+            integerNode* newNode = new integerNode(va_arg(args, int));
+            prev ? prev->next = newNode : head = newNode;  // its first ?
+            prev = newNode;
         }
         va_end(args);
         CheckForReduce();
@@ -43,10 +42,10 @@ class POLYNOMIAL {
         clear();
     }
 
-   public:  // operators overload
+   public:
     POLYNOMIAL operator=(const POLYNOMIAL& copy) {
         clear();
-        head = new integerNode; // making polynomial empty (0,0) to add the copy and make it same
+        new integerNode(&head, 0);  // making polynomial empty (0,0) to add the copy and make it same
         *this += copy;
         return *this;
     }
@@ -67,9 +66,7 @@ class POLYNOMIAL {
             mineCurrent = mineCurrent->next;
         }
         while (otherCurrent) {
-            integerNode* newNode = new integerNode;
-            newNode->coefficient = otherCurrent->coefficient;
-            mineCurrent->next = newNode;
+            new integerNode(&mineCurrent->next, otherCurrent->coefficient);
             mineCurrent = mineCurrent->next;
             otherCurrent = otherCurrent->next;
         }
@@ -93,9 +90,7 @@ class POLYNOMIAL {
             mineCurrent = mineCurrent->next;
         }
         while (otherCurrent) {
-            integerNode* newNode = new integerNode;
-            newNode->coefficient = (otherCurrent->coefficient * -1);
-            mineCurrent->next = newNode;
+            new integerNode(&mineCurrent->next, otherCurrent->coefficient * -1);
             mineCurrent = mineCurrent->next;
             otherCurrent = otherCurrent->next;
         }
