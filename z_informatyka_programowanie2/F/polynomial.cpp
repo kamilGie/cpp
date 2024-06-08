@@ -128,8 +128,9 @@ class POLYNOMIAL {
     }
 
     POLYNOMIAL operator/(const POLYNOMIAL& other) {
-        // todo
-        return *this;
+        POLYNOMIAL res = *this;
+        res /= other;
+        return res;
     }
 
     POLYNOMIAL operator/=(const POLYNOMIAL& other) {
@@ -138,8 +139,9 @@ class POLYNOMIAL {
     }
 
     POLYNOMIAL operator%(const POLYNOMIAL& other) {
-        // todo
-        return *this;
+        POLYNOMIAL res = *this;
+        res %= other;
+        return res;
     }
 
     POLYNOMIAL operator%=(const POLYNOMIAL& other) {

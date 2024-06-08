@@ -99,30 +99,20 @@ TEST(polynomial, overloadMultiplication) {
     EXPECT_EQ(GetCapturedStdout(), "( 0, 0, 1, 5, 114, 429, 1042, 1944, 2333, 2112, 1200 )");
 }
 
-// TEST(polynomial, overloadDivision) {
-//     POLYNOMIAL polynomial3 = POLYNOMIAL(4, 0, 1, 2, 3, 4) / POLYNOMIAL(4, 0, 1, 2, 3, 4);
-//     CaptureStdout();
-//     std::cout << polynomial3;
-//     EXPECT_EQ(GetCapturedStdout(), "( 0, 0, 1, 4, 10, 19, 23, 21, 12 )");
-
-//     POLYNOMIAL polynomial4(2,1,1,100);
-//     polynomial4/=polynomial3;
-//     CaptureStdout();
-//     std::cout << polynomial4;
-//     EXPECT_EQ(GetCapturedStdout(), "( 0, 0, 1, 5, 114, 429, 1042, 1944, 2333, 2112, 1200 )");
-// }
+TEST(polynomial, overloadDivision) {
+    POLYNOMIAL p(3, 1, 3, 4, -1);
+    POLYNOMIAL q(2, 6, 8, -7);
+    CaptureStdout();
+    std::cout << p/q;
+    EXPECT_EQ(GetCapturedStdout(), "( -20, 7 )");
+}
 
 // TEST(polynomial, overloadResFromDivision) {
-//     POLYNOMIAL polynomial3 = POLYNOMIAL(4, 0, 1, 2, 3, 4) % POLYNOMIAL(4, 0, 1, 2, 3, 4);
+//     POLYNOMIAL p(3, 1, 3, 4, -1);
+//     POLYNOMIAL q(2, 6, 8, -7);
 //     CaptureStdout();
-//     std::cout << polynomial3;
-//     EXPECT_EQ(GetCapturedStdout(), "( 0, 0, 1, 4, 10, 19, 23, 21, 12 )");
-
-//     POLYNOMIAL polynomial4(2,1,1,100);
-//     polynomial4%=polynomial3;
-//     CaptureStdout();
-//     std::cout << polynomial4;
-//     EXPECT_EQ(GetCapturedStdout(), "( 0, 0, 1, 5, 114, 429, 1042, 1944, 2333, 2112, 1200 )");
+//     std::cout << p%q;
+//     EXPECT_EQ(GetCapturedStdout(), "( 169, 265 )");
 // }
 
 TEST(polynomial, overloadBitOperators) {
