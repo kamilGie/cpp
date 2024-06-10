@@ -100,11 +100,36 @@ TEST(polynomial, overloadMultiplication) {
 }
 
 TEST(polynomial, overloadDivision) {
-    POLYNOMIAL p(3, 1, 3, 4, -1);
-    POLYNOMIAL q(2, 6, 8, -7);
+    POLYNOMIAL p1(3, 1, 3, 4, -1);
+    POLYNOMIAL q1(2, 6, 8, -7);
     CaptureStdout();
-    std::cout << p/q;
+    std::cout << p1/q1;
     EXPECT_EQ(GetCapturedStdout(), "( -20, 7 )");
+
+    POLYNOMIAL p2(3, -8, -14, 5, 2);
+    POLYNOMIAL q2(1, -2, 1);
+    CaptureStdout();
+    std::cout << p2/q2;
+    EXPECT_EQ(GetCapturedStdout(), "( 4, 9, 2 )");
+
+    POLYNOMIAL p3(3, -4, 4, 5, 1);
+    POLYNOMIAL q3(1, 2, 1);
+    CaptureStdout();
+    std::cout << p3/q3;
+    EXPECT_EQ(GetCapturedStdout(), "( -2, 3, 1 )");
+
+    POLYNOMIAL p4(3, 3, 2, 2, 2);
+    POLYNOMIAL q4(1, 0, 1);
+    CaptureStdout();
+    std::cout << p4/q4;
+    EXPECT_EQ(GetCapturedStdout(), "( 1, 1, 1 )");
+
+    POLYNOMIAL p5(5, 0, 0, 0, 0, 0, 9);
+    POLYNOMIAL q5(2, 0, 0, 6);
+    CaptureStdout();
+    std::cout << p5/q5;
+    EXPECT_EQ(GetCapturedStdout(), "( 0, 0, 0, 1 )");
+
 }
 
 TEST(polynomial, overloadResFromDivision) {

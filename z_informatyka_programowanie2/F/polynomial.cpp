@@ -127,131 +127,23 @@ class POLYNOMIAL {
         return *this;
     }
 
-    POLYNOMIAL operator/(const POLYNOMIAL& other) {
-        POLYNOMIAL res = *this;
-        res /= other;
-        return res;
+    POLYNOMIAL operator/(const POLYNOMIAL& right) {
+        return division(*this, right);
     }
 
     POLYNOMIAL operator/=(const POLYNOMIAL& right) {
-        POLYNOMIAL * left = this;
-
-        //wyliczam liczbe z najwieksza potega z prawego
-        int right_NumberWithTheBigest_xPow=0;
-        int right_XPow=-1;
-        for (integerNode* cur = right.head; cur; cur = cur->next) {
-            right_NumberWithTheBigest_xPow=cur->coefficient;
-            right_XPow++;
-        }
-        integerNode* res = new integerNode; // tworze lanuch ktory bedzie wynikiem z dzielenia 
-        while(true){ 
-            //wybieram  liczbe z nwjieksza potega z lewego wielomianu
-            int left_NumberWithTheBigest_xPow=0;
-            int left_XPow=-1;
-            for (integerNode* cur = head; cur; cur = cur->next) {
-                left_NumberWithTheBigest_xPow=cur->coefficient;
-                left_XPow++;
-            }
-            // jesli prawy wielomian ma wieksza potege, dzielenie sie konczy
-            if(right_XPow>left_XPow) break; 
-
-            // jesli liczby przy najwiekszych potegach podzielone  (lewy/prawy) najwieksze nie sa cala to mnoze  res oraz oraz lewy wielomian razy liczba prawy przy najwiekszej potedze oraz sama najwieksza lewa liczba
-            if(left_NumberWithTheBigest_xPow%right_NumberWithTheBigest_xPow){
-                for (integerNode* cur = res; cur; cur = cur->next) {
-                    cur->coefficient*=abs(right_NumberWithTheBigest_xPow);
-                }   
-                for (integerNode* cur = left->head; cur; cur = cur->next) {
-                    cur->coefficient*=abs(right_NumberWithTheBigest_xPow);
-                } 
-                left_NumberWithTheBigest_xPow*=abs(right_NumberWithTheBigest_xPow);
-            }
-
-            // tworze zmienna int  NumberAboveTheColumn ktora bedzie  dzieleniem liczb  z najwiekszego lewego wielomiany przez prawy najwieksza oraz zmienna wspolycznik jej  x dla tej liczby rowny (lewy - prawy potegi x)
-            int NumberAboveTheColumn = left_NumberWithTheBigest_xPow/right_NumberWithTheBigest_xPow;
-            int NumberAboveTheColumn_XPow = left_XPow-right_XPow;
-            // NumberAboveTheColumn dodaje do res 
-            new integerNode(&res->next,NumberAboveTheColumn);
-            // NumberAboveTheColumn mnoze razy other i odejmuje od lewego wielomianu 
-            integerNode* leftPrev=nullptr;
-            integerNode* leftCurrent = head;
-            integerNode* rightCurrent = right.head;
-            for ( int i = 0 ; i<NumberAboveTheColumn_XPow;i++){
-                leftCurrent=leftCurrent->next;
-                leftPrev=leftCurrent;
-            }
-            while(leftCurrent->next && rightCurrent->next){
-                leftCurrent->coefficient=leftCurrent->coefficient-(rightCurrent->coefficient*NumberAboveTheColumn);
-                rightCurrent=rightCurrent->next;
-                leftPrev=leftCurrent;
-                leftCurrent=leftCurrent->next;
-            }
-            leftPrev->next=nullptr;
-            delete leftCurrent;
-        }
-        //ten wielomian  rowna sie res 
-        clear();
-        head = res->next;
-        delete res;
-        CheckForReduce();
+        *this = division(*this, right);
         return *this;
     }
 
-    POLYNOMIAL operator%(const POLYNOMIAL& other) {
-        POLYNOMIAL res = *this;
-        res %= other;
-        return res;
+    POLYNOMIAL operator%(const POLYNOMIAL& right) {
+        bool returnRemainder;
+        return division(*this, right, returnRemainder = true);
     }
 
     POLYNOMIAL operator%=(const POLYNOMIAL& right) {
-        POLYNOMIAL * left = this;
-        //wyliczam liczbe z najwieksza potega z prawego
-        int right_NumberWithTheBigest_xPow=0;
-        int right_XPow=-1;
-        for (integerNode* cur = right.head; cur; cur = cur->next) {
-            right_NumberWithTheBigest_xPow=cur->coefficient;
-            right_XPow++;
-        }
-
-        // while dopoki ten wielomian ma wieksza potege lub rowna niz other ma najwieksza ta potege 
-        while(true){
-            //wybieram  liczbe z nwjieksza potega z lewego wielomianu
-            int left_NumberWithTheBigest_xPow=0;
-            int left_XPow=-1;
-            for (integerNode* cur = head; cur; cur = cur->next) {
-                left_NumberWithTheBigest_xPow=cur->coefficient;
-                left_XPow++;
-            }
-            if(right_XPow>left_XPow) break;
-            // jesli liczby przy najwiekszych potegach podzielone  (lewy/prawy) najwieksze nie sa cala to mnoze  res oraz oraz lewy wielomian razy liczba prawy przy najwiekszej potedze oraz sama najwieksza lewa liczba
-            if(left_NumberWithTheBigest_xPow%right_NumberWithTheBigest_xPow){ 
-                for (integerNode* cur = left->head; cur; cur = cur->next) {
-                    cur->coefficient*=abs(right_NumberWithTheBigest_xPow);
-                } 
-                left_NumberWithTheBigest_xPow*=abs(right_NumberWithTheBigest_xPow);
-            }
-
-            // tworze zmienna int  NumberAboveTheColumn ktora bedzie  dzieleniem liczb  z najwiekszego lewego wielomiany przez prawy najwieksza oraz zmienna wspolycznik jej  x dla tej liczby rowny (lewy - prawy potegi x)
-            int NumberAboveTheColumn = left_NumberWithTheBigest_xPow/right_NumberWithTheBigest_xPow;
-            int NumberAboveTheColumn_XPow = left_XPow-right_XPow;
-            // NumberAboveTheColumn mnoze razy other i odejmuje od lewego wielomianu 
-            integerNode* leftPrev=nullptr;
-            integerNode* leftCurrent = head;
-            integerNode* rightCurrent = right.head;
-            for ( int i = 0 ; i<NumberAboveTheColumn_XPow;i++){
-                leftCurrent=leftCurrent->next;
-                leftPrev=leftCurrent;
-            }
-            while(leftCurrent->next && rightCurrent->next){
-                leftCurrent->coefficient=leftCurrent->coefficient-(rightCurrent->coefficient*NumberAboveTheColumn);
-                rightCurrent=rightCurrent->next;
-                leftPrev=leftCurrent;
-                leftCurrent=leftCurrent->next;
-            }
-            leftPrev->next=nullptr;
-            delete leftCurrent;
-        }
-        //ten wielomian  rowna sie res 
-        CheckForReduce();
+        bool returnRemainder;
+        *this = division(*this, right, returnRemainder = true);
         return *this;
     }
 
@@ -371,6 +263,63 @@ class POLYNOMIAL {
             if (cur->coefficient != 0 && minValue > abs(cur->coefficient)) minValue = abs(cur->coefficient);
         }
         return minValue;
+    }
+
+    POLYNOMIAL division(const POLYNOMIAL& dividend, const POLYNOMIAL& divisor, bool returnRemainder = false) {
+        POLYNOMIAL quotientBar = dividend;
+        // wyliczam liczbe z najwiekszej potegi z prawego
+        int divisor_leadingCoefficient = 0;
+        int divisor_Degree = -1;
+        for (integerNode* cur = divisor.head; cur; cur = cur->next) {
+            if (!cur->next) divisor_leadingCoefficient = cur->coefficient;
+            divisor_Degree++;
+        }
+        POLYNOMIAL res;  // tworze lanuch ktory bedzie wynikiem z dzielenia
+        while (true) {
+            // wybieram  liczbe z nwjieksza potega z lewego wielomianu
+            int quotientBar_leadingCoefficient = 0;
+            int quotientBar_Degree = -1;
+            for (integerNode* cur = quotientBar.head; cur; cur = cur->next) {
+                if (!cur->next) quotientBar_leadingCoefficient = cur->coefficient;
+                quotientBar_Degree++;
+            }
+            // jesli prawy wielomian ma wieksza potege, dzielenie sie konczy
+            if (divisor_Degree > quotientBar_Degree) break;
+
+            // jesli liczby przy najwiekszych potegach podzielone  (lewy/prawy) najwieksze nie sa cala to mnoze  res oraz oraz lewy wielomian razy liczba prawy przy najwiekszej potedze oraz sama najwieksza lewa liczba
+            if (quotientBar_leadingCoefficient % divisor_leadingCoefficient) {
+                for (integerNode* cur = res.head; cur; cur = cur->next) {
+                    cur->coefficient *= abs(divisor_leadingCoefficient);
+                }
+                for (integerNode* cur = quotientBar.head; cur; cur = cur->next) {
+                    cur->coefficient *= abs(divisor_leadingCoefficient);
+                }
+                quotientBar_leadingCoefficient *= abs(divisor_leadingCoefficient);
+            }
+
+            int NumberAboveBar = quotientBar_leadingCoefficient / divisor_leadingCoefficient;
+            if (!returnRemainder) new integerNode(&res.head, NumberAboveBar);
+
+            integerNode* currentNode_quotientBar = quotientBar.head;
+            int NumberAboveBar_Degree = quotientBar_Degree - divisor_Degree;
+            while (NumberAboveBar_Degree--) {
+                currentNode_quotientBar = currentNode_quotientBar->next;
+            }
+            integerNode* currentNode_divisor = divisor.head;
+            while (true) {
+                currentNode_quotientBar->coefficient -= (currentNode_divisor->coefficient * NumberAboveBar);
+                
+                if(!currentNode_quotientBar->next->next) break;
+                currentNode_divisor = currentNode_divisor->next;
+                currentNode_quotientBar = currentNode_quotientBar->next;
+            }
+            delete currentNode_quotientBar->next;
+            currentNode_quotientBar->next = nullptr;
+        }
+
+        if (returnRemainder) res = quotientBar;
+        res.CheckForReduce();
+        return res;
     }
 
    public:
