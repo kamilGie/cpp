@@ -134,7 +134,13 @@ class POLYNOMIAL {
     }
 
     POLYNOMIAL operator/=(const POLYNOMIAL& other) {
-        // todo
+        //wyliczam liczbe z najwikesdza potega z other
+        //potrzebuje zminnej res 
+        // while dopoki ten wielomian ma wieksza potege lub rowna niz other ma najwieksza ta potege 
+            //wybieram najwiekszy liczbe z nwjieksza potega ale z tego wielomianu
+            //dziele liczbe  z tego wielomiany przez other(jesli jest liczba nie cala to mnoze  res oraz oraz ten wielomian razy liczba other przy najwiekszej potedze  ) najwieksza i dodaje to do res a potem mnoze razy other i odejmuje od tego wielomianu 
+        //ten wielomian  rowna sie res 
+        CheckForReduce();
         return *this;
     }
 
@@ -145,7 +151,12 @@ class POLYNOMIAL {
     }
 
     POLYNOMIAL operator%=(const POLYNOMIAL& other) {
-        // todo
+        //wyliczam liczbe z najwikesdza potega z other
+        //potrzebuje zminnej res 
+        // while dopoki ten wielomian ma wieksza potege lub rowna niz other ma najwieksza ta potege 
+            //wybieram najwiekszy liczbe z nwjieksza potega ale z tego wielomianu
+            //dziele liczbe  z tego wielomiany przez other(jesli jest liczba nie cala to mnoze  res oraz oraz ten wielomian razy liczba other przy najwiekszej potedze  ) najwieksza i dodaje to do res a potem mnoze razy other i odejmuje od tego wielomianu 
+        CheckForReduce();
         return *this;
     }
 
