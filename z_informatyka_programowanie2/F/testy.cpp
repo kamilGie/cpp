@@ -107,13 +107,13 @@ TEST(polynomial, overloadDivision) {
     EXPECT_EQ(GetCapturedStdout(), "( -20, 7 )");
 }
 
-// TEST(polynomial, overloadResFromDivision) {
-//     POLYNOMIAL p(3, 1, 3, 4, -1);
-//     POLYNOMIAL q(2, 6, 8, -7);
-//     CaptureStdout();
-//     std::cout << p%q;
-//     EXPECT_EQ(GetCapturedStdout(), "( 169, 265 )");
-// }
+TEST(polynomial, overloadResFromDivision) {
+    POLYNOMIAL p(3, 1, 3, 4, -1);
+    POLYNOMIAL q(2, 6, 8, -7);
+    CaptureStdout();
+    std::cout << p%q;
+    EXPECT_EQ(GetCapturedStdout(), "( 169, 265 )");
+}
 
 TEST(polynomial, overloadBitOperators) {
     POLYNOMIAL p(3, 1, 3, 4, -1);

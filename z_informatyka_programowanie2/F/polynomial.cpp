@@ -133,13 +133,65 @@ class POLYNOMIAL {
         return res;
     }
 
-    POLYNOMIAL operator/=(const POLYNOMIAL& other) {
-        //wyliczam liczbe z najwikesdza potega z other
-        //potrzebuje zminnej res 
-        // while dopoki ten wielomian ma wieksza potege lub rowna niz other ma najwieksza ta potege 
-            //wybieram najwiekszy liczbe z nwjieksza potega ale z tego wielomianu
-            //dziele liczbe  z tego wielomiany przez other(jesli jest liczba nie cala to mnoze  res oraz oraz ten wielomian razy liczba other przy najwiekszej potedze  ) najwieksza i dodaje to do res a potem mnoze razy other i odejmuje od tego wielomianu 
+    POLYNOMIAL operator/=(const POLYNOMIAL& right) {
+        POLYNOMIAL * left = this;
+
+        //wyliczam liczbe z najwieksza potega z prawego
+        int right_NumberWithTheBigest_xPow=0;
+        int right_XPow=-1;
+        for (integerNode* cur = right.head; cur; cur = cur->next) {
+            right_NumberWithTheBigest_xPow=cur->coefficient;
+            right_XPow++;
+        }
+        integerNode* res = new integerNode; // tworze lanuch ktory bedzie wynikiem z dzielenia 
+        while(true){ 
+            //wybieram  liczbe z nwjieksza potega z lewego wielomianu
+            int left_NumberWithTheBigest_xPow=0;
+            int left_XPow=-1;
+            for (integerNode* cur = head; cur; cur = cur->next) {
+                left_NumberWithTheBigest_xPow=cur->coefficient;
+                left_XPow++;
+            }
+            // jesli prawy wielomian ma wieksza potege, dzielenie sie konczy
+            if(right_XPow>left_XPow) break; 
+
+            // jesli liczby przy najwiekszych potegach podzielone  (lewy/prawy) najwieksze nie sa cala to mnoze  res oraz oraz lewy wielomian razy liczba prawy przy najwiekszej potedze oraz sama najwieksza lewa liczba
+            if(left_NumberWithTheBigest_xPow%right_NumberWithTheBigest_xPow){
+                for (integerNode* cur = res; cur; cur = cur->next) {
+                    cur->coefficient*=abs(right_NumberWithTheBigest_xPow);
+                }   
+                for (integerNode* cur = left->head; cur; cur = cur->next) {
+                    cur->coefficient*=abs(right_NumberWithTheBigest_xPow);
+                } 
+                left_NumberWithTheBigest_xPow*=abs(right_NumberWithTheBigest_xPow);
+            }
+
+            // tworze zmienna int  NumberAboveTheColumn ktora bedzie  dzieleniem liczb  z najwiekszego lewego wielomiany przez prawy najwieksza oraz zmienna wspolycznik jej  x dla tej liczby rowny (lewy - prawy potegi x)
+            int NumberAboveTheColumn = left_NumberWithTheBigest_xPow/right_NumberWithTheBigest_xPow;
+            int NumberAboveTheColumn_XPow = left_XPow-right_XPow;
+            // NumberAboveTheColumn dodaje do res 
+            new integerNode(&res->next,NumberAboveTheColumn);
+            // NumberAboveTheColumn mnoze razy other i odejmuje od lewego wielomianu 
+            integerNode* leftPrev=nullptr;
+            integerNode* leftCurrent = head;
+            integerNode* rightCurrent = right.head;
+            for ( int i = 0 ; i<NumberAboveTheColumn_XPow;i++){
+                leftCurrent=leftCurrent->next;
+                leftPrev=leftCurrent;
+            }
+            while(leftCurrent->next && rightCurrent->next){
+                leftCurrent->coefficient=leftCurrent->coefficient-(rightCurrent->coefficient*NumberAboveTheColumn);
+                rightCurrent=rightCurrent->next;
+                leftPrev=leftCurrent;
+                leftCurrent=leftCurrent->next;
+            }
+            leftPrev->next=nullptr;
+            delete leftCurrent;
+        }
         //ten wielomian  rowna sie res 
+        clear();
+        head = res->next;
+        delete res;
         CheckForReduce();
         return *this;
     }
@@ -150,12 +202,55 @@ class POLYNOMIAL {
         return res;
     }
 
-    POLYNOMIAL operator%=(const POLYNOMIAL& other) {
-        //wyliczam liczbe z najwikesdza potega z other
-        //potrzebuje zminnej res 
+    POLYNOMIAL operator%=(const POLYNOMIAL& right) {
+        POLYNOMIAL * left = this;
+        //wyliczam liczbe z najwieksza potega z prawego
+        int right_NumberWithTheBigest_xPow=0;
+        int right_XPow=-1;
+        for (integerNode* cur = right.head; cur; cur = cur->next) {
+            right_NumberWithTheBigest_xPow=cur->coefficient;
+            right_XPow++;
+        }
+
         // while dopoki ten wielomian ma wieksza potege lub rowna niz other ma najwieksza ta potege 
-            //wybieram najwiekszy liczbe z nwjieksza potega ale z tego wielomianu
-            //dziele liczbe  z tego wielomiany przez other(jesli jest liczba nie cala to mnoze  res oraz oraz ten wielomian razy liczba other przy najwiekszej potedze  ) najwieksza i dodaje to do res a potem mnoze razy other i odejmuje od tego wielomianu 
+        while(true){
+            //wybieram  liczbe z nwjieksza potega z lewego wielomianu
+            int left_NumberWithTheBigest_xPow=0;
+            int left_XPow=-1;
+            for (integerNode* cur = head; cur; cur = cur->next) {
+                left_NumberWithTheBigest_xPow=cur->coefficient;
+                left_XPow++;
+            }
+            if(right_XPow>left_XPow) break;
+            // jesli liczby przy najwiekszych potegach podzielone  (lewy/prawy) najwieksze nie sa cala to mnoze  res oraz oraz lewy wielomian razy liczba prawy przy najwiekszej potedze oraz sama najwieksza lewa liczba
+            if(left_NumberWithTheBigest_xPow%right_NumberWithTheBigest_xPow){ 
+                for (integerNode* cur = left->head; cur; cur = cur->next) {
+                    cur->coefficient*=abs(right_NumberWithTheBigest_xPow);
+                } 
+                left_NumberWithTheBigest_xPow*=abs(right_NumberWithTheBigest_xPow);
+            }
+
+            // tworze zmienna int  NumberAboveTheColumn ktora bedzie  dzieleniem liczb  z najwiekszego lewego wielomiany przez prawy najwieksza oraz zmienna wspolycznik jej  x dla tej liczby rowny (lewy - prawy potegi x)
+            int NumberAboveTheColumn = left_NumberWithTheBigest_xPow/right_NumberWithTheBigest_xPow;
+            int NumberAboveTheColumn_XPow = left_XPow-right_XPow;
+            // NumberAboveTheColumn mnoze razy other i odejmuje od lewego wielomianu 
+            integerNode* leftPrev=nullptr;
+            integerNode* leftCurrent = head;
+            integerNode* rightCurrent = right.head;
+            for ( int i = 0 ; i<NumberAboveTheColumn_XPow;i++){
+                leftCurrent=leftCurrent->next;
+                leftPrev=leftCurrent;
+            }
+            while(leftCurrent->next && rightCurrent->next){
+                leftCurrent->coefficient=leftCurrent->coefficient-(rightCurrent->coefficient*NumberAboveTheColumn);
+                rightCurrent=rightCurrent->next;
+                leftPrev=leftCurrent;
+                leftCurrent=leftCurrent->next;
+            }
+            leftPrev->next=nullptr;
+            delete leftCurrent;
+        }
+        //ten wielomian  rowna sie res 
         CheckForReduce();
         return *this;
     }
