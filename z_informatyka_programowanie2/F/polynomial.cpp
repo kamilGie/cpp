@@ -223,6 +223,7 @@ class POLYNOMIAL {
     }
 
     void CheckForReduce() {
+        if (!head) return;  // there is no numbers
         removeLeadingZeros();
         int minValue = minimalNonZeroCoefficient();
         for (int reducer = minValue; reducer > 1; reducer--) {
@@ -265,60 +266,69 @@ class POLYNOMIAL {
         return minValue;
     }
 
-    POLYNOMIAL division(const POLYNOMIAL& dividend, const POLYNOMIAL& divisor, bool returnRemainder = false) {
-        POLYNOMIAL quotientBar = dividend;
-        // wyliczam liczbe z najwiekszej potegi z prawego
-        int divisor_leadingCoefficient = 0;
-        int divisor_Degree = -1;
-        for (integerNode* cur = divisor.head; cur; cur = cur->next) {
-            if (!cur->next) divisor_leadingCoefficient = cur->coefficient;
-            divisor_Degree++;
-        }
-        POLYNOMIAL res;  // tworze lanuch ktory bedzie wynikiem z dzielenia
-        while (true) {
-            // wybieram  liczbe z nwjieksza potega z lewego wielomianu
-            int quotientBar_leadingCoefficient = 0;
-            int quotientBar_Degree = -1;
-            for (integerNode* cur = quotientBar.head; cur; cur = cur->next) {
-                if (!cur->next) quotientBar_leadingCoefficient = cur->coefficient;
-                quotientBar_Degree++;
-            }
-            // jesli prawy wielomian ma wieksza potege, dzielenie sie konczy
-            if (divisor_Degree > quotientBar_Degree) break;
-
-            // jesli liczby przy najwiekszych potegach podzielone  (lewy/prawy) najwieksze nie sa cala to mnoze  res oraz oraz lewy wielomian razy liczba prawy przy najwiekszej potedze oraz sama najwieksza lewa liczba
-            if (quotientBar_leadingCoefficient % divisor_leadingCoefficient) {
-                for (integerNode* cur = res.head; cur; cur = cur->next) {
-                    cur->coefficient *= abs(divisor_leadingCoefficient);
-                }
-                for (integerNode* cur = quotientBar.head; cur; cur = cur->next) {
-                    cur->coefficient *= abs(divisor_leadingCoefficient);
-                }
-                quotientBar_leadingCoefficient *= abs(divisor_leadingCoefficient);
+    POLYNOMIAL division(POLYNOMIAL quotientBar, const POLYNOMIAL& divisor, bool returnRemainder = false) {
+        POLYNOMIAL res;
+        while (divisor.getDegree() <= quotientBar.getDegree()) {
+            bool fraction = quotientBar.getLeadingCoefficient() % divisor.getLeadingCoefficient();
+            if (fraction) {
+                int multiplier = abs(divisor.getLeadingCoefficient());
+                multiplyToAvoidFraction(&res, &quotientBar, multiplier);
             }
 
-            int NumberAboveBar = quotientBar_leadingCoefficient / divisor_leadingCoefficient;
+            int NumberAboveBar = quotientBar.getLeadingCoefficient() / divisor.getLeadingCoefficient();
             if (!returnRemainder) new integerNode(&res.head, NumberAboveBar);
 
-            integerNode* currentNode_quotientBar = quotientBar.head;
-            int NumberAboveBar_Degree = quotientBar_Degree - divisor_Degree;
-            while (NumberAboveBar_Degree--) {
-                currentNode_quotientBar = currentNode_quotientBar->next;
-            }
-            integerNode* currentNode_divisor = divisor.head;
-            while (true) {
-                currentNode_quotientBar->coefficient -= (currentNode_divisor->coefficient * NumberAboveBar);
-                
-                if(!currentNode_quotientBar->next->next) break;
-                currentNode_divisor = currentNode_divisor->next;
-                currentNode_quotientBar = currentNode_quotientBar->next;
-            }
-            delete currentNode_quotientBar->next;
-            currentNode_quotientBar->next = nullptr;
+            subtractQuotientBarToCreateNew(&quotientBar, &divisor, NumberAboveBar);
         }
-
         if (returnRemainder) res = quotientBar;
         res.CheckForReduce();
+        return res;
+    }
+
+    int getDegree() const {
+        int Degree = -1;
+        for (integerNode* cur = head; cur; cur = cur->next) {
+            Degree++;
+        }
+        return Degree;
+    }
+
+    int getLeadingCoefficient() const {
+        integerNode* cur = head;
+        while (cur->next) {
+            cur = cur->next;
+        }
+        return cur->coefficient;
+    }
+
+    void multiplyToAvoidFraction(POLYNOMIAL* res, POLYNOMIAL* quotientBar, int multiplier) {
+        for (integerNode* cur = res->head; cur; cur = cur->next) {
+            cur->coefficient *= multiplier;
+        }
+        for (integerNode* cur = quotientBar->head; cur; cur = cur->next) {
+            cur->coefficient *= multiplier;
+        }
+    }
+
+    void subtractQuotientBarToCreateNew(POLYNOMIAL* qb, const POLYNOMIAL* divisor, int NumberAboveBar) {
+        integerNode* currentNode_qb = qb->moveToRelativeDegree(qb->getDegree() - divisor->getDegree());
+        integerNode* currentNode_divisor = divisor->head;
+        while (true) {
+            currentNode_qb->coefficient -= (currentNode_divisor->coefficient * NumberAboveBar);
+
+            if (!currentNode_qb->next->next) break; // if next node is last its always resetting number so we brake to delete it 
+            currentNode_divisor = currentNode_divisor->next;
+            currentNode_qb = currentNode_qb->next;
+        }
+        delete currentNode_qb->next;
+        currentNode_qb->next = nullptr;
+    }
+
+    integerNode* moveToRelativeDegree(int degreeDif) {
+        integerNode* res = head;
+        while (degreeDif--) {
+            res = res->next;
+        }
         return res;
     }
 
