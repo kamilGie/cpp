@@ -80,6 +80,7 @@ void operujNaTablicy(int *tablica)
             break;
         }
     }
+
 }
 
 void Odwrocenie(int *tablica)
